@@ -64,7 +64,7 @@ export function Footer() {
             </span>
             <span className="flex flex-col leading-none">
               <span className="font-display text-base tracking-wide text-cream">
-                NAAZ <span className="text-marigold">BROTHERS</span>
+                NAAZ <span className="text-marigold">AMUSEMENT</span>
               </span>
               <span className="font-display text-[0.72rem] text-cream/55">
                 तीन पीढ़ियों की रौनक़

@@ -55,7 +55,7 @@ export function Rides() {
         </div>
 
         {/* Masonry gallery */}
-        <div className="mt-14 grid auto-rows-[180px] grid-cols-2 gap-1.5 md:auto-rows-[200px] md:grid-cols-3 md:gap-2 lg:grid-cols-4">
+        <div className="mt-14 grid auto-rows-[180px] grid-cols-2 gap-3 md:auto-rows-[200px] md:grid-cols-3 lg:grid-cols-4">
           {rides.map((r, i) => (
             <motion.article
               key={r.slug}
@@ -64,7 +64,7 @@ export function Rides() {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: (i % 4) * 0.06 }}
               className={cn(
-                "group relative overflow-hidden bg-ink/5 transition-shadow hover:shadow-xl",
+                "group relative overflow-hidden rounded-lg bg-ink/5 transition-shadow hover:shadow-xl",
                 tileSizes[i % tileSizes.length],
               )}
             >

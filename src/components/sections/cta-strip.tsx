@@ -63,7 +63,7 @@ export function CtaStrip() {
           </Link>
           <Link
             href={waLink(
-              "Namaste NAAZ BROTHERS! We want to invite your mela to our event. Date and venue details: ",
+              "Namaste NAAZ AMUSEMENT! We want to invite your mela to our event. Date and venue details: ",
             )}
             target="_blank"
             rel="noreferrer"

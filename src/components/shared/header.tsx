@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
@@ -93,7 +92,7 @@ export function Header() {
             >
               NAAZ{" "}
               <span className={onDark ? "text-marigold" : "text-festival"}>
-                BROTHERS
+                AMUSEMENT
               </span>
             </span>
             <span
@@ -190,25 +189,22 @@ export function Header() {
           </div>
 
           {/* Ticket-style CTA */}
-          <Button
-            asChild
-            size="sm"
-            className="group relative h-11 rounded-full bg-festival px-5 pl-7 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-cream shadow-poster transition hover:bg-festival/90"
+          <Link
+            href="/book"
+            className="group relative inline-flex h-11 shrink-0 items-center justify-center rounded-full bg-festival px-5 pl-7 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-cream shadow-poster transition-all hover:bg-festival/90"
           >
-            <Link href="/book">
-              {/* Ticket punch hole */}
-              <span
-                aria-hidden
-                className="absolute left-3 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-cream/95 ring-1 ring-festival/40"
-              />
-              <span className="hidden sm:inline">Book a Ride</span>
-              <span className="sm:hidden">Book</span>
-              <span
-                aria-hidden
-                className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full bg-marigold transition group-hover:scale-150"
-              />
-            </Link>
-          </Button>
+            {/* Ticket punch hole */}
+            <span
+              aria-hidden
+              className="absolute left-3 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-cream/95 ring-1 ring-festival/40"
+            />
+            <span className="hidden sm:inline">Book a Ride</span>
+            <span className="sm:hidden">Book</span>
+            <span
+              aria-hidden
+              className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full bg-marigold transition group-hover:scale-150"
+            />
+          </Link>
 
           <button
             onClick={() => setOpen((v) => !v)}

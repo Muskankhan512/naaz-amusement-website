@@ -20,33 +20,33 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://naazbrothers.in"),
+  metadataBase: new URL("https://naazamusement.in"),
   title: {
-    default: "NAAZ BROTHERS — India's Most Loved Mela",
-    template: "%s · NAAZ BROTHERS",
+    default: "NAAZ AMUSEMENT — India's Most Loved Mela",
+    template: "%s · NAAZ AMUSEMENT",
   },
   description:
-    "Three generations of rounaq. Giant wheels, jhoolas, food stalls and family entertainment, on tour across India. Invite NAAZ BROTHERS to your city.",
+    "Three generations of rounaq. Giant wheels, jhoolas, food stalls and family entertainment, on tour across India. Invite NAAZ AMUSEMENT to your city.",
   keywords: [
     "mela",
     "jhoola",
     "giant wheel",
     "fair",
-    "Naaz Brothers",
+    "Naaz Amusement",
     "Indian carnival",
     "amusement rides",
   ],
   openGraph: {
     type: "website",
-    siteName: "NAAZ BROTHERS",
-    title: "NAAZ BROTHERS — India's Most Loved Mela",
+    siteName: "NAAZ AMUSEMENT",
+    title: "NAAZ AMUSEMENT — India's Most Loved Mela",
     description:
       "Three generations of rounaq. Giant wheels, jhoolas and family entertainment on tour across India.",
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "NAAZ BROTHERS",
+    title: "NAAZ AMUSEMENT",
     description: "India's most loved travelling mela. Book a ride or invite us to your city.",
   },
   alternates: { canonical: "/" },
@@ -69,7 +69,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full bg-background text-foreground">
-        <TooltipProvider delayDuration={150}>
+        <TooltipProvider delay={150}>
           {children}
           <WhatsAppFloat />
           <Toaster

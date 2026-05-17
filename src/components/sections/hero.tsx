@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { waLink } from "@/lib/site";
 
@@ -30,35 +29,26 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.25 }}
           className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
         >
-          <Button
-            asChild
-            size="lg"
-            className="group h-12 rounded-full bg-marigold px-5 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink shadow-poster transition hover:bg-marigold/90 sm:h-13 sm:px-7 sm:text-[0.78rem] sm:tracking-[0.2em]"
+          <Link
+            href="/book"
+            className="group inline-flex h-12 shrink-0 items-center justify-center rounded-full bg-marigold px-5 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink shadow-poster transition-all hover:bg-marigold/90 sm:h-13 sm:px-7 sm:text-[0.78rem] sm:tracking-[0.2em]"
           >
-            <Link href="/book">
-              Book a Ride
-              <ArrowRight className="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" />
-            </Link>
-          </Button>
+            Book a Ride
+            <ArrowRight className="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" />
+          </Link>
 
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="h-12 rounded-full border-cream/30 bg-cream/5 px-5 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-cream backdrop-blur-md hover:bg-cream/15 hover:border-cream/50 hover:text-cream sm:h-13 sm:px-7 sm:text-[0.78rem] sm:tracking-[0.2em]"
+          <Link
+            href={waLink(
+              "Hi NAAZ AMUSEMENT! We'd love to invite your mela to our city. Can we discuss?",
+            )}
+            target="_blank"
+            rel="noreferrer"
+            className="group inline-flex h-12 shrink-0 items-center justify-center rounded-full border border-cream/30 bg-cream/5 px-5 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-cream backdrop-blur-md transition-all hover:bg-cream/15 hover:border-cream/50 hover:text-cream sm:h-13 sm:px-7 sm:text-[0.78rem] sm:tracking-[0.2em]"
           >
-            <Link
-              href={waLink(
-                "Hi NAAZ BROTHERS! We'd love to invite your mela to our city. Can we discuss?",
-              )}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <MessageCircle className="mr-1.5 h-4 w-4 text-marigold" />
-              <span className="hidden sm:inline">Invite Us to Your City</span>
-              <span className="sm:hidden">Invite Us</span>
-            </Link>
-          </Button>
+            <MessageCircle className="mr-1.5 h-4 w-4 text-marigold" />
+            <span className="hidden sm:inline">Invite Us to Your City</span>
+            <span className="sm:hidden">Invite Us</span>
+          </Link>
         </motion.div>
       </div>
 

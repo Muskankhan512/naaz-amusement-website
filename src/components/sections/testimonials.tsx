@@ -31,7 +31,7 @@ const reviews: Review[] = [
     city: "Jaipur",
     cityHi: "जयपुर",
     text:
-      "We hired Naaz Brothers for our school's annual fest. Two giant wheels, three smaller jhoolas, food stalls — the whole campus was a mela for three days. Parents are still talking about it.",
+      "We hired Naaz Amusement for our school's annual fest. Two giant wheels, three smaller jhoolas, food stalls — the whole campus was a mela for three days. Parents are still talking about it.",
     rating: 5,
     tag: "School event · DPS Jaipur",
   },

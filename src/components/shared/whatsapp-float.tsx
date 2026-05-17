@@ -5,7 +5,7 @@ import { waLink } from "@/lib/site";
 
 export function WhatsAppFloat() {
   const href = waLink(
-    "Namaste! Mujhe NAAZ BROTHERS ke baare mein jaankari chahiye — booking ke liye.",
+    "Namaste! Mujhe NAAZ AMUSEMENT ke baare mein jaankari chahiye — booking ke liye.",
   );
 
   return (
@@ -13,7 +13,7 @@ export function WhatsAppFloat() {
       href={href}
       target="_blank"
       rel="noreferrer noopener"
-      aria-label="Chat with NAAZ BROTHERS on WhatsApp"
+      aria-label="Chat with NAAZ AMUSEMENT on WhatsApp"
       initial={{ opacity: 0, y: 30, scale: 0.85 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ delay: 0.6, type: "spring", stiffness: 220, damping: 18 }}
