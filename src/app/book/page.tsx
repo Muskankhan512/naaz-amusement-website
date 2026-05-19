@@ -14,18 +14,18 @@ import {
   Users,
   Ticket,
 } from "lucide-react";
-import { waLink } from "@/lib/site";
+import { waLink, site } from "@/lib/site";
 import { rides } from "@/lib/rides";
 import { useState } from "react";
 
 const eventTypes = [
-  "Wedding / Sangeet",
-  "School / College Fest",
-  "Society / RWA Fair",
+  "Birthday Party",
   "Corporate Event",
-  "Festival / Religious Event",
-  "Birthday / Private Party",
-  "Government / Public Mela",
+  "School Trip",
+  "College Fest",
+  "Wedding / Pre-Wedding",
+  "Private Party",
+  "Group Visit",
   "Other",
 ];
 
@@ -59,7 +59,7 @@ export default function BookPage() {
       .join(", ");
 
     const msg = [
-      `🎡 NEW BOOKING INQUIRY`,
+      `🎢 NEW BOOKING INQUIRY — FunKingdom Jaipur`,
       ``,
       `Name: ${formData.name}`,
       `Phone: ${formData.phone}`,
@@ -68,7 +68,7 @@ export default function BookPage() {
       `Event: ${formData.eventType}`,
       formData.date && `Date: ${formData.date}`,
       formData.guests && `Expected Guests: ${formData.guests}`,
-      rideNames && `Rides: ${rideNames}`,
+      rideNames && `Interested in: ${rideNames}`,
       formData.message && `Message: ${formData.message}`,
     ]
       .filter(Boolean)
@@ -78,14 +78,14 @@ export default function BookPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-cream">
+    <div className="relative flex min-h-screen flex-col bg-deep-purple">
       <Header />
       <main className="flex-1 pt-28 pb-16 md:pt-36">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           {/* Back button */}
           <Link
             href="/"
-            className="group mb-8 inline-flex items-center gap-2 text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-ink/60 transition hover:text-ink"
+            className="group mb-8 inline-flex items-center gap-2 text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-white/60 transition hover:text-white"
           >
             <ArrowLeft className="h-4 w-4 transition group-hover:-translate-x-0.5" />
             Back to home
@@ -98,14 +98,14 @@ export default function BookPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <p className="font-display text-[0.78rem] uppercase tracking-[0.32em] text-festival">
-                Book a ride · सवारी बुक करें
+              <p className="font-display text-[0.78rem] uppercase tracking-[0.32em] text-accent-yellow">
+                Book Your Visit
               </p>
-              <h1 className="mt-4 font-display text-[clamp(2.2rem,4.4vw,3.6rem)] leading-[1.05] text-ink">
-                Tell us about your{" "}
-                <span className="italic text-festival">event</span>
+              <h1 className="mt-4 font-display text-[clamp(2.2rem,4.4vw,3.6rem)] leading-[1.05] text-white">
+                Plan your{" "}
+                <span className="text-accent-yellow">adventure</span>
               </h1>
-              <p className="mt-4 max-w-lg text-[0.98rem] leading-relaxed text-ink/70">
+              <p className="mt-4 max-w-lg text-[0.98rem] leading-relaxed text-white/70">
                 Fill in the details below and we&apos;ll get back to you within
                 an hour on WhatsApp with a custom quote.
               </p>
@@ -116,7 +116,7 @@ export default function BookPage() {
                   <div>
                     <label
                       htmlFor="name"
-                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink/60"
+                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/60"
                     >
                       Your Name *
                     </label>
@@ -129,13 +129,13 @@ export default function BookPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="h-12 w-full rounded-xl border border-ink/10 bg-cream px-4 text-ink placeholder:text-ink/35 outline-none transition focus:border-festival focus:ring-2 focus:ring-festival/20"
+                      className="h-12 w-full rounded-xl border border-white/15 bg-white/5 px-4 text-white placeholder:text-white/35 outline-none transition focus:border-accent-yellow focus:ring-2 focus:ring-accent-yellow/20"
                     />
                   </div>
                   <div>
                     <label
                       htmlFor="phone"
-                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink/60"
+                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/60"
                     >
                       Phone Number *
                     </label>
@@ -148,7 +148,7 @@ export default function BookPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
-                      className="h-12 w-full rounded-xl border border-ink/10 bg-cream px-4 text-ink placeholder:text-ink/35 outline-none transition focus:border-festival focus:ring-2 focus:ring-festival/20"
+                      className="h-12 w-full rounded-xl border border-white/15 bg-white/5 px-4 text-white placeholder:text-white/35 outline-none transition focus:border-accent-yellow focus:ring-2 focus:ring-accent-yellow/20"
                     />
                   </div>
                 </div>
@@ -157,7 +157,7 @@ export default function BookPage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink/60"
+                    className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/60"
                   >
                     Email (optional)
                   </label>
@@ -169,7 +169,7 @@ export default function BookPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    className="h-12 w-full rounded-xl border border-ink/10 bg-cream px-4 text-ink placeholder:text-ink/35 outline-none transition focus:border-festival focus:ring-2 focus:ring-festival/20"
+                    className="h-12 w-full rounded-xl border border-white/15 bg-white/5 px-4 text-white placeholder:text-white/35 outline-none transition focus:border-accent-yellow focus:ring-2 focus:ring-accent-yellow/20"
                   />
                 </div>
 
@@ -178,7 +178,7 @@ export default function BookPage() {
                   <div>
                     <label
                       htmlFor="city"
-                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink/60"
+                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/60"
                     >
                       City / Venue *
                     </label>
@@ -186,18 +186,18 @@ export default function BookPage() {
                       id="city"
                       type="text"
                       required
-                      placeholder="e.g. Lucknow, Gomti Nagar"
+                      placeholder="e.g. Jaipur"
                       value={formData.city}
                       onChange={(e) =>
                         setFormData({ ...formData, city: e.target.value })
                       }
-                      className="h-12 w-full rounded-xl border border-ink/10 bg-cream px-4 text-ink placeholder:text-ink/35 outline-none transition focus:border-festival focus:ring-2 focus:ring-festival/20"
+                      className="h-12 w-full rounded-xl border border-white/15 bg-white/5 px-4 text-white placeholder:text-white/35 outline-none transition focus:border-accent-yellow focus:ring-2 focus:ring-accent-yellow/20"
                     />
                   </div>
                   <div>
                     <label
                       htmlFor="eventType"
-                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink/60"
+                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/60"
                     >
                       Event Type *
                     </label>
@@ -208,7 +208,7 @@ export default function BookPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, eventType: e.target.value })
                       }
-                      className="h-12 w-full rounded-xl border border-ink/10 bg-cream px-4 text-ink outline-none transition focus:border-festival focus:ring-2 focus:ring-festival/20"
+                      className="h-12 w-full rounded-xl border border-white/15 bg-white/5 px-4 text-white outline-none transition focus:border-accent-yellow focus:ring-2 focus:ring-accent-yellow/20"
                     >
                       <option value="">Select event type</option>
                       {eventTypes.map((t) => (
@@ -225,7 +225,7 @@ export default function BookPage() {
                   <div>
                     <label
                       htmlFor="date"
-                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink/60"
+                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/60"
                     >
                       Preferred Date
                     </label>
@@ -236,33 +236,33 @@ export default function BookPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, date: e.target.value })
                       }
-                      className="h-12 w-full rounded-xl border border-ink/10 bg-cream px-4 text-ink outline-none transition focus:border-festival focus:ring-2 focus:ring-festival/20"
+                      className="h-12 w-full rounded-xl border border-white/15 bg-white/5 px-4 text-white outline-none transition focus:border-accent-yellow focus:ring-2 focus:ring-accent-yellow/20"
                     />
                   </div>
                   <div>
                     <label
                       htmlFor="guests"
-                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink/60"
+                      className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/60"
                     >
                       Expected Guests
                     </label>
                     <input
                       id="guests"
                       type="text"
-                      placeholder="e.g. 200-500"
+                      placeholder="e.g. 50-200"
                       value={formData.guests}
                       onChange={(e) =>
                         setFormData({ ...formData, guests: e.target.value })
                       }
-                      className="h-12 w-full rounded-xl border border-ink/10 bg-cream px-4 text-ink placeholder:text-ink/35 outline-none transition focus:border-festival focus:ring-2 focus:ring-festival/20"
+                      className="h-12 w-full rounded-xl border border-white/15 bg-white/5 px-4 text-white placeholder:text-white/35 outline-none transition focus:border-accent-yellow focus:ring-2 focus:ring-accent-yellow/20"
                     />
                   </div>
                 </div>
 
                 {/* Ride selection */}
                 <div>
-                  <label className="mb-2.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink/60">
-                    Select Rides (optional)
+                  <label className="mb-2.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/60">
+                    Select Attractions (optional)
                   </label>
                   <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
                     {rides.map((r) => (
@@ -272,16 +272,13 @@ export default function BookPage() {
                         onClick={() => handleRideToggle(r.slug)}
                         className={`flex flex-col items-center gap-1 rounded-xl border px-3 py-3 text-center transition ${
                           formData.selectedRides.includes(r.slug)
-                            ? "border-festival bg-festival/10 text-festival ring-1 ring-festival/30"
-                            : "border-ink/10 bg-cream text-ink/70 hover:border-ink/20 hover:bg-cream"
+                            ? "border-accent-yellow bg-accent-yellow/10 text-accent-yellow ring-1 ring-accent-yellow/30"
+                            : "border-white/10 bg-white/5 text-white/70 hover:border-white/20"
                         }`}
                       >
                         <Ticket className="h-4 w-4" />
                         <span className="text-[0.72rem] font-semibold leading-tight">
                           {r.name}
-                        </span>
-                        <span className="font-display text-[0.6rem] text-mehendi">
-                          {r.nameHi}
                         </span>
                       </button>
                     ))}
@@ -292,34 +289,34 @@ export default function BookPage() {
                 <div>
                   <label
                     htmlFor="message"
-                    className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink/60"
+                    className="mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/60"
                   >
                     Additional Details
                   </label>
                   <textarea
                     id="message"
                     rows={3}
-                    placeholder="Any special requirements, setup details, etc."
+                    placeholder="Any special requirements, group details, etc."
                     value={formData.message}
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    className="w-full rounded-xl border border-ink/10 bg-cream px-4 py-3 text-ink placeholder:text-ink/35 outline-none transition focus:border-festival focus:ring-2 focus:ring-festival/20"
+                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/35 outline-none transition focus:border-accent-yellow focus:ring-2 focus:ring-accent-yellow/20"
                   />
                 </div>
 
                 {/* Submit */}
                 <button
                   type="submit"
-                  className="group inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-festival text-[0.78rem] font-semibold uppercase tracking-[0.22em] text-cream shadow-poster transition-all hover:bg-festival/90 active:scale-[0.98] sm:w-auto sm:px-10"
+                  className="group inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-accent-yellow text-[0.78rem] font-semibold uppercase tracking-[0.22em] text-deep-purple shadow-lg transition-all hover:bg-white active:scale-[0.98] sm:w-auto sm:px-10"
                 >
-                  <MessageCircle className="h-4 w-4 text-marigold" />
+                  <MessageCircle className="h-4 w-4" />
                   Send via WhatsApp
                 </button>
 
-                <p className="text-[0.72rem] text-ink/45">
+                <p className="text-[0.72rem] text-white/45">
                   Your details will be sent to our WhatsApp. We reply within an
-                  hour · रोज़ 9am–9pm
+                  hour.
                 </p>
               </form>
             </motion.div>
@@ -333,47 +330,47 @@ export default function BookPage() {
             >
               {/* Contact cards */}
               <div className="space-y-3">
-                <div className="rounded-2xl border border-ink/8 bg-paper p-5">
-                  <h3 className="font-display text-lg text-ink">
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+                  <h3 className="font-display text-lg text-white">
                     Direct Contact
                   </h3>
                   <div className="mt-4 space-y-3">
                     <a
-                      href="tel:+91XXXXXXXXXX"
-                      className="flex items-center gap-3 text-[0.92rem] text-ink/70 transition hover:text-festival"
+                      href={`tel:${site.phone}`}
+                      className="flex items-center gap-3 text-[0.92rem] text-white/70 transition hover:text-accent-yellow"
                     >
-                      <Phone className="h-4 w-4 text-festival" />
-                      +91 XXXXX XXXXX
+                      <Phone className="h-4 w-4 text-accent-yellow" />
+                      {site.phone}
                     </a>
                     <a
-                      href="mailto:hello@naazamusement.in"
-                      className="flex items-center gap-3 text-[0.92rem] text-ink/70 transition hover:text-festival"
+                      href={`mailto:${site.email}`}
+                      className="flex items-center gap-3 text-[0.92rem] text-white/70 transition hover:text-accent-yellow"
                     >
-                      <Mail className="h-4 w-4 text-festival" />
-                      hello@naazamusement.in
+                      <Mail className="h-4 w-4 text-accent-yellow" />
+                      {site.email}
                     </a>
-                    <p className="flex items-start gap-3 text-[0.92rem] text-ink/70">
-                      <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-festival" />
-                      Old Lucknow Road, Uttar Pradesh, India
+                    <p className="flex items-start gap-3 text-[0.92rem] text-white/70">
+                      <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent-yellow" />
+                      {site.address}
                     </p>
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-ink/8 bg-paper p-5">
-                  <h3 className="font-display text-lg text-ink">
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+                  <h3 className="font-display text-lg text-white">
                     What to Expect
                   </h3>
-                  <ul className="mt-4 space-y-2.5 text-[0.9rem] text-ink/70">
+                  <ul className="mt-4 space-y-2.5 text-[0.9rem] text-white/70">
                     <li className="flex items-start gap-2.5">
-                      <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-mehendi" />
+                      <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-accent-yellow" />
                       Reply within 1 hour with a custom quote
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <Users className="mt-0.5 h-4 w-4 shrink-0 text-mehendi" />
-                      Setup for 200 to 10,000+ guests
+                      <Users className="mt-0.5 h-4 w-4 shrink-0 text-accent-yellow" />
+                      Packages for groups of all sizes
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <Ticket className="mt-0.5 h-4 w-4 shrink-0 text-mehendi" />
+                      <Ticket className="mt-0.5 h-4 w-4 shrink-0 text-accent-yellow" />
                       All safety certifications included
                     </li>
                   </ul>
@@ -381,13 +378,13 @@ export default function BookPage() {
               </div>
 
               {/* Trust badge */}
-              <div className="rounded-2xl border border-dashed border-marigold/40 bg-marigold/5 p-5 text-center">
-                <p className="font-display text-2xl text-marigold">55+</p>
-                <p className="mt-1 text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-ink/60">
-                  Years of Trust
+              <div className="rounded-2xl border border-dashed border-accent-yellow/40 bg-accent-yellow/5 p-5 text-center">
+                <p className="font-display text-2xl text-accent-yellow">80+</p>
+                <p className="mt-1 text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-white/60">
+                  Rides & Attractions
                 </p>
-                <p className="mt-2 text-[0.82rem] text-ink/55">
-                  Three generations. 32 cities. 1 million smiles a year.
+                <p className="mt-2 text-[0.82rem] text-white/55">
+                  18 acres. 6K+ Google Reviews. 100% Family Happiness.
                 </p>
               </div>
             </motion.aside>

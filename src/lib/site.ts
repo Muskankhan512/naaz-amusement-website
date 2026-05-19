@@ -1,17 +1,21 @@
 export const site = {
-  name: "NAAZ AMUSEMENT",
-  nameHindi: "नाज़ अम्यूज़मेंट",
-  tagline: "India's Most Loved Mela",
-  taglineHindi: "रौनक़ का सफ़र, तीन पीढ़ियों से",
-  established: 1968,
-  generations: 3,
-  citiesPerYear: 32,
+  name: "FunKingdom",
+  tagline: "Rajasthan's Premier Themed Entertainment Destination",
+  description:
+    "A world-class amusement park designed by renowned architects, spread across 18 acres of adrenaline, laughter, and wonder.",
+  acres: 18,
+  ridesCount: "80+",
+  googleReviews: "6K+",
+  bookingUrl: "https://booking.funkingdomjaipur.com/",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "+91XXXXXXXXXX",
-  instagram: "naazamusement",
-  facebook: "naazamusement",
+  instagram: "funkingdomjaipur",
+  facebook: "funkingdomjaipur",
+  youtube: "funkingdomjaipur",
   fbPixelId: process.env.NEXT_PUBLIC_FB_PIXEL_ID ?? "",
-  address: "Naaz Amusement Mela Co., Old Lucknow Road, Uttar Pradesh, India",
-  email: "hello@naazamusement.in",
+  address:
+    "Ajmer Road, Near Bagru Toll, Jaipur, Rajasthan 302028",
+  email: "info@funkingdomjaipur.com",
+  phone: "+91-1234567890",
 } as const;
 
 export const waLink = (text: string) => {

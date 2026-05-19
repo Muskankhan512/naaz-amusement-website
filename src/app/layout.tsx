@@ -1,61 +1,77 @@
 import type { Metadata, Viewport } from "next";
-import { Yatra_One, Fraunces } from "next/font/google";
+import { Staatliches, Host_Grotesk, Geist, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WhatsAppFloat } from "@/components/shared/whatsapp-float";
 import "./globals.css";
 
-const yatra = Yatra_One({
-  subsets: ["latin", "devanagari"],
+const staatliches = Staatliches({
+  subsets: ["latin"],
   weight: "400",
   variable: "--font-display",
   display: "swap",
 });
 
-const fraunces = Fraunces({
+const hostGrotesk = Host_Grotesk({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
-  axes: ["opsz", "SOFT"],
+});
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+  display: "swap",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://naazamusement.in"),
+  metadataBase: new URL("https://funkingdomjaipur.com"),
   title: {
-    default: "NAAZ AMUSEMENT — India's Most Loved Mela",
-    template: "%s · NAAZ AMUSEMENT",
+    default: "FunKingdom — Rajasthan's Premier Amusement Park",
+    template: "%s · FunKingdom Jaipur",
   },
   description:
-    "Three generations of rounaq. Giant wheels, jhoolas, food stalls and family entertainment, on tour across India. Invite NAAZ AMUSEMENT to your city.",
+    "FunKingdom is Rajasthan's premier themed entertainment destination. A world-class amusement park spread across 18 acres of adrenaline, laughter, and wonder.",
   keywords: [
-    "mela",
-    "jhoola",
-    "giant wheel",
-    "fair",
-    "Naaz Amusement",
-    "Indian carnival",
-    "amusement rides",
+    "FunKingdom",
+    "amusement park",
+    "Jaipur",
+    "Rajasthan",
+    "theme park",
+    "rides",
+    "attractions",
+    "water park",
+    "adventure park",
+    "family entertainment",
   ],
   openGraph: {
     type: "website",
-    siteName: "NAAZ AMUSEMENT",
-    title: "NAAZ AMUSEMENT — India's Most Loved Mela",
+    siteName: "FunKingdom Jaipur",
+    title: "FunKingdom — Rajasthan's Premier Amusement Park",
     description:
-      "Three generations of rounaq. Giant wheels, jhoolas and family entertainment on tour across India.",
+      "80+ rides & attractions across 18 acres. Amusement Park, Adventure Park, Water Park, Sports Arena & more.",
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "NAAZ AMUSEMENT",
-    description: "India's most loved travelling mela. Book a ride or invite us to your city.",
+    title: "FunKingdom Jaipur",
+    description:
+      "Rajasthan's premier themed entertainment destination. 80+ rides, 18 acres of pure fun.",
   },
   alternates: { canonical: "/" },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FFF8EC" },
-    { media: "(prefers-color-scheme: dark)", color: "#100F1C" },
+    { media: "(prefers-color-scheme: light)", color: "#210C6D" },
+    { media: "(prefers-color-scheme: dark)", color: "#210C6D" },
   ],
 };
 
@@ -65,10 +81,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${yatra.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${staatliches.variable} ${hostGrotesk.variable} ${geist.variable} ${ibmPlexMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full bg-background text-foreground">
+      <body className="min-h-full bg-deep-purple text-white">
         <TooltipProvider delay={150}>
           {children}
           <WhatsAppFloat />

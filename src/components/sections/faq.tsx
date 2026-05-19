@@ -1,0 +1,130 @@
+"use client";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Plus, Minus } from "lucide-react";
+
+type FaqItem = {
+  q: string;
+  a: string;
+};
+
+const faqs: FaqItem[] = [
+  {
+    q: "What are the park timings?",
+    a: "FunKingdom is open every day from 11:00 AM to 8:00 PM. Last entry is at 7:00 PM. During holidays and special events, we may extend hours — check our social media for updates.",
+  },
+  {
+    q: "How do I book tickets online?",
+    a: "Visit booking.funkingdomjaipur.com, choose your date and ticket type, apply any discount coupon if available, and complete payment. You'll receive an instant e-ticket via email and SMS.",
+  },
+  {
+    q: "Is there a discount for online bookings?",
+    a: "Yes! Book online and get flat 20% off on entry tickets. We also run seasonal offers and group discounts for families, schools, and corporates.",
+  },
+  {
+    q: "Is the park safe for young children?",
+    a: "Absolutely. We have dedicated kid-friendly zones with age-appropriate rides, trained ride operators, on-site medical staff, and comprehensive safety protocols. Every ride undergoes daily maintenance checks.",
+  },
+  {
+    q: "Can we bring outside food?",
+    a: "Outside food is not permitted inside the park, but our Khao Gali food court offers 25+ stalls covering everything from street food to fine dining. Bottled water is available throughout the park.",
+  },
+  {
+    q: "Is the park wheelchair accessible?",
+    a: "Yes. Entry, washrooms, food courts, and most viewing areas have ramps and accessible pathways. Many of our attractions are wheelchair-friendly, and staff is available for assistance.",
+  },
+  {
+    q: "Do you host corporate events and birthday parties?",
+    a: "Yes! We offer customized packages for corporate team-building, birthday parties, school trips, and private events. Contact our events team for tailored solutions.",
+  },
+  {
+    q: "What is the refund / cancellation policy?",
+    a: "Full refund if cancelled 48 hours before your booked date. Within 48 hours, we offer a free date change. Unused tickets cannot be refunded after the visit date has passed.",
+  },
+];
+
+export function Faq() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  return (
+    <section
+      id="faq"
+      className="relative isolate overflow-hidden bg-deep-purple py-24 md:py-32"
+    >
+      <div className="mx-auto max-w-4xl px-5 md:px-8">
+        {/* Header */}
+        <div className="text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
+          >
+            FAQ
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mt-4 font-display text-[clamp(2rem,4.5vw,3rem)] leading-[1.17] text-white"
+          >
+            Got questions? We&rsquo;ve got answers.
+          </motion.h2>
+        </div>
+
+        {/* Accordion */}
+        <div className="mt-14 space-y-3">
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: i * 0.04 }}
+                className="overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm"
+              >
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition hover:bg-white/5"
+                >
+                  <span className="font-body text-[clamp(1rem,1.3vw,1.5rem)] leading-[1.17] tracking-[-0.24px] text-white">
+                    {faq.q}
+                  </span>
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20">
+                    {isOpen ? (
+                      <Minus className="h-4 w-4 text-accent-yellow" />
+                    ) : (
+                      <Plus className="h-4 w-4 text-white" />
+                    )}
+                  </span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-5">
+                        <p className="font-body text-[clamp(0.9rem,1.1vw,1.25rem)] leading-[1.4] text-white/75">
+                          {faq.a}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
