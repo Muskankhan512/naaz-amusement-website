@@ -103,7 +103,7 @@ export function Hero() {
             <Link
               href={site.bookingUrl}
               target="_blank"
-              className="group flex flex-col items-center gap-2 sm:gap-3 rounded-2xl border border-accent-yellow/30 bg-deep-purple/60 px-5 py-4 sm:px-8 sm:py-5 backdrop-blur-md transition hover:border-accent-yellow hover:bg-deep-purple/80"
+              className="group flex flex-col items-center gap-2 sm:gap-3 rounded-[20px] border border-accent-yellow/30 bg-deep-purple/60 px-5 py-4 sm:px-8 sm:py-5 backdrop-blur-md transition hover:border-accent-yellow hover:bg-deep-purple/80"
             >
               <span className="font-display text-[clamp(0.85rem,2.5vw,1.5rem)] text-accent-yellow text-center">
                 Book your tickets online and

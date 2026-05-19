@@ -3,6 +3,7 @@ import { Footer } from "@/components/shared/footer";
 import { Hero } from "@/components/sections/hero";
 import { Portfolio } from "@/components/sections/portfolio";
 import { PlanVisit } from "@/components/sections/plan-visit";
+import { ActiveLocations } from "@/components/sections/active-locations";
 import { Testimonials } from "@/components/sections/testimonials";
 import { Tour } from "@/components/sections/tour";
 import { Gallery } from "@/components/sections/gallery";
@@ -22,19 +23,21 @@ export default function Home() {
         <Portfolio />
         {/* 3. Plan Your Visit — 4 steps */}
         <PlanVisit />
-        {/* 4. Testimonials — white bg, 2-col reviews */}
+        {/* 4. Active Locations & Fair Finder */}
+        <ActiveLocations />
+        {/* 5. Testimonials — white bg, 2-col reviews */}
         <Testimonials />
-        {/* 5. Brand Marquee — NAAZ AMUSEMENT text scroll */}
+        {/* 6. Brand Marquee — NAAZ AMUSEMENT text scroll */}
         <Tour />
-        {/* 6. Gallery — polaroid marquee rows */}
+        {/* 7. Gallery — polaroid marquee rows */}
         <Gallery />
-        {/* 7. Blog / Naaz Amusement Chronicles */}
+        {/* 8. Blog / Naaz Amusement Chronicles */}
         <Chronicles />
-        {/* 8. CTA — Ready to Rule */}
+        {/* 9. Ready to Rule */}
         <CtaStrip />
-        {/* 9. Your Comfort — facility pills */}
+        {/* 10. Your Comfort — facility pills */}
         <Facilities />
-        {/* 10. FAQ */}
+        {/* 11. FAQ */}
         <Faq />
       </main>
       <Footer />

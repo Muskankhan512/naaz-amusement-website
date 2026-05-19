@@ -23,7 +23,7 @@ import { rides } from "@/lib/rides";
 
 const steps = [
   { id: "date", label: "Date" },
-  { id: "tickets", label: "Details" },
+  { id: "details", label: "Details" },
   { id: "billing", label: "Confirm" },
 ];
 
@@ -232,7 +232,7 @@ export default function BookPage() {
               {steps.map((step, index) => {
                 const isActive =
                   currentStep === step.id ||
-                  (currentStep === "tickets" && index === 0) ||
+                  (currentStep === "details" && index === 0) ||
                   (currentStep === "billing" && index <= 2);
 
                 return (
@@ -384,7 +384,7 @@ export default function BookPage() {
 
                   <button
                     disabled={!selectedDate}
-                    onClick={() => setCurrentStep("tickets")}
+                    onClick={() => setCurrentStep("details")}
                     className="group relative mt-12 flex h-16 w-full items-center justify-center overflow-hidden rounded-full bg-white/10 font-display text-[1.1rem] tracking-[0.2em] text-white transition-all disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white/10 hover:bg-white hover:text-deep-purple"
                   >
                     {!selectedDate && (
@@ -397,9 +397,9 @@ export default function BookPage() {
             )}
 
             {/* STEP 2: DETAILS FORM & PRICE CALCULATOR */}
-            {currentStep === "tickets" && (
+            {currentStep === "details" && (
               <motion.div
-                key="step-tickets"
+                key="step-details"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
