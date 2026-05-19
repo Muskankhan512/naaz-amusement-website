@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
@@ -58,6 +58,32 @@ export default function BookPage() {
     rentalDays: 1,
     distanceSlab: "inside" as "inside" | "medium" | "far",
   });
+
+  // Pre-select rides if package query parameter is present
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const pkg = params.get("package");
+      if (pkg) {
+        if (pkg === "mela-carnival") {
+          setRentalData((prev) => ({
+            ...prev,
+            selectedRides: ["striker", "sky-scrambler", "wave-pool", "roller-coaster", "bumper-cars"],
+          }));
+        } else if (pkg === "royal-wedding") {
+          setRentalData((prev) => ({
+            ...prev,
+            selectedRides: ["sky-scrambler", "bumper-cars", "sky-cycling"],
+          }));
+        } else if (pkg === "corporate-school") {
+          setRentalData((prev) => ({
+            ...prev,
+            selectedRides: ["lazy-river", "bumper-cars", "zip-line"],
+          }));
+        }
+      }
+    }
+  }, []);
 
   // Promo code state
   const [promoCode, setPromoCode] = useState("");

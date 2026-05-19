@@ -3,6 +3,7 @@ import { Footer } from "@/components/shared/footer";
 import { Hero } from "@/components/sections/hero";
 import { Portfolio } from "@/components/sections/portfolio";
 import { PlanVisit } from "@/components/sections/plan-visit";
+import { EventPackages } from "@/components/sections/event-packages";
 import { ActiveLocations } from "@/components/sections/active-locations";
 import { Testimonials } from "@/components/sections/testimonials";
 import { Tour } from "@/components/sections/tour";
@@ -33,11 +34,13 @@ export default function Home() {
         <Gallery />
         {/* 8. Blog / Naaz Amusement Chronicles */}
         <Chronicles />
-        {/* 9. Ready to Rule */}
+        {/* 9. Curated Event Packages */}
+        <EventPackages />
+        {/* 10. Ready to Rule */}
         <CtaStrip />
-        {/* 10. Your Comfort — facility pills */}
+        {/* 11. Your Comfort — facility pills */}
         <Facilities />
-        {/* 11. FAQ */}
+        {/* 12. FAQ */}
         <Faq />
       </main>
       <Footer />
