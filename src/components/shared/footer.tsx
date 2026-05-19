@@ -41,14 +41,14 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="relative bg-deep-purple pt-20 pb-10 text-white">
+    <footer className="relative bg-deep-purple pt-16 sm:pt-20 pb-8 sm:pb-10 text-white">
       {/* Top border */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/10"
       />
 
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-5 md:grid-cols-3 md:px-8 lg:grid-cols-5">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-10 px-4 sm:grid-cols-3 sm:gap-8 sm:px-5 md:px-8 lg:grid-cols-5">
         {/* Quick Link */}
         <FooterColumn title="Quick Link">
           {quickLinks.map((l) => (
@@ -85,7 +85,7 @@ export function Footer() {
                 href={l.href}
                 target="_blank"
                 rel="noreferrer"
-                className="font-display text-[1.1rem] uppercase text-white transition hover:text-accent-yellow"
+                className="font-display text-[1rem] sm:text-[1.1rem] uppercase text-white transition hover:text-accent-yellow"
               >
                 {l.label}
               </a>
@@ -95,7 +95,7 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="mx-auto mt-16 flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-white/10 px-5 pt-6 text-[0.78rem] text-white/50 md:flex-row md:px-8">
+      <div className="mx-auto mt-12 sm:mt-16 flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-white/10 px-4 pt-6 text-[0.7rem] sm:text-[0.78rem] text-white/50 md:flex-row sm:px-5 md:px-8 text-center">
         <p>
           © {new Date().getFullYear()} {site.name}. All rights reserved.
         </p>
@@ -116,7 +116,7 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h4 className="font-display text-[1.1rem] uppercase tracking-wide text-accent-yellow">
+      <h4 className="font-display text-[1rem] sm:text-[1.1rem] uppercase tracking-wide text-accent-yellow">
         {title}
       </h4>
       <ul className="mt-5 space-y-3">{children}</ul>
@@ -129,7 +129,7 @@ function FooterLink({ label, href }: { label: string; href: string }) {
     <li>
       <Link
         href={href}
-        className="font-display text-[1.1rem] uppercase text-white transition hover:text-accent-yellow"
+        className="font-display text-[1rem] sm:text-[1.1rem] uppercase text-white transition hover:text-accent-yellow"
       >
         {label}
       </Link>

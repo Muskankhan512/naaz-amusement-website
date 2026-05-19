@@ -24,11 +24,11 @@ export default function Home() {
         <PlanVisit />
         {/* 4. Testimonials — white bg, 2-col reviews */}
         <Testimonials />
-        {/* 5. Brand Marquee — FUNKINGDOM text scroll */}
+        {/* 5. Brand Marquee — NAAZ AMUSEMENT text scroll */}
         <Tour />
         {/* 6. Gallery — polaroid marquee rows */}
         <Gallery />
-        {/* 7. Blog / Fun Kingdom Chronicles */}
+        {/* 7. Blog / Naaz Amusement Chronicles */}
         <Chronicles />
         {/* 8. CTA — Ready to Rule */}
         <CtaStrip />

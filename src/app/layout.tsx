@@ -3,6 +3,7 @@ import { Staatliches, Host_Grotesk, Geist, IBM_Plex_Mono } from "next/font/googl
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WhatsAppFloat } from "@/components/shared/whatsapp-float";
+import { MobileFab } from "@/components/shared/mobile-fab";
 import "./globals.css";
 
 const staatliches = Staatliches({
@@ -32,15 +33,15 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://funkingdomjaipur.com"),
+  metadataBase: new URL("https://naazamusementjaipur.com"),
   title: {
-    default: "FunKingdom — Rajasthan's Premier Amusement Park",
-    template: "%s · FunKingdom Jaipur",
+    default: "Naaz Amusement — Rajasthan's Premier Amusement Park",
+    template: "%s · Naaz Amusement Jaipur",
   },
   description:
-    "FunKingdom is Rajasthan's premier themed entertainment destination. A world-class amusement park spread across 18 acres of adrenaline, laughter, and wonder.",
+    "Naaz Amusement is Rajasthan's premier themed entertainment destination. A world-class amusement park spread across 18 acres of adrenaline, laughter, and wonder.",
   keywords: [
-    "FunKingdom",
+    "Naaz Amusement",
     "amusement park",
     "Jaipur",
     "Rajasthan",
@@ -53,15 +54,15 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
-    siteName: "FunKingdom Jaipur",
-    title: "FunKingdom — Rajasthan's Premier Amusement Park",
+    siteName: "Naaz Amusement Jaipur",
+    title: "Naaz Amusement — Rajasthan's Premier Amusement Park",
     description:
       "80+ rides & attractions across 18 acres. Amusement Park, Adventure Park, Water Park, Sports Arena & more.",
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "FunKingdom Jaipur",
+    title: "Naaz Amusement Jaipur",
     description:
       "Rajasthan's premier themed entertainment destination. 80+ rides, 18 acres of pure fun.",
   },
@@ -88,6 +89,7 @@ export default function RootLayout({
         <TooltipProvider delay={150}>
           {children}
           <WhatsAppFloat />
+          <MobileFab />
           <Toaster
             position="top-center"
             richColors

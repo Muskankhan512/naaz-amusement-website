@@ -51,7 +51,7 @@ function AnimatedCounter({ endValue, suffix }: { endValue: number; suffix: strin
   }, [endValue]);
 
   return (
-    <span ref={ref} className="font-display text-[clamp(2.5rem,5vw,4.75rem)] leading-none text-accent-yellow">
+    <span ref={ref} className="font-display text-[clamp(2rem,5vw,4.75rem)] leading-none text-accent-yellow">
       {count}{suffix}
     </span>
   );
@@ -72,53 +72,46 @@ export function Hero() {
       className="relative w-full bg-deep-purple"
     >
       {/* HERO TOP — Photo + wordmark + offer */}
-      <div className="relative min-h-screen w-full overflow-hidden">
+      <div className="relative min-h-[100svh] w-full overflow-hidden">
         {/* Background photo */}
         <div className="absolute inset-0">
           <Image
-            src="/hero-mela.png"
-            alt="FunKingdom park at night with rides, lights, and crowds"
+            src="/hero-mela.jpg"
+            alt="Naaz Amusement park at night with rides, lights, and crowds"
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-center"
           />
           {/* Gradient overlay to blend into purple */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-deep-purple" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-deep-purple" />
         </div>
 
         {/* Center wordmark */}
-        <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center"
-          >
-            <h1 className="font-display text-[clamp(4rem,14vw,12rem)] leading-[0.9] text-white drop-shadow-[0_10px_60px_rgba(0,0,0,0.6)]">
-              FunKingdom
-            </h1>
-          </motion.div>
+        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4">
+          <div className="text-center">
+            <h1 className="sr-only">Naaz Amusement</h1>
+          </div>
 
           {/* Offer banner */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="mt-8"
+            className="hidden mt-6 sm:mt-8 w-full max-w-md sm:max-w-lg"
           >
             <Link
               href={site.bookingUrl}
               target="_blank"
-              className="group flex flex-col items-center gap-3 rounded-2xl border border-accent-yellow/30 bg-deep-purple/60 px-8 py-5 backdrop-blur-md transition hover:border-accent-yellow hover:bg-deep-purple/80"
+              className="group flex flex-col items-center gap-2 sm:gap-3 rounded-2xl border border-accent-yellow/30 bg-deep-purple/60 px-5 py-4 sm:px-8 sm:py-5 backdrop-blur-md transition hover:border-accent-yellow hover:bg-deep-purple/80"
             >
-              <span className="font-display text-[clamp(1rem,2.5vw,1.5rem)] text-accent-yellow">
+              <span className="font-display text-[clamp(0.85rem,2.5vw,1.5rem)] text-accent-yellow text-center">
                 Book your tickets online and
               </span>
-              <span className="font-display text-[clamp(1.8rem,4vw,3rem)] text-white">
+              <span className="font-display text-[clamp(1.5rem,4vw,3rem)] text-white text-center">
                 Get Flat 20% off*
               </span>
-              <span className="mt-2 rounded-full bg-red-600 px-6 py-2 font-display text-[0.8rem] uppercase tracking-wider text-white transition group-hover:bg-red-500">
+              <span className="mt-1 sm:mt-2 rounded-full bg-red-600 px-5 py-2 sm:px-6 font-display text-[0.7rem] sm:text-[0.8rem] uppercase tracking-wider text-white transition group-hover:bg-red-500">
                 BOOK YOUR TICKETS NOW
               </span>
             </Link>
@@ -128,24 +121,24 @@ export function Hero() {
         {/* Scroll down indicator */}
         <motion.div
           style={{ opacity: scrollOpacity }}
-          className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2"
+          className="absolute bottom-6 sm:bottom-8 left-1/2 z-20 -translate-x-1/2"
         >
-          <div className="flex flex-col items-center gap-2">
-            <span className="font-display text-[16px] uppercase tracking-wide text-white">
+          <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+            <span className="font-display text-[12px] sm:text-[16px] uppercase tracking-wide text-white">
               SCROLL DOWN
             </span>
             <motion.div
               animate={{ y: [0, 6, 0] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             >
-              <ArrowDown className="h-5 w-5 text-white" />
+              <ArrowDown className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
             </motion.div>
           </div>
         </motion.div>
       </div>
 
       {/* HERO BOTTOM — Purple section with copy + stats */}
-      <div className="relative z-10 bg-deep-purple px-5 py-20 md:px-10 md:py-28">
+      <div className="relative z-10 bg-deep-purple px-4 py-14 sm:px-5 sm:py-20 md:px-10 md:py-28">
         <div className="mx-auto max-w-5xl">
           {/* Body copy */}
           <motion.p
@@ -153,9 +146,9 @@ export function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="text-center font-body text-[clamp(1rem,1.3vw,1.125rem)] leading-relaxed text-white/90"
+            className="text-center font-body text-[clamp(0.9rem,1.3vw,1.125rem)] leading-relaxed text-white/90"
           >
-            At FunKingdom, we don&rsquo;t just build rides. We architect moments that
+            At Naaz Amusement, we don&rsquo;t just build rides. We architect moments that
             make your heart race, your family bond, and your soul feel 10 years
             younger. Welcome to Jaipur&rsquo;s 18-acre universe of pure, unfiltered joy.
           </motion.p>
@@ -166,9 +159,9 @@ export function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="mx-auto mt-12 max-w-4xl text-center font-display text-[clamp(1.4rem,2.5vw,2rem)] leading-[1.38] tracking-[-0.32px] text-white"
+            className="mx-auto mt-8 sm:mt-12 max-w-4xl text-center font-display text-[clamp(1.2rem,2.5vw,2rem)] leading-[1.38] tracking-[-0.32px] text-white"
           >
-            FunKingdom is Rajasthan&rsquo;s premier themed entertainment destination. A
+            Naaz Amusement is Rajasthan&rsquo;s premier themed entertainment destination. A
             world-class amusement park designed by renowned architects, spread across
             18 acres of adrenaline, laughter, and wonder.
           </motion.h2>
@@ -179,19 +172,18 @@ export function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4"
+            className="mt-10 sm:mt-16 grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4"
           >
             {stats.map((stat, i) => (
               <div
                 key={stat.label}
-                className={`flex flex-col items-center gap-3 ${
-                  i < stats.length - 1
-                    ? "md:border-r md:border-white/15"
-                    : ""
-                }`}
+                className={`flex flex-col items-center gap-2 sm:gap-3 ${i < stats.length - 1
+                  ? "md:border-r md:border-white/15"
+                  : ""
+                  }`}
               >
                 <AnimatedCounter endValue={stat.endValue} suffix={stat.suffix} />
-                <span className="font-display text-[clamp(0.8rem,1.2vw,1rem)] uppercase tracking-wide text-white/80">
+                <span className="font-display text-[clamp(0.7rem,1.2vw,1rem)] uppercase tracking-wide text-white/80 text-center">
                   {stat.label}
                 </span>
               </div>

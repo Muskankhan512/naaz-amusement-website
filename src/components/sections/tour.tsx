@@ -1,8 +1,8 @@
 "use client";
 
 export function Tour() {
-  const row1Text = "FUNKINGDOM • LET'S RIDE • FUNKINGDOM • LET'S RIDE • ";
-  const row2Text = "LET'S PLAY • FUNKINGDOM • LET'S SCREAM • LET'S PLAY • FUNKINGDOM • LET'S SCREAM • ";
+  const row1Text = "NAAZ AMUSEMENT • LET'S RIDE • NAAZ AMUSEMENT • LET'S RIDE • ";
+  const row2Text = "LET'S PLAY • NAAZ AMUSEMENT • LET'S SCREAM • LET'S PLAY • NAAZ AMUSEMENT • LET'S SCREAM • ";
 
   return (
     <section className="relative overflow-hidden bg-white py-12 md:py-16">

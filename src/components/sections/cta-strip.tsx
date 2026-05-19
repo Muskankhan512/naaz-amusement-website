@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 
 export function CtaStrip() {
   return (
-    <section className="relative isolate overflow-hidden bg-deep-purple py-20 text-white md:py-28">
+    <section className="relative isolate overflow-hidden bg-deep-purple py-16 text-white sm:py-20 md:py-28">
       {/* Decorative radial */}
       <div
         aria-hidden
@@ -18,7 +18,7 @@ export function CtaStrip() {
         }}
       />
 
-      <div className="mx-auto max-w-4xl px-5 text-center md:px-8">
+      <div className="mx-auto max-w-4xl px-4 text-center sm:px-5 md:px-8">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -33,7 +33,7 @@ export function CtaStrip() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-6 font-display text-[clamp(2.5rem,5.5vw,4.5rem)] leading-[1.05]"
+          className="mt-4 sm:mt-6 font-display text-[clamp(2rem,5.5vw,4.5rem)] leading-[1.05]"
         >
           Your Kingdom Awaits.
           <br />
@@ -44,7 +44,7 @@ export function CtaStrip() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-white/80"
+          className="mx-auto mt-4 sm:mt-6 max-w-2xl font-body text-[0.95rem] sm:text-lg leading-relaxed text-white/80"
         >
           Book your tickets today and unlock a world of 80+ rides, gourmet food
           courts, adventure zones, and memories that will last forever.
@@ -55,11 +55,10 @@ export function CtaStrip() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+          className="mt-8 sm:mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
         >
           <Link
             href={site.bookingUrl}
-            target="_blank"
             className="group inline-flex items-center gap-3 rounded-full bg-accent-yellow px-8 py-4 font-display text-[0.9rem] uppercase tracking-wide text-deep-purple shadow-lg transition hover:bg-white"
           >
             BOOK TICKET NOW

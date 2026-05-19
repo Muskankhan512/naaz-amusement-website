@@ -22,16 +22,16 @@ export function Rides() {
   return (
     <section
       id="rides"
-      className="relative isolate overflow-hidden bg-deep-purple py-24 md:py-32"
+      className="relative isolate overflow-hidden bg-deep-purple py-16 sm:py-24 md:py-32"
     >
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 md:px-8">
         {/* Header */}
         <div className="flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <p className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow">
               Our Rides & Attractions
             </p>
-            <h2 className="mt-4 font-display text-[clamp(2.4rem,4.8vw,4.2rem)] leading-[1.02] text-white">
+            <h2 className="mt-3 sm:mt-4 font-display text-[clamp(2.4rem,4.8vw,4.2rem)] leading-[1.02] text-white">
               80+ rides.{" "}
               <span className="text-accent-yellow">A thousand</span> memories
               from the kingdom.
@@ -44,7 +44,7 @@ export function Rides() {
         </div>
 
         {/* Masonry gallery */}
-        <div className="mt-14 grid auto-rows-[180px] grid-cols-2 gap-3 md:auto-rows-[200px] md:grid-cols-3 lg:grid-cols-4">
+        <div className="mt-10 sm:mt-14 grid auto-rows-[160px] sm:auto-rows-[180px] grid-cols-2 gap-2 sm:gap-3 md:auto-rows-[200px] md:grid-cols-3 lg:grid-cols-4">
           {rides.map((r, i) => (
             <motion.article
               key={r.slug}
@@ -77,7 +77,7 @@ export function Rides() {
                 <div className="absolute inset-x-3 bottom-3 text-white">
                   <div className="flex items-end justify-between gap-2">
                     <div>
-                      <div className="font-display text-[1.4rem] leading-tight drop-shadow-md md:text-[1.7rem]">
+                      <div className="font-display text-[1.1rem] sm:text-[1.4rem] leading-tight drop-shadow-md md:text-[1.7rem]">
                         {r.name}
                       </div>
                     </div>

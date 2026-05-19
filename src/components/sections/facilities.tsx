@@ -37,9 +37,9 @@ export function Facilities() {
   return (
     <section
       id="facilities"
-      className="relative isolate overflow-hidden bg-deep-purple py-24 md:py-28"
+      className="relative isolate overflow-hidden bg-deep-purple py-16 sm:py-24 md:py-28"
     >
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 md:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -55,7 +55,7 @@ export function Facilities() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-4 font-display text-[clamp(2rem,4.5vw,3rem)] leading-[1.17] text-white"
+            className="mt-4 font-display text-[clamp(1.6rem,4.5vw,3rem)] leading-[1.17] text-white"
           >
             Everything you need, right inside the kingdom.
           </motion.h2>
@@ -63,7 +63,7 @@ export function Facilities() {
       </div>
 
       {/* Scrolling pill rows */}
-      <div className="mt-14 space-y-5 overflow-hidden">
+      <div className="mt-10 sm:mt-14 space-y-4 sm:space-y-5 overflow-hidden">
         {/* Row 1 — scrolls left */}
         <div className="marquee-mask relative w-full">
           <div className="flex animate-marquee gap-4" style={{ animationDuration: "35s" }}>
@@ -88,9 +88,9 @@ export function Facilities() {
 
 function FacilityPill({ facility }: { facility: Facility }) {
   return (
-    <div className="flex shrink-0 items-center gap-3 rounded-full border border-accent-yellow/40 bg-warm-cream/10 px-6 py-3 backdrop-blur-sm">
+    <div className="flex shrink-0 items-center gap-2 sm:gap-3 rounded-full border border-accent-yellow/40 bg-warm-cream/10 px-4 sm:px-6 py-2 sm:py-3 backdrop-blur-sm">
       <span className="text-xl">{facility.icon}</span>
-      <span className="whitespace-nowrap font-display text-[0.9rem] text-white">
+      <span className="whitespace-nowrap font-display text-[0.8rem] sm:text-[0.9rem] text-white">
         {facility.label}
       </span>
     </div>

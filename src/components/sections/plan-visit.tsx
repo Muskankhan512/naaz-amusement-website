@@ -45,9 +45,9 @@ export function PlanVisit() {
   return (
     <section
       id="plan"
-      className="relative isolate overflow-hidden bg-deep-purple py-24 md:py-32"
+      className="relative isolate overflow-hidden bg-deep-purple py-16 sm:py-24 md:py-32"
     >
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 md:px-8">
         {/* Header */}
         <motion.p
           initial={{ opacity: 0, y: 12 }}
@@ -63,13 +63,13 @@ export function PlanVisit() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-6 max-w-3xl font-display text-[clamp(2rem,4.5vw,3rem)] leading-[1.17] tracking-[0.96px] text-white"
+          className="mt-4 sm:mt-6 max-w-3xl font-display text-[clamp(1.6rem,4.5vw,3rem)] leading-[1.17] tracking-[0.96px] text-white"
         >
           Your fun is four steps away. That&rsquo;s it.
         </motion.h2>
 
         {/* Steps */}
-        <div className="mt-16 space-y-20 md:space-y-28">
+        <div className="mt-10 sm:mt-16 space-y-14 sm:space-y-20 md:space-y-28">
           {steps.map((step, i) => (
             <motion.div
               key={step.num}
@@ -83,7 +83,7 @@ export function PlanVisit() {
             >
               {/* Image */}
               <div className={`relative overflow-hidden rounded-xl ${i % 2 === 1 ? "lg:order-2" : ""}`}>
-                <div className="relative aspect-[4/3] w-full">
+                <div className="relative aspect-[16/10] sm:aspect-[4/3] w-full">
                   <img
                     src={step.image}
                     alt={step.title}
@@ -106,7 +106,7 @@ export function PlanVisit() {
                 <h3 className="mt-4 font-display text-[clamp(1.3rem,2.5vw,1.625rem)] leading-[1.1] text-white">
                   {step.title}
                 </h3>
-                <p className="mt-4 font-geist text-[1.125rem] font-light leading-[1.5] text-white/80">
+                <p className="mt-3 sm:mt-4 font-geist text-[0.95rem] sm:text-[1.125rem] font-light leading-[1.5] text-white/80">
                   {step.body}
                 </p>
               </div>

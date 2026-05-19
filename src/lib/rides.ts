@@ -27,7 +27,7 @@ export const rides: Ride[] = [
     duration: "4 min",
     tagline: "Where gravity is just a suggestion.",
     description:
-      "FunKingdom's signature thrill ride — a towering experience that sends you spinning, twisting, and screaming through the Jaipur sky.",
+      "Naaz Amusement's signature thrill ride — a towering experience that sends you spinning, twisting, and screaming through the Jaipur sky.",
     image: "/p1.jpg",
     tint: "#210C6D",
   },
@@ -72,7 +72,7 @@ export const rides: Ride[] = [
     duration: "4 min",
     tagline: "Loops, drops, and pure adrenaline.",
     description:
-      "FunKingdom's signature coaster with multiple loops, sudden drops, and speeds that will leave you breathless.",
+      "Naaz Amusement's signature coaster with multiple loops, sudden drops, and speeds that will leave you breathless.",
     image: "/4.jpeg",
     tint: "#8F0177",
   },

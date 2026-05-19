@@ -28,7 +28,7 @@ const reviews: Review[] = [
     quote:
       "Had great experience in every ride. Hygienic and staff is very cooperative & friendly. Best amusement park in Jaipur!",
     narrative:
-      "A family visitor who noticed the two things most amusement parks quietly fail at — hygiene and staff attitude — and was genuinely surprised that FunKingdom nailed both. From spotless restrooms to ride operators who greeted her kids with a smile, the experience felt thoughtfully managed rather than chaotic. She didn't just enjoy one ride; she specifically mentioned that every single ride delivered, which is rare praise for a park with 80+ attractions.",
+      "A family visitor who noticed the two things most amusement parks quietly fail at — hygiene and staff attitude — and was genuinely surprised that Naaz Amusement nailed both. From spotless restrooms to ride operators who greeted her kids with a smile, the experience felt thoughtfully managed rather than chaotic. She didn't just enjoy one ride; she specifically mentioned that every single ride delivered, which is rare praise for a park with 80+ attractions.",
     image: "/2.jpg",
     rating: 5,
   },
@@ -37,7 +37,7 @@ const reviews: Review[] = [
     quote:
       "Adventure is super cool activity, it's a great FUN in this KINGDOM. My family had the time of their lives. We're coming back next month!",
     narrative:
-      "An adventure zone loyalist who came for the ziplines and rope courses but discovered that FunKingdom is just as much a family destination as it is a thrill-seeker's paradise. What started as a solo adrenaline trip turned into a full-family affair, with everyone from his kids to his parents finding something to love. The fact that he's already planning a return visit next month tells you everything — this isn't a one-and-done park, it's the kind of place that earns repeat loyalty.",
+      "An adventure zone loyalist who came for the ziplines and rope courses but discovered that Naaz Amusement is just as much a family destination as it is a thrill-seeker's paradise. What started as a solo adrenaline trip turned into a full-family affair, with everyone from his kids to his parents finding something to love. The fact that he's already planning a return visit next month tells you everything — this isn't a one-and-done park, it's the kind of place that earns repeat loyalty.",
     image: "/3.jpg",
     rating: 5,
   },
@@ -54,8 +54,8 @@ export function Testimonials() {
   }, []);
 
   return (
-    <section className="relative isolate overflow-hidden bg-white py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+    <section className="relative isolate overflow-hidden bg-white py-16 sm:py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 md:px-8">
         {/* Header */}
         <motion.p
           initial={{ opacity: 0, y: 12 }}
@@ -77,7 +77,7 @@ export function Testimonials() {
         </motion.h2>
 
         {/* Testimonial cards */}
-        <div ref={containerRef} className="mt-16 space-y-24">
+        <div ref={containerRef} className="mt-10 sm:mt-16 space-y-16 sm:space-y-24">
           {reviews.map((review, i) => (
             <TestimonialCard
               key={review.name}
@@ -126,11 +126,11 @@ function TestimonialCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.65 }}
-      className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16"
+      className="grid grid-cols-1 items-start gap-6 sm:gap-10 lg:grid-cols-2 lg:gap-16"
     >
       {/* Left — Image with counter */}
       <div className="relative overflow-hidden rounded-xl">
-        <div className="relative aspect-[3/4] w-full">
+        <div className="relative aspect-[4/3] sm:aspect-[3/4] w-full">
           <Image
             src={review.image}
             alt={`${review.name} review`}
@@ -154,12 +154,12 @@ function TestimonialCard({
       {/* Right — Quote + narrative */}
       <div className="flex flex-col justify-center">
         {/* Pull quote */}
-        <blockquote className="font-display text-[clamp(1.3rem,2.5vw,2rem)] leading-[1.38] tracking-[-0.32px] text-deep-purple">
+        <blockquote className="font-display text-[clamp(1.1rem,2.5vw,2rem)] leading-[1.38] tracking-[-0.32px] text-deep-purple">
           &ldquo;{review.quote}&rdquo;
         </blockquote>
 
         {/* Narrative */}
-        <p className="mt-6 font-display text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.38] tracking-[-0.2px] text-deep-purple/70">
+        <p className="mt-4 sm:mt-6 font-display text-[clamp(0.85rem,1.5vw,1.25rem)] leading-[1.38] tracking-[-0.2px] text-deep-purple/70">
           {review.narrative}
         </p>
 

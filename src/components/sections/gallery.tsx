@@ -9,7 +9,7 @@ const u = (id: string, w = 900) =>
 const galleryImages = [
   // Row 1
   [
-    { src: u("1517423568366-8b83523034fd"), alt: "FunKingdom ride at night" },
+    { src: u("1517423568366-8b83523034fd"), alt: "Naaz Amusement ride at night" },
     { src: u("1533174072545-7a4b6ad7a6c3"), alt: "Crowd at amusement park" },
     { src: u("1559131397-f94da358f7ca"), alt: "Carnival arcade at dusk" },
     { src: u("1551817958-d9d86fb29431"), alt: "Swing ride in motion" },
@@ -46,9 +46,9 @@ export function Gallery() {
   return (
     <section
       id="gallery"
-      className="relative isolate overflow-hidden bg-deep-purple py-24 md:py-32"
+      className="relative isolate overflow-hidden bg-deep-purple py-16 sm:py-24 md:py-32"
     >
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 md:px-8">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -70,14 +70,14 @@ export function Gallery() {
       </div>
 
       {/* 3-row scrolling gallery */}
-      <div className="mt-14 space-y-6">
+      <div className="mt-10 sm:mt-14 space-y-4 sm:space-y-6">
         {galleryImages.map((row, rowIdx) => (
           <div
             key={rowIdx}
             className="marquee-mask relative w-full overflow-hidden"
           >
             <div
-              className={`flex gap-5 ${
+              className={`flex gap-3 sm:gap-5 ${
                 rowIdx % 2 === 0 ? "animate-marquee" : "animate-marquee-reverse"
               }`}
               style={{ animationDuration: `${40 + rowIdx * 8}s` }}
@@ -90,7 +90,7 @@ export function Gallery() {
                     transform: `rotate(${(i % 2 === 0 ? -2 : 2)}deg)`,
                   }}
                 >
-                  <div className="relative h-[200px] w-[280px] overflow-hidden rounded-sm border-[6px] border-white bg-white shadow-xl md:h-[240px] md:w-[340px]">
+                  <div className="relative h-[150px] w-[200px] sm:h-[200px] sm:w-[280px] overflow-hidden rounded-sm border-[4px] sm:border-[6px] border-white bg-white shadow-xl md:h-[240px] md:w-[340px]">
                     <Image
                       src={img.src}
                       alt={img.alt}

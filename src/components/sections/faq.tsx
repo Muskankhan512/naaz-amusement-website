@@ -12,11 +12,11 @@ type FaqItem = {
 const faqs: FaqItem[] = [
   {
     q: "What are the park timings?",
-    a: "FunKingdom is open every day from 11:00 AM to 8:00 PM. Last entry is at 7:00 PM. During holidays and special events, we may extend hours — check our social media for updates.",
+    a: "Naaz Amusement is open every day from 11:00 AM to 8:00 PM. Last entry is at 7:00 PM. During holidays and special events, we may extend hours — check our social media for updates.",
   },
   {
     q: "How do I book tickets online?",
-    a: "Visit booking.funkingdomjaipur.com, choose your date and ticket type, apply any discount coupon if available, and complete payment. You'll receive an instant e-ticket via email and SMS.",
+    a: "Visit booking.naazamusementjaipur.com, choose your date and ticket type, apply any discount coupon if available, and complete payment. You'll receive an instant e-ticket via email and SMS.",
   },
   {
     q: "Is there a discount for online bookings?",
@@ -50,9 +50,9 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="relative isolate overflow-hidden bg-deep-purple py-24 md:py-32"
+      className="relative isolate overflow-hidden bg-deep-purple py-16 sm:py-24 md:py-32"
     >
-      <div className="mx-auto max-w-4xl px-5 md:px-8">
+      <div className="mx-auto max-w-4xl px-4 sm:px-5 md:px-8">
         {/* Header */}
         <div className="text-center">
           <motion.p
@@ -76,7 +76,7 @@ export function Faq() {
         </div>
 
         {/* Accordion */}
-        <div className="mt-14 space-y-3">
+        <div className="mt-10 sm:mt-14 space-y-3">
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
@@ -90,9 +90,9 @@ export function Faq() {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition hover:bg-white/5"
+                  className="flex w-full items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 py-4 sm:py-5 text-left transition hover:bg-white/5"
                 >
-                  <span className="font-body text-[clamp(1rem,1.3vw,1.5rem)] leading-[1.17] tracking-[-0.24px] text-white">
+                  <span className="font-body text-[clamp(0.95rem,1.3vw,1.5rem)] leading-[1.17] tracking-[-0.24px] text-white">
                     {faq.q}
                   </span>
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20">
@@ -112,8 +112,8 @@ export function Faq() {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-5">
-                        <p className="font-body text-[clamp(0.9rem,1.1vw,1.25rem)] leading-[1.4] text-white/75">
+                      <div className="px-4 sm:px-6 pb-4 sm:pb-5">
+                        <p className="font-body text-[clamp(0.85rem,1.1vw,1.25rem)] leading-[1.4] text-white/75">
                           {faq.a}
                         </p>
                       </div>

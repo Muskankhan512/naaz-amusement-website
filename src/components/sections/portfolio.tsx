@@ -63,7 +63,7 @@ const experiences: Experience[] = [
     num: "08",
     title: "Events & Concerts",
     tagline:
-      "With 50+ themed backdrops, FunKingdom is Jaipur's most Instagrammable event destination.",
+      "With 50+ themed backdrops, Naaz Amusement is Jaipur's most Instagrammable event destination.",
     image: "/2.jpg",
   },
 ];
@@ -83,7 +83,7 @@ export function Portfolio() {
       className="relative isolate bg-dark-teal text-white"
     >
       {/* INTRO */}
-      <div className="mx-auto flex min-h-[70svh] max-w-7xl flex-col justify-center px-5 py-24 md:px-8 md:py-32">
+      <div className="mx-auto flex min-h-[50svh] sm:min-h-[70svh] max-w-7xl flex-col justify-center px-4 py-16 sm:px-5 sm:py-24 md:px-8 md:py-32">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -98,7 +98,7 @@ export function Portfolio() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="mt-6 max-w-5xl font-display text-[clamp(2.2rem,5vw,3rem)] leading-[1.17] tracking-[0.96px] text-white"
+          className="mt-4 sm:mt-6 max-w-5xl font-display text-[clamp(1.8rem,5vw,3rem)] leading-[1.17] tracking-[0.96px] text-white"
         >
           Our portfolio of thrills showcases the diversity of our madness.
         </motion.h2>
@@ -108,7 +108,7 @@ export function Portfolio() {
       <div className="relative mx-auto grid max-w-[100rem] grid-cols-1 px-0 lg:grid-cols-2 lg:gap-0 lg:px-8">
         {/* LEFT — sticky big image with counter */}
         <div className="sticky top-0 hidden h-screen items-center justify-center lg:flex">
-          <div className="relative h-[calc(100vh-4rem)] w-full overflow-hidden rounded-r-[2rem] bg-dark-teal">
+          <div className="relative h-[calc(100vh-4rem)] w-full overflow-hidden bg-dark-teal">
             {experiences.map((exp, i) => (
               <motion.div
                 key={exp.num}
@@ -159,7 +159,7 @@ export function Portfolio() {
         </div>
 
         {/* RIGHT — scrolling cards */}
-        <div className="flex flex-col gap-8 px-5 py-12 sm:gap-12 sm:px-8 sm:py-16 lg:gap-24 lg:px-12 lg:py-32">
+        <div className="flex flex-col gap-6 px-4 py-8 sm:gap-12 sm:px-8 sm:py-16 lg:gap-24 lg:px-12 lg:py-32">
           {experiences.map((exp, i) => (
             <ExperienceCard
               key={exp.num}
@@ -211,7 +211,7 @@ function ExperienceCard({
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
       className="group relative overflow-hidden rounded-none shadow-[0_30px_60px_-20px_rgba(0,0,0,0.5)]"
     >
-      <div className="relative aspect-[4/5] w-full sm:aspect-[5/4] lg:aspect-[4/5]">
+      <div className="relative aspect-[3/4] w-full sm:aspect-[5/4] lg:aspect-[4/5]">
         <Image
           src={experience.image}
           alt={experience.title}
