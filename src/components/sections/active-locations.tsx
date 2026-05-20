@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { MapPin, Navigation, Compass, Search, Phone, Calendar, ArrowRight, CheckCircle2 } from "lucide-react";
 import { rides } from "@/lib/rides";
+import Link from "next/link";
 
 type ActiveMela = {
   id: string;
@@ -455,22 +456,23 @@ export function ActiveLocations() {
                           const ride = rides.find((r) => r.slug === slug);
                           if (!ride) return null;
                           return (
-                            <div
+                            <Link
                               key={slug}
-                              className="flex items-center gap-3.5 rounded-xl border border-white/5 bg-white/5 p-3"
+                              href={`/rides/${slug}`}
+                              className="flex items-center gap-3.5 rounded-xl border border-white/5 bg-white/5 p-3 hover:bg-white/10 hover:border-accent-yellow/30 transition-all group/rideitem"
                             >
                               <img
                                 src={ride.image}
                                 alt={ride.name}
-                                className="h-10 w-10 rounded-lg object-cover"
+                                className="h-10 w-10 rounded-lg object-cover group-hover/rideitem:scale-105 transition"
                               />
                               <div>
-                                <span className="block text-sm font-semibold text-white">{ride.name}</span>
+                                <span className="block text-sm font-semibold text-white group-hover/rideitem:text-accent-yellow transition">{ride.name}</span>
                                 <span className="block text-[10px] text-accent-yellow uppercase tracking-widest font-display">
                                   {ride.thrill} THRILL
                                 </span>
                               </div>
-                            </div>
+                            </Link>
                           );
                         })}
                       </div>

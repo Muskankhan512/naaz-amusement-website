@@ -10,11 +10,11 @@ const quickLinks = [
 ];
 
 const innerPages = [
-  { label: "Amusement Park", href: "/attractions/amusement-park" },
-  { label: "Adventure Park", href: "/attractions/adventure-park" },
-  { label: "Khao Gali", href: "/attractions/khao-gali" },
-  { label: "Sports Arena", href: "/attractions/sports-arena" },
-  { label: "Pickleball Meadows", href: "/attractions/pickleball-meadows" },
+  { label: "Amusement Park", href: "/attractions" },
+  { label: "Adventure Park", href: "/attractions" },
+  { label: "Khao Gali", href: "/khao-gali" },
+  { label: "Sports Arena", href: "/attractions" },
+  { label: "Pickleball Meadows", href: "/attractions" },
 ];
 
 const otherLinks = [

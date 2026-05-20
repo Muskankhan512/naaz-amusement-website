@@ -64,7 +64,14 @@ export default function BookPage() {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const pkg = params.get("package");
-      if (pkg) {
+      const rideParam = params.get("ride");
+      
+      if (rideParam) {
+        setRentalData((prev) => ({
+          ...prev,
+          selectedRides: [rideParam],
+        }));
+      } else if (pkg) {
         if (pkg === "mela-carnival") {
           setRentalData((prev) => ({
             ...prev,
