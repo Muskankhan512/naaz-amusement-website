@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { site } from "@/lib/site";
+import { useAuthStore } from "@/stores/auth-store";
 
 const navLinks = [
   { label: "HOME", href: "/" },
@@ -19,6 +20,25 @@ const navLinks = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { user } = useAuthStore();
+  const [hasHydrated, setHasHydrated] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHasHydrated(true);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const loggedIn = hasHydrated && user;
+
+  const dynamicLinks = [
+    ...navLinks,
+    loggedIn
+      ? { label: "MY PROFILE", href: "/profile" }
+      : { label: "SIGN IN", href: "/login" },
+    { label: "ADMIN PORTAL", href: "/admin" },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -75,14 +95,26 @@ export function Header() {
             </motion.div>
           </Link>
 
-          {/* Menu — right */}
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-2 sm:gap-3 font-display text-[18px] sm:text-[24px] leading-[28px] tracking-normal text-[#EDEDED] transition hover:text-white"
-          >
-            <span className="hidden sm:inline">MENU</span>
-            {open ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
-          </button>
+          {/* Right actions */}
+          <div className="flex items-center gap-4 sm:gap-6">
+            {hasHydrated && (
+              <Link
+                href={loggedIn ? "/profile" : "/login"}
+                className="font-display text-[12px] sm:text-[14px] tracking-wide text-fk-offwhite hover:text-accent-yellow transition uppercase"
+              >
+                {loggedIn ? `HI, ${user.name.split(" ")[0]}` : "SIGN IN"}
+              </Link>
+            )}
+
+            {/* Menu — right */}
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className="flex items-center gap-2 sm:gap-3 font-display text-[18px] sm:text-[24px] leading-[28px] tracking-normal text-[#EDEDED] transition hover:text-white"
+            >
+              <span className="hidden sm:inline">MENU</span>
+              {open ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
+            </button>
+          </div>
         </div>
       </motion.header>
 
@@ -109,7 +141,7 @@ export function Header() {
 
             {/* Nav links */}
             <nav className="flex flex-1 flex-col items-start justify-center gap-2 sm:gap-4 px-6 sm:px-10 md:px-20">
-              {navLinks.map((item, i) => (
+              {dynamicLinks.map((item, i) => (
                 <motion.div
                   key={item.href}
                   initial={{ opacity: 0, x: -40 }}

@@ -4,42 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 
-const u = (id: string, w = 1100) =>
-  `https://images.unsplash.com/photo-${id}?w=${w}&q=80&auto=format&fit=crop`;
+import { blogPosts } from "@/lib/blog";
 
-type Story = {
-  slug: string;
-  title: string;
-  meta: string;
-  image: string;
-};
-
-const stories: Story[] = [
-  {
-    slug: "free-medical-health-checkup-camp-at-naaz-amusement-jaipur",
-    title: "Free Medical Health Checkup Camp at Naaz Amusement Jaipur",
-    meta: "Naaz Amusement Jaipur | Apr 25, 2026",
-    image: u("1533174072545-7a4b6ad7a6c3"),
-  },
-  {
-    slug: "pickleball-meadows-tournament-at-naaz-amusement-jaipur",
-    title: "Pickleball Meadows Tournament at Naaz Amusement Jaipur",
-    meta: "Naaz Amusement Jaipur | Apr 25, 2026",
-    image: u("1517423568366-8b83523034fd"),
-  },
-  {
-    slug: "naaz-amusement---best-place-to-celebrate-1st-birthday-in-jaipur",
-    title: "Naaz Amusement - Best Place to Celebrate 1st Birthday in Jaipur",
-    meta: "Naaz Amusement Jaipur | Apr 22, 2026",
-    image: u("1559131397-f94da358f7ca"),
-  },
-  {
-    slug: "top-10-rides-you-must-try-at-naaz-amusement",
-    title: "Top 10 Rides You Must Try at Naaz Amusement This Summer",
-    meta: "Naaz Amusement Jaipur | Apr 18, 2026",
-    image: u("1551817958-d9d86fb29431"),
-  },
-];
 
 export function Chronicles() {
   return (
@@ -70,7 +36,8 @@ export function Chronicles() {
 
         {/* 2×2 Grid */}
         <div className="mt-10 sm:mt-14 grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
-          {stories.map((story, i) => (
+          {blogPosts.slice(0, 4).map((story, i) => (
+
             <motion.article
               key={story.slug}
               initial={{ opacity: 0, y: 24 }}

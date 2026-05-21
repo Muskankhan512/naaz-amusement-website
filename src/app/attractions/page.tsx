@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/shared/header";
@@ -8,6 +8,7 @@ import { Footer } from "@/components/shared/footer";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, Search, SlidersHorizontal, Info } from "lucide-react";
 import { rides, Thrill } from "@/lib/rides";
+import { useRidesStore } from "@/stores/rides-store";
 import { cn } from "@/lib/utils";
 
 const categories: (Thrill | "All")[] = ["All", "Extreme", "Wild", "Medium", "Family"];
@@ -16,6 +17,13 @@ export default function AttractionsPage() {
   const [selectedThrill, setSelectedThrill] = useState<Thrill | "All">("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [, startTransition] = useTransition();
+  const { rides: dynamicRides, fetchRides } = useRidesStore();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    fetchRides();
+  }, [fetchRides]);
 
   const handleThrillChange = (thrill: Thrill | "All") => {
     startTransition(() => {
@@ -23,7 +31,9 @@ export default function AttractionsPage() {
     });
   };
 
-  const filteredRides = rides.filter((ride) => {
+  const activeRides = mounted ? dynamicRides : rides;
+
+  const filteredRides = activeRides.filter((ride) => {
     const matchesThrill = selectedThrill === "All" || ride.thrill === selectedThrill;
     const matchesSearch =
       ride.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

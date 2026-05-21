@@ -3,6 +3,7 @@ import { Footer } from "@/components/shared/footer";
 import { Hero } from "@/components/sections/hero";
 import { Portfolio } from "@/components/sections/portfolio";
 import { PlanVisit } from "@/components/sections/plan-visit";
+import { Rides } from "@/components/sections/rides";
 import { EventPackages } from "@/components/sections/event-packages";
 import { ActiveLocations } from "@/components/sections/active-locations";
 import { Testimonials } from "@/components/sections/testimonials";
@@ -24,6 +25,8 @@ export default function Home() {
         <Portfolio />
         {/* 3. Plan Your Visit — 4 steps */}
         <PlanVisit />
+        {/* 3.5. Featured Rides — Masonry layout */}
+        <Rides />
         {/* 4. Active Locations & Fair Finder */}
         <ActiveLocations />
         {/* 5. Testimonials — white bg, 2-col reviews */}

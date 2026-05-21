@@ -52,28 +52,28 @@ export function Footer() {
         {/* Quick Link */}
         <FooterColumn title="Quick Link">
           {quickLinks.map((l) => (
-            <FooterLink key={l.href} {...l} />
+            <FooterLink key={l.label} {...l} />
           ))}
         </FooterColumn>
 
         {/* Inner Pages */}
         <FooterColumn title="Inner Pages">
           {innerPages.map((l) => (
-            <FooterLink key={l.href} {...l} />
+            <FooterLink key={l.label} {...l} />
           ))}
         </FooterColumn>
 
         {/* Other */}
         <FooterColumn title="Other">
           {otherLinks.map((l) => (
-            <FooterLink key={l.href} {...l} />
+            <FooterLink key={l.label} {...l} />
           ))}
         </FooterColumn>
 
         {/* Important */}
         <FooterColumn title="Important">
           {importantLinks.map((l) => (
-            <FooterLink key={l.href} {...l} />
+            <FooterLink key={l.label} {...l} />
           ))}
         </FooterColumn>
 

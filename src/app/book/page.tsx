@@ -19,7 +19,10 @@ import {
   startOfDay,
 } from "date-fns";
 import { waLink } from "@/lib/site";
-import { rides } from "@/lib/rides";
+import { rides as defaultRides } from "@/lib/rides";
+import { useRidesStore } from "@/stores/rides-store";
+import { useAuthStore } from "@/stores/auth-store";
+import { toast } from "sonner";
 
 const steps = [
   { id: "date", label: "Date" },
@@ -40,6 +43,11 @@ export default function BookPage() {
   const [currentStep, setCurrentStep] = useState("date");
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(new Date()));
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const { user, addBooking } = useAuthStore();
+  const { rides: dynamicRides, fetchRides } = useRidesStore();
+  const [mounted, setMounted] = useState(false);
+
+  const rides = mounted ? dynamicRides : defaultRides;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -49,6 +57,25 @@ export default function BookPage() {
     guests: "",
     message: "",
   });
+
+  const [estimateId, setEstimateId] = useState<number>(100000);
+
+  useEffect(() => {
+    setMounted(true);
+    setEstimateId(Math.floor(100000 + Math.random() * 900000));
+    fetchRides();
+  }, [fetchRides]);
+
+  // Prefill details from auth session
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.name,
+        phone: user.phone,
+      }));
+    }
+  }, [user]);
 
   const bookingType = "rental";
 
@@ -67,26 +94,34 @@ export default function BookPage() {
       const rideParam = params.get("ride");
       
       if (rideParam) {
-        setRentalData((prev) => ({
-          ...prev,
-          selectedRides: [rideParam],
-        }));
+        setTimeout(() => {
+          setRentalData((prev) => ({
+            ...prev,
+            selectedRides: [rideParam],
+          }));
+        }, 0);
       } else if (pkg) {
         if (pkg === "mela-carnival") {
-          setRentalData((prev) => ({
-            ...prev,
-            selectedRides: ["striker", "sky-scrambler", "wave-pool", "roller-coaster", "bumper-cars"],
-          }));
+          setTimeout(() => {
+            setRentalData((prev) => ({
+              ...prev,
+              selectedRides: ["striker", "sky-scrambler", "wave-pool", "roller-coaster", "bumper-cars"],
+            }));
+          }, 0);
         } else if (pkg === "royal-wedding") {
-          setRentalData((prev) => ({
-            ...prev,
-            selectedRides: ["sky-scrambler", "bumper-cars", "sky-cycling"],
-          }));
+          setTimeout(() => {
+            setRentalData((prev) => ({
+              ...prev,
+              selectedRides: ["sky-scrambler", "bumper-cars", "sky-cycling"],
+            }));
+          }, 0);
         } else if (pkg === "corporate-school") {
-          setRentalData((prev) => ({
-            ...prev,
-            selectedRides: ["lazy-river", "bumper-cars", "zip-line"],
-          }));
+          setTimeout(() => {
+            setRentalData((prev) => ({
+              ...prev,
+              selectedRides: ["lazy-river", "bumper-cars", "zip-line"],
+            }));
+          }, 0);
         }
       }
     }
@@ -114,16 +149,10 @@ export default function BookPage() {
   const startingDayIndex = getDay(monthStart);
 
   // Ride rental daily pricing mapping
-  const rideRentalPrices: Record<string, number> = {
-    "striker": 80000,
-    "sky-scrambler": 80000,
-    "wave-pool": 50000,
-    "roller-coaster": 60000,
-    "bumper-cars": 30000,
-    "zip-line": 40000,
-    "lazy-river": 30000,
-    "sky-cycling": 35000,
-  };
+  const rideRentalPrices = rides.reduce((acc, r) => {
+    acc[r.slug] = r.pricePaise / 100;
+    return acc;
+  }, {} as Record<string, number>);
 
   // Calculation helper
   const getInvoice = () => {
@@ -225,6 +254,21 @@ export default function BookPage() {
     if (formData.message) {
       msg += `\n\n*Additional Details:* ${formData.message}`;
     }
+
+    // Save booking to global dashboard
+    addBooking({
+      date: selectedDate ? selectedDate.toISOString() : new Date().toISOString(),
+      eventType: formData.eventType || "Event Setup",
+      guests: parseInt(formData.guests) || 1,
+      selectedRides: rentalData.selectedRides,
+      distanceSlab: rentalData.distanceSlab,
+      totalPrice: invoice.total,
+      userName: formData.name,
+      userEmail: user?.email || "guest@naazamusement.com",
+      userPhone: formData.phone,
+      status: "Confirmed",
+    });
+    toast.success("Booking registered in your account dashboard!");
 
     window.open(waLink(msg), "_blank");
     // Move to final billing/confirmation step just to show a success message
@@ -724,7 +768,7 @@ export default function BookPage() {
                     {/* Barcode & Perforation Cut simulation */}
                     <div className="mt-8 border-t border-white/5 pt-8 flex flex-col items-center justify-center gap-1 opacity-20 select-none">
                       <div className="font-mono text-xl tracking-[4px]">||| ||| | || ||| | ||</div>
-                      <span className="font-mono text-[9px] uppercase tracking-wider">EST-ID: NZ-{Math.floor(100000 + Math.random() * 900000)}</span>
+                      <span className="font-mono text-[9px] uppercase tracking-wider">EST-ID: NZ-{estimateId}</span>
                     </div>
                   </div>
 

@@ -6,14 +6,26 @@ import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
 import { motion } from "motion/react";
 import { ArrowLeft, Ticket, Calendar, ShieldCheck, Heart, User, Hourglass, Award, Sparkles } from "lucide-react";
-import { rideBySlug, formatPrice } from "@/lib/rides";
+import { rides as defaultRides, formatPrice } from "@/lib/rides";
+import { useRidesStore } from "@/stores/rides-store";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 export default function RideDetailClient({ slug }: { slug: string }) {
-  const ride = rideBySlug(slug);
+  const { rides: dynamicRides } = useRidesStore();
+  const [mounted, setMounted] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const activeRides = mounted ? dynamicRides : defaultRides;
+  const ride = activeRides.find((r) => r.slug === slug);
 
   if (!ride) {
     return (
@@ -143,7 +155,7 @@ export default function RideDetailClient({ slug }: { slug: string }) {
                 </h1>
                 
                 <p className="mt-4 font-geist text-sm md:text-base italic text-white/80 leading-relaxed border-l-2 border-accent-yellow pl-4">
-                  "{ride.tagline}"
+                  &ldquo;{ride.tagline}&rdquo;
                 </p>
 
                 <p className="mt-6 text-sm md:text-base leading-relaxed text-white/60">

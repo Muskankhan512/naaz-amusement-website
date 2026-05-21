@@ -107,7 +107,7 @@ export default function KhaoGaliPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
                 <div className="absolute bottom-6 left-6 z-10">
-                  <span className="font-display text-2xl text-white">Rajasthan's Culinary Center</span>
+                  <span className="font-display text-2xl text-white">Rajasthan&apos;s Culinary Center</span>
                   <span className="block text-xs text-accent-yellow mt-1">Stalls operational all days of the week</span>
                 </div>
               </div>
