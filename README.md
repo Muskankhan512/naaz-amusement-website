@@ -6,9 +6,18 @@ Set these locally and in your deployment environment:
 
 ```bash
 MONGODB_URI=mongodb://127.0.0.1:27017/naaz_amusement
+CLOUDINARY_URL=cloudinary://<api-key>:<api-secret>@<cloud-name>
 ```
 
 Admin login is fixed in code as `kushalmahawar71@gmail.com`; use that account's existing password.
+
+Cloudinary can also be configured with separate variables:
+
+```bash
+CLOUDINARY_CLOUD_NAME=<cloud-name>
+CLOUDINARY_API_KEY=<api-key>
+CLOUDINARY_API_SECRET=<api-secret>
+```
 
 ## Getting Started
 

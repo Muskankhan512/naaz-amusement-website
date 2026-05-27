@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { RefreshCw, Save } from "lucide-react";
 import { toast } from "sonner";
 import { useContentStore } from "@/stores/content-store";
+import { CloudinaryUploadButton } from "@/components/admin/cloudinary-upload-button";
 import type { ActiveMela, EventPackage, HomeContent } from "@/lib/content";
 
 type ContentEditorSection = keyof HomeContent;
@@ -333,48 +334,66 @@ export function ContentManager() {
             {draft.hero.stats.map((stat, index) => (
               <div
                 key={`${stat.label}-${index}`}
-                className="grid gap-3 md:grid-cols-[120px_120px_1fr_auto]"
+                className="rounded-xl border border-white/10 p-4"
               >
-                <input
-                  type="number"
-                  className={inputClass}
-                  value={stat.endValue}
-                  onChange={(event) => {
-                    const next = [...draft.hero.stats];
-                    next[index] = {
-                      ...stat,
-                      endValue: Number(event.target.value),
-                    };
-                    updateSection("hero", { ...draft.hero, stats: next });
-                  }}
-                />
-                <input
-                  className={inputClass}
-                  value={stat.suffix}
-                  onChange={(event) => {
-                    const next = [...draft.hero.stats];
-                    next[index] = { ...stat, suffix: event.target.value };
-                    updateSection("hero", { ...draft.hero, stats: next });
-                  }}
-                />
-                <input
-                  className={inputClass}
-                  value={stat.label}
-                  onChange={(event) => {
-                    const next = [...draft.hero.stats];
-                    next[index] = { ...stat, label: event.target.value };
-                    updateSection("hero", { ...draft.hero, stats: next });
-                  }}
-                />
-                <button
-                  onClick={() => {
-                    const next = draft.hero.stats.filter((_, i) => i !== index);
-                    updateSection("hero", { ...draft.hero, stats: next });
-                  }}
-                  className="text-xs text-red-300"
-                >
-                  Remove
-                </button>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-white">{stat.label || "New Stat"}</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = draft.hero.stats.filter((_, i) => i !== index);
+                      updateSection("hero", { ...draft.hero, stats: next });
+                    }}
+                    className="text-xs text-red-300"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <div className="mt-4 grid gap-3 md:grid-cols-3">
+                  <div>
+                    <label className={labelClass}>Value</label>
+                    <input
+                      type="number"
+                      className={inputClass}
+                      value={stat.endValue}
+                      onChange={(event) => {
+                        const next = [...draft.hero.stats];
+                        next[index] = {
+                          ...stat,
+                          endValue: Number(event.target.value),
+                        };
+                        updateSection("hero", { ...draft.hero, stats: next });
+                      }}
+                      placeholder="Value"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Suffix</label>
+                    <input
+                      className={inputClass}
+                      value={stat.suffix}
+                      onChange={(event) => {
+                        const next = [...draft.hero.stats];
+                        next[index] = { ...stat, suffix: event.target.value };
+                        updateSection("hero", { ...draft.hero, stats: next });
+                      }}
+                      placeholder="Suffix"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Label</label>
+                    <input
+                      className={inputClass}
+                      value={stat.label}
+                      onChange={(event) => {
+                        const next = [...draft.hero.stats];
+                        next[index] = { ...stat, label: event.target.value };
+                        updateSection("hero", { ...draft.hero, stats: next });
+                      }}
+                      placeholder="Label"
+                    />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -452,46 +471,68 @@ export function ContentManager() {
                   </button>
                 </div>
                 <div className="mt-4 grid gap-3 md:grid-cols-4">
-                  <input
-                    className={inputClass}
-                    value={exp.num}
-                    onChange={(event) => {
-                      const next = [...draft.portfolio.experiences];
-                      next[index] = { ...exp, num: event.target.value };
-                      updateSection("portfolio", { ...draft.portfolio, experiences: next });
-                    }}
-                    placeholder="01"
-                  />
-                  <input
-                    className={inputClass}
-                    value={exp.title}
-                    onChange={(event) => {
-                      const next = [...draft.portfolio.experiences];
-                      next[index] = { ...exp, title: event.target.value };
-                      updateSection("portfolio", { ...draft.portfolio, experiences: next });
-                    }}
-                    placeholder="Title"
-                  />
-                  <input
-                    className={inputClass}
-                    value={exp.tagline}
-                    onChange={(event) => {
-                      const next = [...draft.portfolio.experiences];
-                      next[index] = { ...exp, tagline: event.target.value };
-                      updateSection("portfolio", { ...draft.portfolio, experiences: next });
-                    }}
-                    placeholder="Tagline"
-                  />
-                  <input
-                    className={inputClass}
-                    value={exp.image}
-                    onChange={(event) => {
-                      const next = [...draft.portfolio.experiences];
-                      next[index] = { ...exp, image: event.target.value };
-                      updateSection("portfolio", { ...draft.portfolio, experiences: next });
-                    }}
-                    placeholder="/image.jpg"
-                  />
+                  <div>
+                    <label className={labelClass}>Number</label>
+                    <input
+                      className={inputClass}
+                      value={exp.num}
+                      onChange={(event) => {
+                        const next = [...draft.portfolio.experiences];
+                        next[index] = { ...exp, num: event.target.value };
+                        updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                      }}
+                      placeholder="01"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Title</label>
+                    <input
+                      className={inputClass}
+                      value={exp.title}
+                      onChange={(event) => {
+                        const next = [...draft.portfolio.experiences];
+                        next[index] = { ...exp, title: event.target.value };
+                        updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                      }}
+                      placeholder="Title"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Tagline</label>
+                    <input
+                      className={inputClass}
+                      value={exp.tagline}
+                      onChange={(event) => {
+                        const next = [...draft.portfolio.experiences];
+                        next[index] = { ...exp, tagline: event.target.value };
+                        updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                      }}
+                      placeholder="Tagline"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Image</label>
+                    <div className="flex min-w-0 gap-2">
+                      <input
+                        className={inputClass}
+                        value={exp.image}
+                        onChange={(event) => {
+                          const next = [...draft.portfolio.experiences];
+                          next[index] = { ...exp, image: event.target.value };
+                          updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                        }}
+                        placeholder="/image.jpg"
+                      />
+                      <CloudinaryUploadButton
+                        folder="naaz-amusement/portfolio"
+                        onUploaded={(url) => {
+                          const next = [...draft.portfolio.experiences];
+                          next[index] = { ...exp, image: url };
+                          updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -571,56 +612,81 @@ export function ContentManager() {
                   </button>
                 </div>
                 <div className="mt-4 grid gap-3 md:grid-cols-5">
-                  <input
-                    className={inputClass}
-                    value={step.num}
-                    onChange={(event) => {
-                      const next = [...draft.planVisit.steps];
-                      next[index] = { ...step, num: event.target.value };
-                      updateSection("planVisit", { ...draft.planVisit, steps: next });
-                    }}
-                    placeholder="01"
-                  />
-                  <input
-                    className={inputClass}
-                    value={step.title}
-                    onChange={(event) => {
-                      const next = [...draft.planVisit.steps];
-                      next[index] = { ...step, title: event.target.value };
-                      updateSection("planVisit", { ...draft.planVisit, steps: next });
-                    }}
-                    placeholder="Title"
-                  />
-                  <input
-                    className={inputClass}
-                    value={step.image}
-                    onChange={(event) => {
-                      const next = [...draft.planVisit.steps];
-                      next[index] = { ...step, image: event.target.value };
-                      updateSection("planVisit", { ...draft.planVisit, steps: next });
-                    }}
-                    placeholder="/image.jpg"
-                  />
-                  <input
-                    className={inputClass}
-                    value={step.numColor}
-                    onChange={(event) => {
-                      const next = [...draft.planVisit.steps];
-                      next[index] = { ...step, numColor: event.target.value };
-                      updateSection("planVisit", { ...draft.planVisit, steps: next });
-                    }}
-                    placeholder="text-accent-yellow"
-                  />
-                  <input
-                    className={inputClass}
-                    value={step.body}
-                    onChange={(event) => {
-                      const next = [...draft.planVisit.steps];
-                      next[index] = { ...step, body: event.target.value };
-                      updateSection("planVisit", { ...draft.planVisit, steps: next });
-                    }}
-                    placeholder="Body"
-                  />
+                  <div>
+                    <label className={labelClass}>Step Number</label>
+                    <input
+                      className={inputClass}
+                      value={step.num}
+                      onChange={(event) => {
+                        const next = [...draft.planVisit.steps];
+                        next[index] = { ...step, num: event.target.value };
+                        updateSection("planVisit", { ...draft.planVisit, steps: next });
+                      }}
+                      placeholder="01"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Title</label>
+                    <input
+                      className={inputClass}
+                      value={step.title}
+                      onChange={(event) => {
+                        const next = [...draft.planVisit.steps];
+                        next[index] = { ...step, title: event.target.value };
+                        updateSection("planVisit", { ...draft.planVisit, steps: next });
+                      }}
+                      placeholder="Title"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Image</label>
+                    <div className="flex min-w-0 gap-2">
+                      <input
+                        className={inputClass}
+                        value={step.image}
+                        onChange={(event) => {
+                          const next = [...draft.planVisit.steps];
+                          next[index] = { ...step, image: event.target.value };
+                          updateSection("planVisit", { ...draft.planVisit, steps: next });
+                        }}
+                        placeholder="/image.jpg"
+                      />
+                      <CloudinaryUploadButton
+                        folder="naaz-amusement/plan-visit"
+                        onUploaded={(url) => {
+                          const next = [...draft.planVisit.steps];
+                          next[index] = { ...step, image: url };
+                          updateSection("planVisit", { ...draft.planVisit, steps: next });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Number Color Class</label>
+                    <input
+                      className={inputClass}
+                      value={step.numColor}
+                      onChange={(event) => {
+                        const next = [...draft.planVisit.steps];
+                        next[index] = { ...step, numColor: event.target.value };
+                        updateSection("planVisit", { ...draft.planVisit, steps: next });
+                      }}
+                      placeholder="text-accent-yellow"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Body Copy</label>
+                    <input
+                      className={inputClass}
+                      value={step.body}
+                      onChange={(event) => {
+                        const next = [...draft.planVisit.steps];
+                        next[index] = { ...step, body: event.target.value };
+                        updateSection("planVisit", { ...draft.planVisit, steps: next });
+                      }}
+                      placeholder="Body"
+                    />
+                  </div>
                 </div>
               </div>
             ))}
@@ -812,59 +878,80 @@ export function ContentManager() {
               + Add City
             </button>
           </div>
-          <div className="mt-3 space-y-3">
+          <div className="mt-3 space-y-4">
             {draft.activeLocations.presetCities.map((city, index) => (
-              <div key={`${city.name}-${index}`} className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_auto]">
-                <input
-                  className={inputClass}
-                  value={city.name}
-                  onChange={(event) => {
-                    const updated = [...draft.activeLocations.presetCities];
-                    updated[index] = { ...city, name: event.target.value };
-                    updateSection("activeLocations", {
-                      ...draft.activeLocations,
-                      presetCities: updated,
-                    });
-                  }}
-                />
-                <input
-                  type="number"
-                  className={inputClass}
-                  value={city.lat}
-                  onChange={(event) => {
-                    const updated = [...draft.activeLocations.presetCities];
-                    updated[index] = { ...city, lat: Number(event.target.value) };
-                    updateSection("activeLocations", {
-                      ...draft.activeLocations,
-                      presetCities: updated,
-                    });
-                  }}
-                />
-                <input
-                  type="number"
-                  className={inputClass}
-                  value={city.lng}
-                  onChange={(event) => {
-                    const updated = [...draft.activeLocations.presetCities];
-                    updated[index] = { ...city, lng: Number(event.target.value) };
-                    updateSection("activeLocations", {
-                      ...draft.activeLocations,
-                      presetCities: updated,
-                    });
-                  }}
-                />
-                <button
-                  onClick={() => {
-                    const updated = draft.activeLocations.presetCities.filter((_, i) => i !== index);
-                    updateSection("activeLocations", {
-                      ...draft.activeLocations,
-                      presetCities: updated,
-                    });
-                  }}
-                  className="text-xs text-red-300"
-                >
-                  Remove
-                </button>
+              <div
+                key={`${city.name}-${index}`}
+                className="rounded-xl border border-white/10 p-4"
+              >
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-white">{city.name || "New City"}</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updated = draft.activeLocations.presetCities.filter((_, i) => i !== index);
+                      updateSection("activeLocations", {
+                        ...draft.activeLocations,
+                        presetCities: updated,
+                      });
+                    }}
+                    className="text-xs text-red-300"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <div className="mt-4 grid gap-3 md:grid-cols-3">
+                  <div>
+                    <label className={labelClass}>City Name</label>
+                    <input
+                      className={inputClass}
+                      value={city.name}
+                      onChange={(event) => {
+                        const updated = [...draft.activeLocations.presetCities];
+                        updated[index] = { ...city, name: event.target.value };
+                        updateSection("activeLocations", {
+                          ...draft.activeLocations,
+                          presetCities: updated,
+                        });
+                      }}
+                      placeholder="City Name"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Latitude</label>
+                    <input
+                      type="number"
+                      className={inputClass}
+                      value={city.lat}
+                      onChange={(event) => {
+                        const updated = [...draft.activeLocations.presetCities];
+                        updated[index] = { ...city, lat: Number(event.target.value) };
+                        updateSection("activeLocations", {
+                          ...draft.activeLocations,
+                          presetCities: updated,
+                        });
+                      }}
+                      placeholder="Latitude"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Longitude</label>
+                    <input
+                      type="number"
+                      className={inputClass}
+                      value={city.lng}
+                      onChange={(event) => {
+                        const updated = [...draft.activeLocations.presetCities];
+                        updated[index] = { ...city, lng: Number(event.target.value) };
+                        updateSection("activeLocations", {
+                          ...draft.activeLocations,
+                          presetCities: updated,
+                        });
+                      }}
+                      placeholder="Longitude"
+                    />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -946,77 +1033,106 @@ export function ContentManager() {
                   </button>
                 </div>
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
-                  <input
-                    className={inputClass}
-                    value={review.name}
-                    onChange={(event) => {
-                      const updated = [...draft.testimonials.reviews];
-                      updated[index] = { ...review, name: event.target.value };
-                      updateSection("testimonials", {
-                        ...draft.testimonials,
-                        reviews: updated,
-                      });
-                    }}
-                  />
-                  <input
-                    className={inputClass}
-                    value={review.image}
-                    onChange={(event) => {
-                      const updated = [...draft.testimonials.reviews];
-                      updated[index] = { ...review, image: event.target.value };
-                      updateSection("testimonials", {
-                        ...draft.testimonials,
-                        reviews: updated,
-                      });
-                    }}
-                    placeholder="/image.jpg"
-                  />
+                  <div>
+                    <label className={labelClass}>Guest Name</label>
+                    <input
+                      className={inputClass}
+                      value={review.name}
+                      onChange={(event) => {
+                        const updated = [...draft.testimonials.reviews];
+                        updated[index] = { ...review, name: event.target.value };
+                        updateSection("testimonials", {
+                          ...draft.testimonials,
+                          reviews: updated,
+                        });
+                      }}
+                      placeholder="Guest Name"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Guest Image</label>
+                    <div className="flex min-w-0 gap-2">
+                      <input
+                        className={inputClass}
+                        value={review.image}
+                        onChange={(event) => {
+                          const updated = [...draft.testimonials.reviews];
+                          updated[index] = { ...review, image: event.target.value };
+                          updateSection("testimonials", {
+                            ...draft.testimonials,
+                            reviews: updated,
+                          });
+                        }}
+                        placeholder="/image.jpg"
+                      />
+                      <CloudinaryUploadButton
+                        folder="naaz-amusement/testimonials"
+                        onUploaded={(url) => {
+                          const updated = [...draft.testimonials.reviews];
+                          updated[index] = { ...review, image: url };
+                          updateSection("testimonials", {
+                            ...draft.testimonials,
+                            reviews: updated,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div className="mt-3 grid gap-3 md:grid-cols-3">
-                  <input
-                    className={inputClass}
-                    value={review.quote}
-                    onChange={(event) => {
-                      const updated = [...draft.testimonials.reviews];
-                      updated[index] = { ...review, quote: event.target.value };
-                      updateSection("testimonials", {
-                        ...draft.testimonials,
-                        reviews: updated,
-                      });
-                    }}
-                    placeholder="Quote"
-                  />
-                  <input
-                    type="number"
-                    className={inputClass}
-                    value={review.rating}
-                    onChange={(event) => {
-                      const updated = [...draft.testimonials.reviews];
-                      updated[index] = {
-                        ...review,
-                        rating: Number(event.target.value),
-                      };
-                      updateSection("testimonials", {
-                        ...draft.testimonials,
-                        reviews: updated,
-                      });
-                    }}
-                    min={1}
-                    max={5}
-                  />
-                  <input
-                    className={inputClass}
-                    value={review.narrative}
-                    onChange={(event) => {
-                      const updated = [...draft.testimonials.reviews];
-                      updated[index] = { ...review, narrative: event.target.value };
-                      updateSection("testimonials", {
-                        ...draft.testimonials,
-                        reviews: updated,
-                      });
-                    }}
-                    placeholder="Narrative"
-                  />
+                  <div>
+                    <label className={labelClass}>Quote</label>
+                    <input
+                      className={inputClass}
+                      value={review.quote}
+                      onChange={(event) => {
+                        const updated = [...draft.testimonials.reviews];
+                        updated[index] = { ...review, quote: event.target.value };
+                        updateSection("testimonials", {
+                          ...draft.testimonials,
+                          reviews: updated,
+                        });
+                      }}
+                      placeholder="Quote"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Rating (1-5)</label>
+                    <input
+                      type="number"
+                      className={inputClass}
+                      value={review.rating}
+                      onChange={(event) => {
+                        const updated = [...draft.testimonials.reviews];
+                        updated[index] = {
+                          ...review,
+                          rating: Number(event.target.value),
+                        };
+                        updateSection("testimonials", {
+                          ...draft.testimonials,
+                          reviews: updated,
+                        });
+                      }}
+                      min={1}
+                      max={5}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Narrative</label>
+                    <input
+                      className={inputClass}
+                      value={review.narrative}
+                      onChange={(event) => {
+                        const updated = [...draft.testimonials.reviews];
+                        updated[index] = { ...review, narrative: event.target.value };
+                        updateSection("testimonials", {
+                          ...draft.testimonials,
+                          reviews: updated,
+                        });
+                      }}
+                      placeholder="Narrative"
+                    />
+                  </div>
                 </div>
               </div>
             ))}
@@ -1113,43 +1229,70 @@ export function ContentManager() {
                   </button>
                 </div>
               </div>
-              <div className="mt-4 space-y-3">
+              <div className="mt-4 space-y-4">
                 {row.map((image, imageIndex) => (
-                  <div key={`${image.src}-${imageIndex}`} className="grid gap-3 md:grid-cols-[1fr_1fr_auto]">
-                    <input
-                      className={inputClass}
-                      value={image.src}
-                      onChange={(event) => {
-                        const updated = [...draft.gallery.rows];
-                        updated[rowIndex] = updated[rowIndex].map((item, idx) =>
-                          idx === imageIndex ? { ...item, src: event.target.value } : item
-                        );
-                        updateSection("gallery", { ...draft.gallery, rows: updated });
-                      }}
-                      placeholder="Image URL"
-                    />
-                    <input
-                      className={inputClass}
-                      value={image.alt}
-                      onChange={(event) => {
-                        const updated = [...draft.gallery.rows];
-                        updated[rowIndex] = updated[rowIndex].map((item, idx) =>
-                          idx === imageIndex ? { ...item, alt: event.target.value } : item
-                        );
-                        updateSection("gallery", { ...draft.gallery, rows: updated });
-                      }}
-                      placeholder="Alt text"
-                    />
-                    <button
-                      onClick={() => {
-                        const updated = [...draft.gallery.rows];
-                        updated[rowIndex] = updated[rowIndex].filter((_, idx) => idx !== imageIndex);
-                        updateSection("gallery", { ...draft.gallery, rows: updated });
-                      }}
-                      className="text-xs text-red-300"
-                    >
-                      Remove
-                    </button>
+                  <div
+                    key={`${image.src}-${imageIndex}`}
+                    className="rounded-lg border border-white/5 bg-white/[0.01] p-3"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-white/50">Image {imageIndex + 1}</p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = [...draft.gallery.rows];
+                          updated[rowIndex] = updated[rowIndex].filter((_, idx) => idx !== imageIndex);
+                          updateSection("gallery", { ...draft.gallery, rows: updated });
+                        }}
+                        className="text-xs text-red-300"
+                      >
+                        Remove Image
+                      </button>
+                    </div>
+                    <div className="mt-3 grid gap-3 md:grid-cols-2">
+                      <div>
+                        <label className={labelClass}>Image URL</label>
+                        <div className="flex min-w-0 gap-2">
+                          <input
+                            className={inputClass}
+                            value={image.src}
+                            onChange={(event) => {
+                              const updated = [...draft.gallery.rows];
+                              updated[rowIndex] = updated[rowIndex].map((item, idx) =>
+                                idx === imageIndex ? { ...item, src: event.target.value } : item
+                              );
+                              updateSection("gallery", { ...draft.gallery, rows: updated });
+                            }}
+                            placeholder="Image URL"
+                          />
+                          <CloudinaryUploadButton
+                            folder="naaz-amusement/gallery"
+                            onUploaded={(url) => {
+                              const updated = [...draft.gallery.rows];
+                              updated[rowIndex] = updated[rowIndex].map((item, idx) =>
+                                idx === imageIndex ? { ...item, src: url } : item
+                              );
+                              updateSection("gallery", { ...draft.gallery, rows: updated });
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className={labelClass}>Alt Text (SEO)</label>
+                        <input
+                          className={inputClass}
+                          value={image.alt}
+                          onChange={(event) => {
+                            const updated = [...draft.gallery.rows];
+                            updated[rowIndex] = updated[rowIndex].map((item, idx) =>
+                              idx === imageIndex ? { ...item, alt: event.target.value } : item
+                            );
+                            updateSection("gallery", { ...draft.gallery, rows: updated });
+                          }}
+                          placeholder="Alt text"
+                        />
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1461,43 +1604,58 @@ export function ContentManager() {
                   Remove Row
                 </button>
               </div>
-              <div className="mt-4 space-y-3">
+              <div className="mt-4 space-y-4">
                 {row.map((item, itemIndex) => (
-                  <div key={`${item.label}-${itemIndex}`} className="grid gap-3 md:grid-cols-[1fr_1fr_auto]">
-                    <input
-                      className={inputClass}
-                      value={item.label}
-                      onChange={(event) => {
-                        const updated = [...draft.facilities.rows];
-                        updated[rowIndex] = updated[rowIndex].map((cell, idx) =>
-                          idx === itemIndex ? { ...cell, label: event.target.value } : cell
-                        );
-                        updateSection("facilities", { ...draft.facilities, rows: updated });
-                      }}
-                      placeholder="Label"
-                    />
-                    <input
-                      className={inputClass}
-                      value={item.icon}
-                      onChange={(event) => {
-                        const updated = [...draft.facilities.rows];
-                        updated[rowIndex] = updated[rowIndex].map((cell, idx) =>
-                          idx === itemIndex ? { ...cell, icon: event.target.value } : cell
-                        );
-                        updateSection("facilities", { ...draft.facilities, rows: updated });
-                      }}
-                      placeholder="Emoji"
-                    />
-                    <button
-                      onClick={() => {
-                        const updated = [...draft.facilities.rows];
-                        updated[rowIndex] = updated[rowIndex].filter((_, idx) => idx !== itemIndex);
-                        updateSection("facilities", { ...draft.facilities, rows: updated });
-                      }}
-                      className="text-xs text-red-300"
-                    >
-                      Remove
-                    </button>
+                  <div
+                    key={`${item.label}-${itemIndex}`}
+                    className="rounded-lg border border-white/5 bg-white/[0.01] p-3"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-white/50">Item {itemIndex + 1}</p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = [...draft.facilities.rows];
+                          updated[rowIndex] = updated[rowIndex].filter((_, idx) => idx !== itemIndex);
+                          updateSection("facilities", { ...draft.facilities, rows: updated });
+                        }}
+                        className="text-xs text-red-300"
+                      >
+                        Remove Item
+                      </button>
+                    </div>
+                    <div className="mt-3 grid gap-3 md:grid-cols-2">
+                      <div>
+                        <label className={labelClass}>Facility Label</label>
+                        <input
+                          className={inputClass}
+                          value={item.label}
+                          onChange={(event) => {
+                            const updated = [...draft.facilities.rows];
+                            updated[rowIndex] = updated[rowIndex].map((cell, idx) =>
+                              idx === itemIndex ? { ...cell, label: event.target.value } : cell
+                            );
+                            updateSection("facilities", { ...draft.facilities, rows: updated });
+                          }}
+                          placeholder="Label"
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Emoji / Icon</label>
+                        <input
+                          className={inputClass}
+                          value={item.icon}
+                          onChange={(event) => {
+                            const updated = [...draft.facilities.rows];
+                            updated[rowIndex] = updated[rowIndex].map((cell, idx) =>
+                              idx === itemIndex ? { ...cell, icon: event.target.value } : cell
+                            );
+                            updateSection("facilities", { ...draft.facilities, rows: updated });
+                          }}
+                          placeholder="Emoji"
+                        />
+                      </div>
+                    </div>
                   </div>
                 ))}
                 <button
@@ -1586,26 +1744,32 @@ export function ContentManager() {
                   </button>
                 </div>
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
-                  <input
-                    className={inputClass}
-                    value={item.q}
-                    onChange={(event) => {
-                      const updated = [...draft.faq.items];
-                      updated[index] = { ...item, q: event.target.value };
-                      updateSection("faq", { ...draft.faq, items: updated });
-                    }}
-                    placeholder="Question"
-                  />
-                  <input
-                    className={inputClass}
-                    value={item.a}
-                    onChange={(event) => {
-                      const updated = [...draft.faq.items];
-                      updated[index] = { ...item, a: event.target.value };
-                      updateSection("faq", { ...draft.faq, items: updated });
-                    }}
-                    placeholder="Answer"
-                  />
+                  <div>
+                    <label className={labelClass}>Question</label>
+                    <input
+                      className={inputClass}
+                      value={item.q}
+                      onChange={(event) => {
+                        const updated = [...draft.faq.items];
+                        updated[index] = { ...item, q: event.target.value };
+                        updateSection("faq", { ...draft.faq, items: updated });
+                      }}
+                      placeholder="Question"
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Answer</label>
+                    <textarea
+                      className={`${inputClass} min-h-[60px]`}
+                      value={item.a}
+                      onChange={(event) => {
+                        const updated = [...draft.faq.items];
+                        updated[index] = { ...item, a: event.target.value };
+                        updateSection("faq", { ...draft.faq, items: updated });
+                      }}
+                      placeholder="Answer"
+                    />
+                  </div>
                 </div>
               </div>
             ))}
@@ -1642,82 +1806,115 @@ function LocationEditor({
         </button>
       </div>
       <div className="mt-4 grid gap-3 md:grid-cols-2">
-        <input
-          className={inputClass}
-          value={location.id}
-          onChange={(event) => onChange({ ...location, id: event.target.value })}
-          placeholder="id"
-        />
-        <input
-          className={inputClass}
-          value={location.name}
-          onChange={(event) => onChange({ ...location, name: event.target.value })}
-          placeholder="Name"
-        />
-        <input
-          className={inputClass}
-          value={location.city}
-          onChange={(event) => onChange({ ...location, city: event.target.value })}
-          placeholder="City"
-        />
-        <input
-          className={inputClass}
-          value={location.venue}
-          onChange={(event) => onChange({ ...location, venue: event.target.value })}
-          placeholder="Venue"
-        />
-        <select
-          className={inputClass}
-          value={location.status}
-          onChange={(event) =>
-            onChange({ ...location, status: event.target.value as ActiveMela["status"] })
-          }
-        >
-          <option value="LIVE NOW">LIVE NOW</option>
-          <option value="UPCOMING">UPCOMING</option>
-        </select>
-        <input
-          className={inputClass}
-          value={location.dates}
-          onChange={(event) => onChange({ ...location, dates: event.target.value })}
-          placeholder="Dates"
-        />
-        <input
-          type="number"
-          className={inputClass}
-          value={location.lat}
-          onChange={(event) => onChange({ ...location, lat: Number(event.target.value) })}
-          placeholder="Latitude"
-        />
-        <input
-          type="number"
-          className={inputClass}
-          value={location.lng}
-          onChange={(event) => onChange({ ...location, lng: Number(event.target.value) })}
-          placeholder="Longitude"
-        />
-        <input
-          className={inputClass}
-          value={location.gmapsLink}
-          onChange={(event) => onChange({ ...location, gmapsLink: event.target.value })}
-          placeholder="Google Maps link"
-        />
+        <div>
+          <label className={labelClass}>Location ID</label>
+          <input
+            className={inputClass}
+            value={location.id}
+            onChange={(event) => onChange({ ...location, id: event.target.value })}
+            placeholder="id"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Name</label>
+          <input
+            className={inputClass}
+            value={location.name}
+            onChange={(event) => onChange({ ...location, name: event.target.value })}
+            placeholder="Name"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>City</label>
+          <input
+            className={inputClass}
+            value={location.city}
+            onChange={(event) => onChange({ ...location, city: event.target.value })}
+            placeholder="City"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Venue</label>
+          <input
+            className={inputClass}
+            value={location.venue}
+            onChange={(event) => onChange({ ...location, venue: event.target.value })}
+            placeholder="Venue"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Status</label>
+          <select
+            className={inputClass}
+            value={location.status}
+            onChange={(event) =>
+              onChange({ ...location, status: event.target.value as ActiveMela["status"] })
+            }
+          >
+            <option value="LIVE NOW">LIVE NOW</option>
+            <option value="UPCOMING">UPCOMING</option>
+          </select>
+        </div>
+        <div>
+          <label className={labelClass}>Dates</label>
+          <input
+            className={inputClass}
+            value={location.dates}
+            onChange={(event) => onChange({ ...location, dates: event.target.value })}
+            placeholder="Dates"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Latitude</label>
+          <input
+            type="number"
+            className={inputClass}
+            value={location.lat}
+            onChange={(event) => onChange({ ...location, lat: Number(event.target.value) })}
+            placeholder="Latitude"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Longitude</label>
+          <input
+            type="number"
+            className={inputClass}
+            value={location.lng}
+            onChange={(event) => onChange({ ...location, lng: Number(event.target.value) })}
+            placeholder="Longitude"
+          />
+        </div>
+        <div className="md:col-span-2">
+          <label className={labelClass}>Google Maps Link</label>
+          <input
+            className={inputClass}
+            value={location.gmapsLink}
+            onChange={(event) => onChange({ ...location, gmapsLink: event.target.value })}
+            placeholder="Google Maps link"
+          />
+        </div>
       </div>
       <div className="mt-4 grid gap-3">
-        <textarea
-          className={`${inputClass} min-h-[90px]`}
-          value={location.details}
-          onChange={(event) => onChange({ ...location, details: event.target.value })}
-          placeholder="Details"
-        />
-        <input
-          className={inputClass}
-          value={location.installedRides.join(", ")}
-          onChange={(event) =>
-            onChange({ ...location, installedRides: handleInstalledRides(event.target.value) })
-          }
-          placeholder="Installed ride slugs (comma separated)"
-        />
+        <div>
+          <label className={labelClass}>Details</label>
+          <textarea
+            className={`${inputClass} min-h-[90px]`}
+            value={location.details}
+            onChange={(event) => onChange({ ...location, details: event.target.value })}
+            placeholder="Details"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Installed Rides (Slugs, comma-separated)</label>
+          <input
+            className={inputClass}
+            value={location.installedRides.join(", ")}
+            onChange={(event) =>
+              onChange({ ...location, installedRides: handleInstalledRides(event.target.value) })
+            }
+            placeholder="Installed ride slugs (comma separated)"
+          />
+        </div>
       </div>
     </div>
   );
@@ -1741,81 +1938,114 @@ function PackageEditor({
         </button>
       </div>
       <div className="mt-4 grid gap-3 md:grid-cols-2">
-        <input
-          className={inputClass}
-          value={pkg.id}
-          onChange={(event) => onChange({ ...pkg, id: event.target.value })}
-          placeholder="id"
-        />
-        <input
-          className={inputClass}
-          value={pkg.name}
-          onChange={(event) => onChange({ ...pkg, name: event.target.value })}
-          placeholder="Name"
-        />
-        <input
-          className={inputClass}
-          value={pkg.price}
-          onChange={(event) => onChange({ ...pkg, price: event.target.value })}
-          placeholder="Price"
-        />
-        <input
-          className={inputClass}
-          value={pkg.duration}
-          onChange={(event) => onChange({ ...pkg, duration: event.target.value })}
-          placeholder="Duration"
-        />
-        <input
-          className={inputClass}
-          value={pkg.tagline}
-          onChange={(event) => onChange({ ...pkg, tagline: event.target.value })}
-          placeholder="Tagline"
-        />
-        <input
-          className={inputClass}
-          value={pkg.bestFor}
-          onChange={(event) => onChange({ ...pkg, bestFor: event.target.value })}
-          placeholder="Best for"
-        />
-        <input
-          className={inputClass}
-          value={pkg.themeColor}
-          onChange={(event) => onChange({ ...pkg, themeColor: event.target.value })}
-          placeholder="Theme classes"
-        />
-        <input
-          className={inputClass}
-          value={pkg.shadowColor}
-          onChange={(event) => onChange({ ...pkg, shadowColor: event.target.value })}
-          placeholder="Shadow color"
-        />
-        <input
-          className={inputClass}
-          value={pkg.highlightText || ""}
-          onChange={(event) => onChange({ ...pkg, highlightText: event.target.value })}
-          placeholder="Highlight text"
-        />
-        <select
-          className={inputClass}
-          value={pkg.iconKey}
-          onChange={(event) =>
-            onChange({ ...pkg, iconKey: event.target.value as EventPackage["iconKey"] })
-          }
-        >
-          <option value="zap">Zap</option>
-          <option value="shield-check">Shield Check</option>
-          <option value="users">Users</option>
-        </select>
+        <div>
+          <label className={labelClass}>Package ID</label>
+          <input
+            className={inputClass}
+            value={pkg.id}
+            onChange={(event) => onChange({ ...pkg, id: event.target.value })}
+            placeholder="id"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Package Name</label>
+          <input
+            className={inputClass}
+            value={pkg.name}
+            onChange={(event) => onChange({ ...pkg, name: event.target.value })}
+            placeholder="Name"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Price</label>
+          <input
+            className={inputClass}
+            value={pkg.price}
+            onChange={(event) => onChange({ ...pkg, price: event.target.value })}
+            placeholder="Price"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Duration</label>
+          <input
+            className={inputClass}
+            value={pkg.duration}
+            onChange={(event) => onChange({ ...pkg, duration: event.target.value })}
+            placeholder="Duration"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Tagline</label>
+          <input
+            className={inputClass}
+            value={pkg.tagline}
+            onChange={(event) => onChange({ ...pkg, tagline: event.target.value })}
+            placeholder="Tagline"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Best For</label>
+          <input
+            className={inputClass}
+            value={pkg.bestFor}
+            onChange={(event) => onChange({ ...pkg, bestFor: event.target.value })}
+            placeholder="Best for"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Theme Classes</label>
+          <input
+            className={inputClass}
+            value={pkg.themeColor}
+            onChange={(event) => onChange({ ...pkg, themeColor: event.target.value })}
+            placeholder="Theme classes"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Shadow Color</label>
+          <input
+            className={inputClass}
+            value={pkg.shadowColor}
+            onChange={(event) => onChange({ ...pkg, shadowColor: event.target.value })}
+            placeholder="Shadow color"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Highlight Text</label>
+          <input
+            className={inputClass}
+            value={pkg.highlightText || ""}
+            onChange={(event) => onChange({ ...pkg, highlightText: event.target.value })}
+            placeholder="Highlight text"
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Icon</label>
+          <select
+            className={inputClass}
+            value={pkg.iconKey}
+            onChange={(event) =>
+              onChange({ ...pkg, iconKey: event.target.value as EventPackage["iconKey"] })
+            }
+          >
+            <option value="zap">Zap</option>
+            <option value="shield-check">Shield Check</option>
+            <option value="users">Users</option>
+          </select>
+        </div>
       </div>
       <div className="mt-4 grid gap-3">
-        <textarea
-          className={`${inputClass} min-h-[100px]`}
-          value={pkg.features.join("\n")}
-          onChange={(event) =>
-            onChange({ ...pkg, features: splitLines(event.target.value) })
-          }
-          placeholder="Features (one per line)"
-        />
+        <div>
+          <label className={labelClass}>Features (One per line)</label>
+          <textarea
+            className={`${inputClass} min-h-[100px]`}
+            value={pkg.features.join("\n")}
+            onChange={(event) =>
+              onChange({ ...pkg, features: splitLines(event.target.value) })
+            }
+            placeholder="Features (one per line)"
+          />
+        </div>
       </div>
     </div>
   );
