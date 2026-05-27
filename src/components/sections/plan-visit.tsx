@@ -1,47 +1,17 @@
 "use client";
 
 import { motion } from "motion/react";
-
-type Step = {
-  num: string;
-  title: string;
-  body: string;
-  image: string;
-  numColor: string;
-};
-
-const steps: Step[] = [
-  {
-    num: "01",
-    title: "Plan Your Visit",
-    body: "Prepare for 8 hours of continuous enjoyment, with exhilarating ups and downs and fantastic thrills at every turn! Brace yourself to be blown away by the incredible rides that lie ahead.",
-    image: "/3.jpg",
-    numColor: "text-accent-yellow",
-  },
-  {
-    num: "02",
-    title: "Grab Your Discount Ticket",
-    body: "Save more on your tickets with our exclusive discount coupons! Apply a valid coupon code at checkout to enjoy special discounts on your bookings. Hurry, offers are limited!",
-    image: "/4.jpeg",
-    numColor: "text-orange-500",
-  },
-  {
-    num: "03",
-    title: "Review and Book Your Tickets",
-    body: "Secure your visit today with our seamless booking experience. Simply enter your details and proceed to checkout for instant confirmation.",
-    image: "/5.jpg",
-    numColor: "text-accent-yellow",
-  },
-  {
-    num: "04",
-    title: "Arrive and Create Memories",
-    body: "Ride everything, photograph everything, eat everything. Then come back next weekend because you missed that one ride your friend won't shut up about.",
-    image: "/6.jpg",
-    numColor: "text-orange-500",
-  },
-];
+import { useEffect } from "react";
+import { useContentStore } from "@/stores/content-store";
 
 export function PlanVisit() {
+  const { content, fetchContent } = useContentStore();
+  const planVisit = content.planVisit;
+
+  useEffect(() => {
+    fetchContent();
+  }, [fetchContent]);
+
   return (
     <section
       id="plan"
@@ -56,7 +26,7 @@ export function PlanVisit() {
           transition={{ duration: 0.5 }}
           className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
         >
-          Plan Your Visit
+          {planVisit.eyebrow}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -65,12 +35,12 @@ export function PlanVisit() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-4 sm:mt-6 max-w-3xl font-display text-[clamp(1.6rem,4.5vw,3rem)] leading-[1.17] tracking-[0.96px] text-white"
         >
-          Your fun is four steps away. That&rsquo;s it.
+          {planVisit.heading}
         </motion.h2>
 
         {/* Steps */}
         <div className="mt-10 sm:mt-16 space-y-14 sm:space-y-20 md:space-y-28">
-          {steps.map((step, i) => (
+          {planVisit.steps.map((step, i) => (
             <motion.div
               key={step.num}
               initial={{ opacity: 0, y: 40 }}

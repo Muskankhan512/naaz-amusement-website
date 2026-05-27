@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, Settings, X } from "lucide-react";
 import { site } from "@/lib/site";
 import { useAuthStore } from "@/stores/auth-store";
 
@@ -31,6 +31,7 @@ export function Header() {
   }, []);
 
   const loggedIn = hasHydrated && user;
+  const isAdmin = Boolean(loggedIn && user?.email.endsWith("@naazamusement.com"));
 
   const dynamicLinks = [
     ...navLinks,
@@ -103,6 +104,16 @@ export function Header() {
                 className="font-display text-[12px] sm:text-[14px] tracking-wide text-fk-offwhite hover:text-accent-yellow transition uppercase"
               >
                 {loggedIn ? `HI, ${user.name.split(" ")[0]}` : "SIGN IN"}
+              </Link>
+            )}
+
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="inline-flex items-center gap-2 rounded-full border border-accent-yellow/40 bg-white/5 px-3 py-1.5 font-display text-[11px] uppercase tracking-widest text-accent-yellow transition hover:border-accent-yellow hover:bg-accent-yellow hover:text-deep-purple"
+              >
+                <Settings className="h-3.5 w-3.5" />
+                Admin Panel
               </Link>
             )}
 

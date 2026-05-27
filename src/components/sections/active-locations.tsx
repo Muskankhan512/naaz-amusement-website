@@ -2,106 +2,24 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { MapPin, Navigation, Compass, Search, Phone, Calendar, ArrowRight, CheckCircle2 } from "lucide-react";
-import { rides } from "@/lib/rides";
+import { MapPin, Navigation, Compass, Phone, Calendar, ArrowRight, CheckCircle2 } from "lucide-react";
+import { rides as defaultRides } from "@/lib/rides";
 import Link from "next/link";
-
-type ActiveMela = {
-  id: string;
-  name: string;
-  city: string;
-  venue: string;
-  status: "LIVE NOW" | "UPCOMING";
-  dates: string;
-  details: string;
-  lat: number;
-  lng: number;
-  installedRides: string[]; // ride slugs
-  gmapsLink: string;
-};
-
-const locationsData: ActiveMela[] = [
-  {
-    id: "jaipur-mela",
-    name: "Jaipur Summer Mela",
-    city: "Jaipur",
-    venue: "Dussehra Ground, Mansarovar",
-    status: "LIVE NOW",
-    dates: "15 May – 15 Jun 2026",
-    details: "Rajasthan's largest summer carnival featuring signature Naaz high-thrill rides, specialized food zones, and shopping stalls.",
-    lat: 26.9124,
-    lng: 75.7873,
-    installedRides: ["striker", "sky-scrambler", "wave-pool", "roller-coaster"],
-    gmapsLink: "https://www.google.com/maps/search/?api=1&query=Dussehra+Ground+Mansarovar+Jaipur",
-  },
-  {
-    id: "ajmer-urs",
-    name: "Ajmer Grand Fair",
-    city: "Ajmer",
-    venue: "Kailash Puri Exhibition Ground",
-    status: "LIVE NOW",
-    dates: "18 May – 05 Jun 2026",
-    details: "High-attendance carnival setup surrounding the heart of Ajmer with full family-ride custom setups.",
-    lat: 26.4499,
-    lng: 74.6399,
-    installedRides: ["roller-coaster", "bumper-cars", "lazy-river"],
-    gmapsLink: "https://www.google.com/maps/search/?api=1&query=Kailash+Puri+Ajmer",
-  },
-  {
-    id: "kota-exhibition",
-    name: "Kota Industrial Fair",
-    city: "Kota",
-    venue: "Dussehra Maidan",
-    status: "UPCOMING",
-    dates: "01 Jun – 30 Jun 2026",
-    details: "Massive annual industrial fair featuring Naaz Amusement's giant setups and amusement ride installations.",
-    lat: 25.1805,
-    lng: 75.8300,
-    installedRides: ["striker", "wave-pool", "bumper-cars"],
-    gmapsLink: "https://www.google.com/maps/search/?api=1&query=Dussehra+Maidan+Kota",
-  },
-  {
-    id: "udaipur-carnival",
-    name: "Udaipur Lake Carnival",
-    city: "Udaipur",
-    venue: "Fateh Sagar Lakefront Grounds",
-    status: "LIVE NOW",
-    dates: "10 May – 30 May 2026",
-    details: "Beautiful lakeside amusement setup. Perfect evening hangout with high-thrill roller-coasters and classic rides.",
-    lat: 24.5854,
-    lng: 73.7125,
-    installedRides: ["roller-coaster", "sky-cycling", "bumper-cars"],
-    gmapsLink: "https://www.google.com/maps/search/?api=1&query=Fateh+Sagar+Lakefront+Udaipur",
-  },
-  {
-    id: "jodhpur-exhibition",
-    name: "Jodhpur Marwar Exhibition",
-    city: "Jodhpur",
-    venue: "Umaid Stadium Ground",
-    status: "LIVE NOW",
-    dates: "22 May – 20 Jun 2026",
-    details: "Desert-edge summer special exhibition showcasing heavy mechanical joyrides, water features, and giant wheels.",
-    lat: 26.2389,
-    lng: 73.0243,
-    installedRides: ["striker", "sky-scrambler", "zip-line"],
-    gmapsLink: "https://www.google.com/maps/search/?api=1&query=Umaid+Stadium+Jodhpur",
-  },
-];
-
-const PRESET_CITIES = [
-  { name: "Jaipur", lat: 26.9124, lng: 75.7873 },
-  { name: "Jodhpur", lat: 26.2389, lng: 73.0243 },
-  { name: "Udaipur", lat: 24.5854, lng: 73.7125 },
-  { name: "Kota", lat: 25.1805, lng: 75.8300 },
-  { name: "Ajmer", lat: 26.4499, lng: 74.6399 },
-  { name: "Bikaner", lat: 28.0194, lng: 73.3134 },
-  { name: "Alwar", lat: 27.5530, lng: 76.6346 },
-  { name: "Sikar", lat: 27.6119, lng: 75.1399 },
-];
+import { useRidesStore } from "@/stores/rides-store";
+import { useContentStore } from "@/stores/content-store";
+import type { ActiveMela, PresetCity } from "@/lib/content";
 
 export function ActiveLocations() {
+  const { content, fetchContent } = useContentStore();
+  const { rides: dynamicRides, fetchRides } = useRidesStore();
+  const section = content.activeLocations;
+  const locations = section.locations;
+  const presetCities = section.presetCities as PresetCity[];
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"map" | "find">("map");
-  const [selectedMela, setSelectedMela] = useState<ActiveMela>(locationsData[0]);
+  const [selectedMela, setSelectedMela] = useState<ActiveMela | null>(
+    locations[0] ?? null
+  );
   
   // Geolocation & calculation state
   const [userLocationName, setUserLocationName] = useState<string>("");
@@ -114,6 +32,25 @@ export function ActiveLocations() {
   const mapInstanceRef = useRef<any>(null);
   const markersRef = useRef<{ [key: string]: any }>({});
   const userMarkerRef = useRef<any>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    fetchRides();
+    fetchContent();
+  }, [fetchRides, fetchContent]);
+
+  useEffect(() => {
+    if (locations.length === 0) return;
+    setSelectedMela((current) => {
+      if (current && locations.find((loc) => loc.id === current.id)) {
+        return current;
+      }
+      return locations[0] ?? null;
+    });
+  }, [locations]);
+
+  const rides = mounted && dynamicRides.length > 0 ? dynamicRides : defaultRides;
+  const activeMela = selectedMela ?? locations[0] ?? null;
 
   // Dynamic Leaflet Loader
   useEffect(() => {
@@ -155,7 +92,7 @@ export function ActiveLocations() {
       }).addTo(map);
 
       // Setup custom glow markers for locations
-      locationsData.forEach((mela) => {
+      locations.forEach((mela) => {
         const isLive = mela.status === "LIVE NOW";
         const pinHtml = `
           <div class="relative flex h-5 w-5 items-center justify-center">
@@ -207,24 +144,24 @@ export function ActiveLocations() {
         mapInstanceRef.current = null;
       }
     };
-  }, [activeTab]);
+  }, [activeTab, locations]);
 
   // Center map on selected mela
   useEffect(() => {
     const L = (window as any).L;
-    if (mapInstanceRef.current && selectedMela && L) {
-      mapInstanceRef.current.setView([selectedMela.lat, selectedMela.lng], 10, {
+    if (mapInstanceRef.current && activeMela && L) {
+      mapInstanceRef.current.setView([activeMela.lat, activeMela.lng], 10, {
         animate: true,
         duration: 1.2,
       });
 
       // Open selected popup
-      const marker = markersRef.current[selectedMela.id];
+      const marker = markersRef.current[activeMela.id];
       if (marker) {
         marker.openPopup();
       }
     }
-  }, [selectedMela]);
+  }, [activeMela]);
 
   // Calculate distance using Haversine formula
   const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
@@ -243,7 +180,7 @@ export function ActiveLocations() {
 
   const calculateNearest = (lat: number, lng: number, label: string) => {
     setUserLocationName(label);
-    const calculated = locationsData
+    const calculated = locations
       .map((item) => {
         const dist = getDistance(lat, lng, item.lat, item.lng);
         return { ...item, distance: dist };
@@ -302,7 +239,7 @@ export function ActiveLocations() {
 
   const handlePresetSelect = (cityName: string) => {
     setSelectedPresetCity(cityName);
-    const city = PRESET_CITIES.find((c) => c.name === cityName);
+    const city = presetCities.find((c) => c.name === cityName);
     if (city) {
       calculateNearest(city.lat, city.lng, cityName);
     }
@@ -354,7 +291,7 @@ export function ActiveLocations() {
             viewport={{ once: true }}
             className="font-display text-xs uppercase tracking-[0.2em] text-accent-yellow"
           >
-            Live Installations & Melas
+            {section.eyebrow}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -363,10 +300,10 @@ export function ActiveLocations() {
             transition={{ delay: 0.1 }}
             className="mt-3 font-display text-[clamp(1.8rem,4vw,3rem)] leading-none tracking-wide text-white"
           >
-            Find Naaz Rides Near You
+            {section.heading}
           </motion.h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/50">
-            We custom-build and operate high-thrill amusement setups at major trade fairs and carnivals. Select a city or browse the map to view live locations!
+            {section.subtext}
           </p>
         </div>
 
@@ -425,25 +362,25 @@ export function ActiveLocations() {
                     <div className="flex flex-wrap items-center justify-between gap-4">
                       <div>
                         <span className="inline-block rounded-full bg-accent-yellow/10 px-3.5 py-1 text-[10px] font-display uppercase tracking-widest text-accent-yellow">
-                          {selectedMela.status}
+                          {activeMela?.status}
                         </span>
                         <h3 className="mt-2 font-display text-2xl tracking-wide text-white">
-                          {selectedMela.name}
+                          {activeMela?.name}
                         </h3>
                         <p className="mt-1.5 flex items-center gap-1.5 text-xs text-white/50">
                           <MapPin className="h-3.5 w-3.5 text-accent-yellow shrink-0" />
-                          {selectedMela.venue}, {selectedMela.city}
+                          {activeMela?.venue}, {activeMela?.city}
                         </p>
                       </div>
 
                       <div className="flex items-center gap-2 rounded-xl bg-white/5 px-4 py-2 text-xs border border-white/5">
                         <Calendar className="h-3.5 w-3.5 text-accent-yellow" />
-                        <span className="text-white/80">{selectedMela.dates}</span>
+                        <span className="text-white/80">{activeMela?.dates}</span>
                       </div>
                     </div>
 
                     <p className="mt-6 text-sm leading-relaxed text-white/70">
-                      {selectedMela.details}
+                      {activeMela?.details}
                     </p>
 
                     {/* Installed Rides Section */}
@@ -452,7 +389,7 @@ export function ActiveLocations() {
                         Rides set up at this location
                       </h4>
                       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        {selectedMela.installedRides.map((slug) => {
+                        {activeMela?.installedRides?.map((slug) => {
                           const ride = rides.find((r) => r.slug === slug);
                           if (!ride) return null;
                           return (
@@ -482,7 +419,7 @@ export function ActiveLocations() {
                   {/* Actions */}
                   <div className="mt-8 flex flex-wrap gap-4 pt-4 border-t border-white/10">
                     <a
-                      href={selectedMela.gmapsLink}
+                      href={activeMela?.gmapsLink ?? "#"}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-accent-yellow px-6 text-xs font-display tracking-widest text-deep-purple transition hover:scale-[1.02] shadow-[0_0_15px_rgba(238,167,39,0.2)]"
@@ -491,7 +428,7 @@ export function ActiveLocations() {
                       GET DIRECTIONS
                     </a>
                     <a
-                      href={`https://wa.me/919929068065?text=Hello%20Naaz%20Amusement,%20I'm%20inquiring%20about%20the%20${encodeURIComponent(selectedMela.name)}%20at%20${encodeURIComponent(selectedMela.venue)}.`}
+                      href={`https://wa.me/919929068065?text=Hello%20Naaz%20Amusement,%20I'm%20inquiring%20about%20the%20${encodeURIComponent(activeMela?.name ?? "")}%20at%20${encodeURIComponent(activeMela?.venue ?? "")}.`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 text-xs font-display tracking-widest text-white transition hover:bg-white/10"
@@ -535,7 +472,7 @@ export function ActiveLocations() {
                         className="w-full h-12 rounded-xl border border-white/10 bg-white/5 px-4 text-xs text-white outline-none focus:border-accent-yellow"
                       >
                         <option value="" className="bg-[#1A1A1A]">Select Your City</option>
-                        {PRESET_CITIES.map((c) => (
+                        {presetCities.map((c) => (
                           <option key={c.name} value={c.name} className="bg-[#1A1A1A]">
                             {c.name}
                           </option>
@@ -565,7 +502,7 @@ export function ActiveLocations() {
                               setSelectedMela(fair);
                             }}
                             className={`rounded-[20px] border transition-all p-5 cursor-pointer hover:border-accent-yellow/40 ${
-                              fair.id === selectedMela.id
+                              fair.id === (activeMela?.id ?? "")
                                 ? "border-accent-yellow bg-accent-yellow/[0.05]"
                                 : index === 0
                                 ? "border-accent-yellow/40 bg-accent-yellow/[0.02]"

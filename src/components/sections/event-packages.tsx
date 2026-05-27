@@ -1,82 +1,27 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion } from "motion/react";
-import { Check, Calendar, ArrowRight, ShieldCheck, Zap, Users } from "lucide-react";
+import { Check, ArrowRight, ShieldCheck, Zap, Users } from "lucide-react";
 import Link from "next/link";
+import { useContentStore } from "@/stores/content-store";
+import type { EventPackage } from "@/lib/content";
 
-type Package = {
-  id: string;
-  name: string;
-  tagline: string;
-  price: string;
-  duration: string;
-  icon: any;
-  themeColor: string;
-  shadowColor: string;
-  highlightText?: string;
-  features: string[];
-  bestFor: string;
+const iconMap: Record<EventPackage["iconKey"], any> = {
+  "zap": Zap,
+  "shield-check": ShieldCheck,
+  "users": Users,
 };
 
-const packages: Package[] = [
-  {
-    id: "mela-carnival",
-    name: "Mega Mela & Carnival",
-    tagline: "The ultimate amusement setup for massive public events and city festivals.",
-    price: "₹ 2.5L",
-    duration: "per day",
-    icon: Zap,
-    themeColor: "text-accent-yellow border-accent-yellow/20 hover:border-accent-yellow/50",
-    shadowColor: "rgba(238, 167, 39, 0.15)",
-    highlightText: "Most Popular",
-    features: [
-      "3 High-Thrill Rides (Striker, Sky Scrambler, Roller Coaster)",
-      "2 Family Rides (Bumper Cars, Wave Pool)",
-      "Full technical operator crew & safety supervisors",
-      "Custom decorative lighting & entrance setup",
-      "Complimentary transport within Jaipur limits"
-    ],
-    bestFor: "Public Melas, Carnivals, Corporate Family Days"
-  },
-  {
-    id: "royal-wedding",
-    name: "Royal Celebration",
-    tagline: "Add grandeur to sangeets, weddings, and premium family gatherings.",
-    price: "₹ 1.8L",
-    duration: "per day",
-    icon: ShieldCheck,
-    themeColor: "text-pink-500 border-pink-500/20 hover:border-pink-500/50",
-    shadowColor: "rgba(236, 72, 153, 0.15)",
-    features: [
-      "1 Extreme Thrill Ride (Sky Scrambler or Striker)",
-      "2 Family Adventures (Bumper Cars & Sky Cycling)",
-      "Dedicated guest relations manager",
-      "LED illumination setup for nighttime sangeets",
-      "Complete site licensing assistance & safety certifications"
-    ],
-    bestFor: "Grand Weddings, Pre-Wedding Sangeets, VIP Parties"
-  },
-  {
-    id: "corporate-school",
-    name: "Corporate & School Outing",
-    tagline: "A modular, medium-sized setup perfect for private events and team building.",
-    price: "₹ 1.2L",
-    duration: "per day",
-    icon: Users,
-    themeColor: "text-emerald-400 border-emerald-400/20 hover:border-emerald-400/50",
-    shadowColor: "rgba(52, 211, 153, 0.15)",
-    features: [
-      "2 Family-friendly Rides (Lazy River & Bumper Cars)",
-      "1 Adventure Attraction (Zip Line or Sky Cycling)",
-      "Trained safety wardens on-site",
-      "Setup completion in under 24 hours",
-      "Flexible booking dates"
-    ],
-    bestFor: "Corporate Retreats, School Trips, Community Fairs"
-  }
-];
-
 export function EventPackages() {
+  const { content, fetchContent } = useContentStore();
+  const section = content.eventPackages;
+  const packages = section.packages;
+
+  useEffect(() => {
+    fetchContent();
+  }, [fetchContent]);
+
   return (
     <section id="packages" className="relative isolate overflow-hidden bg-[#0A0514] py-20 sm:py-28 lg:py-32">
       {/* Decorative Blur Orbs */}
@@ -92,7 +37,7 @@ export function EventPackages() {
             viewport={{ once: true }}
             className="font-display text-xs uppercase tracking-[0.2em] text-accent-yellow"
           >
-            All-Inclusive Solutions
+            {section.eyebrow}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -101,17 +46,17 @@ export function EventPackages() {
             transition={{ delay: 0.1 }}
             className="mt-3 font-display text-[clamp(1.8rem,4vw,3rem)] leading-none tracking-wide text-white"
           >
-            Curated Event Packages
+            {section.heading}
           </motion.h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/50">
-            Choose from our pre-configured setups tailored for different scale celebrations and festivals. Custom packages are also available on request.
+            {section.subtext}
           </p>
         </div>
 
         {/* Packages Grid */}
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {packages.map((pkg, i) => {
-            const Icon = pkg.icon;
+            const Icon = iconMap[pkg.iconKey] ?? Zap;
             return (
               <motion.div
                 key={pkg.id}

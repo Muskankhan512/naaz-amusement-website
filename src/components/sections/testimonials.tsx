@@ -4,54 +4,24 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { Star } from "lucide-react";
-
-type Review = {
-  name: string;
-  quote: string;
-  narrative: string;
-  image: string;
-  rating: number;
-};
-
-const reviews: Review[] = [
-  {
-    name: "Aslam Khan",
-    quote:
-      "Striker is amazing, worth the money. All over best, everything is good. Enjoying a lot here!",
-    narrative:
-      "A first-time visitor who walked in skeptical about the ticket price and walked out calling Striker one of the best rides he's ever experienced. Beyond the rides, he was impressed by the overall quality of the park — from the food court to the ambiance to the energy of the place. The kind of guest who came for one ride and ended up spending the entire day exploring every zone.",
-    image: "/p1.jpg",
-    rating: 5,
-  },
-  {
-    name: "Bhavi Jain",
-    quote:
-      "Had great experience in every ride. Hygienic and staff is very cooperative & friendly. Best amusement park in Jaipur!",
-    narrative:
-      "A family visitor who noticed the two things most amusement parks quietly fail at — hygiene and staff attitude — and was genuinely surprised that Naaz Amusement nailed both. From spotless restrooms to ride operators who greeted her kids with a smile, the experience felt thoughtfully managed rather than chaotic. She didn't just enjoy one ride; she specifically mentioned that every single ride delivered, which is rare praise for a park with 80+ attractions.",
-    image: "/2.jpg",
-    rating: 5,
-  },
-  {
-    name: "Vishal Chellani",
-    quote:
-      "Adventure is super cool activity, it's a great FUN in this KINGDOM. My family had the time of their lives. We're coming back next month!",
-    narrative:
-      "An adventure zone loyalist who came for the ziplines and rope courses but discovered that Naaz Amusement is just as much a family destination as it is a thrill-seeker's paradise. What started as a solo adrenaline trip turned into a full-family affair, with everyone from his kids to his parents finding something to love. The fact that he's already planning a return visit next month tells you everything — this isn't a one-and-done park, it's the kind of place that earns repeat loyalty.",
-    image: "/3.jpg",
-    rating: 5,
-  },
-];
-
-const TOTAL = reviews.length;
+import { useContentStore } from "@/stores/content-store";
+import type { Review } from "@/lib/content";
 
 export function Testimonials() {
+  const { content, fetchContent } = useContentStore();
+  const testimonials = content.testimonials;
+  const reviews = testimonials.reviews;
+  const TOTAL = reviews.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleActive = useCallback((i: number) => {
     setActiveIndex(i);
   }, []);
+
+  useEffect(() => {
+    fetchContent();
+  }, [fetchContent]);
 
   return (
     <section className="relative isolate overflow-hidden bg-white py-16 sm:py-24 md:py-32">
@@ -64,7 +34,7 @@ export function Testimonials() {
           transition={{ duration: 0.5 }}
           className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
         >
-          Testimonials
+          {testimonials.eyebrow}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -73,7 +43,7 @@ export function Testimonials() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-4 max-w-2xl font-display text-[clamp(1.8rem,3.5vw,2.375rem)] leading-[1.37] tracking-[0.76px] text-deep-purple"
         >
-          Real screams from real thrill-seekers.
+          {testimonials.heading}
         </motion.h2>
 
         {/* Testimonial cards */}

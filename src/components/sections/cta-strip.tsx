@@ -1,11 +1,19 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
-import { site } from "@/lib/site";
+import { useContentStore } from "@/stores/content-store";
 
 export function CtaStrip() {
+  const { content, fetchContent } = useContentStore();
+  const cta = content.ctaStrip;
+
+  useEffect(() => {
+    fetchContent();
+  }, [fetchContent]);
+
   return (
     <section className="relative isolate overflow-hidden bg-deep-purple py-16 text-white sm:py-20 md:py-28">
       {/* Decorative radial */}
@@ -26,7 +34,7 @@ export function CtaStrip() {
           transition={{ duration: 0.5 }}
           className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
         >
-          Ready to Rule?
+          {cta.eyebrow}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -35,9 +43,9 @@ export function CtaStrip() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-4 sm:mt-6 font-display text-[clamp(2rem,5.5vw,4.5rem)] leading-[1.05]"
         >
-          Your Kingdom Awaits.
+          {cta.heading}
           <br />
-          <span className="text-accent-yellow">Claim Your Throne.</span>
+          <span className="text-accent-yellow">{cta.highlight}</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 16 }}
@@ -46,8 +54,7 @@ export function CtaStrip() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mx-auto mt-4 sm:mt-6 max-w-2xl font-body text-[0.95rem] sm:text-lg leading-relaxed text-white/80"
         >
-          Book your tickets today and unlock a world of 80+ rides, gourmet food
-          courts, adventure zones, and memories that will last forever.
+          {cta.body}
         </motion.p>
 
         <motion.div
@@ -58,10 +65,10 @@ export function CtaStrip() {
           className="mt-8 sm:mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
         >
           <Link
-            href={site.bookingUrl}
+            href={cta.ctaHref}
             className="group inline-flex items-center gap-3 rounded-full bg-accent-yellow px-8 py-4 font-display text-[0.9rem] uppercase tracking-wide text-deep-purple shadow-lg transition hover:bg-white"
           >
-            BOOK TICKET NOW
+            {cta.ctaLabel}
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
           </Link>
         </motion.div>

@@ -1,0 +1,1668 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useContentStore } from "@/stores/content-store";
+import type { ActiveMela, EventPackage, HomeContent } from "@/lib/content";
+
+const inputClass =
+  "w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-accent-yellow focus:outline-none";
+const labelClass = "text-[11px] uppercase tracking-widest text-white/50";
+const sectionCardClass =
+  "rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6";
+
+const splitLines = (value: string) =>
+  value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+export function ContentManager() {
+  const { content, fetchContent, updateContent, isLoading } = useContentStore();
+  const [draft, setDraft] = useState<HomeContent>(content);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    fetchContent();
+  }, [fetchContent]);
+
+  useEffect(() => {
+    setDraft(content);
+  }, [content]);
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    await updateContent(draft);
+    setIsSaving(false);
+    toast.success("Content updated successfully.");
+  };
+
+  const updateSection = <K extends keyof HomeContent>(
+    section: K,
+    value: HomeContent[K]
+  ) => {
+    setDraft((prev) => ({ ...prev, [section]: value }));
+  };
+
+  return (
+    <div className="space-y-8">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-accent-yellow">
+            Content Management
+          </p>
+          <h2 className="mt-2 font-display text-2xl text-white">
+            Edit Homepage Sections
+          </h2>
+        </div>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => fetchContent(true)}
+            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-display tracking-widest text-white transition hover:border-accent-yellow"
+            disabled={isLoading}
+          >
+            REFRESH
+          </button>
+          <button
+            onClick={handleSave}
+            className="rounded-xl bg-accent-yellow px-4 py-2 text-xs font-display tracking-widest text-deep-purple transition hover:bg-accent-yellow/90"
+            disabled={isSaving || isLoading}
+          >
+            {isSaving ? "SAVING..." : "SAVE ALL"}
+          </button>
+        </div>
+      </div>
+
+      {/* HERO */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Hero</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Offer Enabled</label>
+            <div className="mt-2 flex items-center gap-3">
+              <input
+                type="checkbox"
+                checked={draft.hero.offer.enabled}
+                onChange={(event) =>
+                  updateSection("hero", {
+                    ...draft.hero,
+                    offer: { ...draft.hero.offer, enabled: event.target.checked },
+                  })
+                }
+              />
+              <span className="text-xs text-white/70">Show offer banner</span>
+            </div>
+          </div>
+          <div>
+            <label className={labelClass}>Offer Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.hero.offer.eyebrow}
+              onChange={(event) =>
+                updateSection("hero", {
+                  ...draft.hero,
+                  offer: { ...draft.hero.offer, eyebrow: event.target.value },
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Offer Title</label>
+            <input
+              className={inputClass}
+              value={draft.hero.offer.title}
+              onChange={(event) =>
+                updateSection("hero", {
+                  ...draft.hero,
+                  offer: { ...draft.hero.offer, title: event.target.value },
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Offer CTA</label>
+            <input
+              className={inputClass}
+              value={draft.hero.offer.cta}
+              onChange={(event) =>
+                updateSection("hero", {
+                  ...draft.hero,
+                  offer: { ...draft.hero.offer, cta: event.target.value },
+                })
+              }
+            />
+          </div>
+        </div>
+        <div className="mt-5 grid gap-4">
+          <div>
+            <label className={labelClass}>Body Copy</label>
+            <textarea
+              className={`${inputClass} min-h-[120px]`}
+              value={draft.hero.body}
+              onChange={(event) =>
+                updateSection("hero", { ...draft.hero, body: event.target.value })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Description</label>
+            <textarea
+              className={`${inputClass} min-h-[120px]`}
+              value={draft.hero.description}
+              onChange={(event) =>
+                updateSection("hero", {
+                  ...draft.hero,
+                  description: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-white/70">Stats</p>
+            <button
+              onClick={() =>
+                updateSection("hero", {
+                  ...draft.hero,
+                  stats: [
+                    ...draft.hero.stats,
+                    { endValue: 0, suffix: "", label: "New Stat" },
+                  ],
+                })
+              }
+              className="text-xs text-accent-yellow"
+            >
+              + Add Stat
+            </button>
+          </div>
+          <div className="mt-3 space-y-3">
+            {draft.hero.stats.map((stat, index) => (
+              <div
+                key={`${stat.label}-${index}`}
+                className="grid gap-3 md:grid-cols-[120px_120px_1fr_auto]"
+              >
+                <input
+                  type="number"
+                  className={inputClass}
+                  value={stat.endValue}
+                  onChange={(event) => {
+                    const next = [...draft.hero.stats];
+                    next[index] = {
+                      ...stat,
+                      endValue: Number(event.target.value),
+                    };
+                    updateSection("hero", { ...draft.hero, stats: next });
+                  }}
+                />
+                <input
+                  className={inputClass}
+                  value={stat.suffix}
+                  onChange={(event) => {
+                    const next = [...draft.hero.stats];
+                    next[index] = { ...stat, suffix: event.target.value };
+                    updateSection("hero", { ...draft.hero, stats: next });
+                  }}
+                />
+                <input
+                  className={inputClass}
+                  value={stat.label}
+                  onChange={(event) => {
+                    const next = [...draft.hero.stats];
+                    next[index] = { ...stat, label: event.target.value };
+                    updateSection("hero", { ...draft.hero, stats: next });
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    const next = draft.hero.stats.filter((_, i) => i !== index);
+                    updateSection("hero", { ...draft.hero, stats: next });
+                  }}
+                  className="text-xs text-red-300"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PORTFOLIO */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Portfolio</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.portfolio.eyebrow}
+              onChange={(event) =>
+                updateSection("portfolio", {
+                  ...draft.portfolio,
+                  eyebrow: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.portfolio.heading}
+              onChange={(event) =>
+                updateSection("portfolio", {
+                  ...draft.portfolio,
+                  heading: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-white/70">Experiences</p>
+            <button
+              onClick={() =>
+                updateSection("portfolio", {
+                  ...draft.portfolio,
+                  experiences: [
+                    ...draft.portfolio.experiences,
+                    {
+                      num: "00",
+                      title: "New Experience",
+                      tagline: "",
+                      image: "/p1.jpg",
+                    },
+                  ],
+                })
+              }
+              className="text-xs text-accent-yellow"
+            >
+              + Add Experience
+            </button>
+          </div>
+          <div className="mt-3 space-y-4">
+            {draft.portfolio.experiences.map((exp, index) => (
+              <div key={`${exp.title}-${index}`} className="rounded-xl border border-white/10 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-white">{exp.title || "New Experience"}</p>
+                  <button
+                    onClick={() => {
+                      const next = draft.portfolio.experiences.filter((_, i) => i !== index);
+                      updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                    }}
+                    className="text-xs text-red-300"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <div className="mt-4 grid gap-3 md:grid-cols-4">
+                  <input
+                    className={inputClass}
+                    value={exp.num}
+                    onChange={(event) => {
+                      const next = [...draft.portfolio.experiences];
+                      next[index] = { ...exp, num: event.target.value };
+                      updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                    }}
+                    placeholder="01"
+                  />
+                  <input
+                    className={inputClass}
+                    value={exp.title}
+                    onChange={(event) => {
+                      const next = [...draft.portfolio.experiences];
+                      next[index] = { ...exp, title: event.target.value };
+                      updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                    }}
+                    placeholder="Title"
+                  />
+                  <input
+                    className={inputClass}
+                    value={exp.tagline}
+                    onChange={(event) => {
+                      const next = [...draft.portfolio.experiences];
+                      next[index] = { ...exp, tagline: event.target.value };
+                      updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                    }}
+                    placeholder="Tagline"
+                  />
+                  <input
+                    className={inputClass}
+                    value={exp.image}
+                    onChange={(event) => {
+                      const next = [...draft.portfolio.experiences];
+                      next[index] = { ...exp, image: event.target.value };
+                      updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                    }}
+                    placeholder="/image.jpg"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PLAN VISIT */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Plan Visit</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.planVisit.eyebrow}
+              onChange={(event) =>
+                updateSection("planVisit", {
+                  ...draft.planVisit,
+                  eyebrow: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.planVisit.heading}
+              onChange={(event) =>
+                updateSection("planVisit", {
+                  ...draft.planVisit,
+                  heading: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-white/70">Steps</p>
+            <button
+              onClick={() =>
+                updateSection("planVisit", {
+                  ...draft.planVisit,
+                  steps: [
+                    ...draft.planVisit.steps,
+                    {
+                      num: "00",
+                      title: "New Step",
+                      body: "",
+                      image: "/p1.jpg",
+                      numColor: "text-accent-yellow",
+                    },
+                  ],
+                })
+              }
+              className="text-xs text-accent-yellow"
+            >
+              + Add Step
+            </button>
+          </div>
+          <div className="mt-3 space-y-4">
+            {draft.planVisit.steps.map((step, index) => (
+              <div key={`${step.title}-${index}`} className="rounded-xl border border-white/10 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-white">{step.title || "New Step"}</p>
+                  <button
+                    onClick={() => {
+                      const next = draft.planVisit.steps.filter((_, i) => i !== index);
+                      updateSection("planVisit", { ...draft.planVisit, steps: next });
+                    }}
+                    className="text-xs text-red-300"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <div className="mt-4 grid gap-3 md:grid-cols-5">
+                  <input
+                    className={inputClass}
+                    value={step.num}
+                    onChange={(event) => {
+                      const next = [...draft.planVisit.steps];
+                      next[index] = { ...step, num: event.target.value };
+                      updateSection("planVisit", { ...draft.planVisit, steps: next });
+                    }}
+                    placeholder="01"
+                  />
+                  <input
+                    className={inputClass}
+                    value={step.title}
+                    onChange={(event) => {
+                      const next = [...draft.planVisit.steps];
+                      next[index] = { ...step, title: event.target.value };
+                      updateSection("planVisit", { ...draft.planVisit, steps: next });
+                    }}
+                    placeholder="Title"
+                  />
+                  <input
+                    className={inputClass}
+                    value={step.image}
+                    onChange={(event) => {
+                      const next = [...draft.planVisit.steps];
+                      next[index] = { ...step, image: event.target.value };
+                      updateSection("planVisit", { ...draft.planVisit, steps: next });
+                    }}
+                    placeholder="/image.jpg"
+                  />
+                  <input
+                    className={inputClass}
+                    value={step.numColor}
+                    onChange={(event) => {
+                      const next = [...draft.planVisit.steps];
+                      next[index] = { ...step, numColor: event.target.value };
+                      updateSection("planVisit", { ...draft.planVisit, steps: next });
+                    }}
+                    placeholder="text-accent-yellow"
+                  />
+                  <input
+                    className={inputClass}
+                    value={step.body}
+                    onChange={(event) => {
+                      const next = [...draft.planVisit.steps];
+                      next[index] = { ...step, body: event.target.value };
+                      updateSection("planVisit", { ...draft.planVisit, steps: next });
+                    }}
+                    placeholder="Body"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* RIDES */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Rides Section</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.rides.eyebrow}
+              onChange={(event) =>
+                updateSection("rides", { ...draft.rides, eyebrow: event.target.value })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading Lead</label>
+            <input
+              className={inputClass}
+              value={draft.rides.headingLead}
+              onChange={(event) =>
+                updateSection("rides", {
+                  ...draft.rides,
+                  headingLead: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading Accent</label>
+            <input
+              className={inputClass}
+              value={draft.rides.headingAccent}
+              onChange={(event) =>
+                updateSection("rides", {
+                  ...draft.rides,
+                  headingAccent: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading Trail</label>
+            <input
+              className={inputClass}
+              value={draft.rides.headingTrail}
+              onChange={(event) =>
+                updateSection("rides", {
+                  ...draft.rides,
+                  headingTrail: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <label className={labelClass}>Subtext</label>
+          <textarea
+            className={`${inputClass} min-h-[90px]`}
+            value={draft.rides.subtext}
+            onChange={(event) =>
+              updateSection("rides", { ...draft.rides, subtext: event.target.value })
+            }
+          />
+        </div>
+      </section>
+
+      {/* ACTIVE LOCATIONS */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Active Locations</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.activeLocations.eyebrow}
+              onChange={(event) =>
+                updateSection("activeLocations", {
+                  ...draft.activeLocations,
+                  eyebrow: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.activeLocations.heading}
+              onChange={(event) =>
+                updateSection("activeLocations", {
+                  ...draft.activeLocations,
+                  heading: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <label className={labelClass}>Subtext</label>
+          <textarea
+            className={`${inputClass} min-h-[90px]`}
+            value={draft.activeLocations.subtext}
+            onChange={(event) =>
+              updateSection("activeLocations", {
+                ...draft.activeLocations,
+                subtext: event.target.value,
+              })
+            }
+          />
+        </div>
+
+        <div className="mt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-white/70">Locations</p>
+            <button
+              onClick={() =>
+                updateSection("activeLocations", {
+                  ...draft.activeLocations,
+                  locations: [
+                    ...draft.activeLocations.locations,
+                    {
+                      id: "new-location",
+                      name: "New Location",
+                      city: "",
+                      venue: "",
+                      status: "UPCOMING",
+                      dates: "",
+                      details: "",
+                      lat: 0,
+                      lng: 0,
+                      installedRides: [],
+                      gmapsLink: "",
+                    },
+                  ],
+                })
+              }
+              className="text-xs text-accent-yellow"
+            >
+              + Add Location
+            </button>
+          </div>
+          <div className="mt-3 space-y-4">
+            {draft.activeLocations.locations.map((loc, index) => (
+              <LocationEditor
+                key={`${loc.id}-${index}`}
+                location={loc}
+                onChange={(next) => {
+                  const updated = [...draft.activeLocations.locations];
+                  updated[index] = next;
+                  updateSection("activeLocations", {
+                    ...draft.activeLocations,
+                    locations: updated,
+                  });
+                }}
+                onRemove={() => {
+                  const updated = draft.activeLocations.locations.filter((_, i) => i !== index);
+                  updateSection("activeLocations", {
+                    ...draft.activeLocations,
+                    locations: updated,
+                  });
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-white/70">Preset Cities</p>
+            <button
+              onClick={() =>
+                updateSection("activeLocations", {
+                  ...draft.activeLocations,
+                  presetCities: [
+                    ...draft.activeLocations.presetCities,
+                    { name: "New City", lat: 0, lng: 0 },
+                  ],
+                })
+              }
+              className="text-xs text-accent-yellow"
+            >
+              + Add City
+            </button>
+          </div>
+          <div className="mt-3 space-y-3">
+            {draft.activeLocations.presetCities.map((city, index) => (
+              <div key={`${city.name}-${index}`} className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_auto]">
+                <input
+                  className={inputClass}
+                  value={city.name}
+                  onChange={(event) => {
+                    const updated = [...draft.activeLocations.presetCities];
+                    updated[index] = { ...city, name: event.target.value };
+                    updateSection("activeLocations", {
+                      ...draft.activeLocations,
+                      presetCities: updated,
+                    });
+                  }}
+                />
+                <input
+                  type="number"
+                  className={inputClass}
+                  value={city.lat}
+                  onChange={(event) => {
+                    const updated = [...draft.activeLocations.presetCities];
+                    updated[index] = { ...city, lat: Number(event.target.value) };
+                    updateSection("activeLocations", {
+                      ...draft.activeLocations,
+                      presetCities: updated,
+                    });
+                  }}
+                />
+                <input
+                  type="number"
+                  className={inputClass}
+                  value={city.lng}
+                  onChange={(event) => {
+                    const updated = [...draft.activeLocations.presetCities];
+                    updated[index] = { ...city, lng: Number(event.target.value) };
+                    updateSection("activeLocations", {
+                      ...draft.activeLocations,
+                      presetCities: updated,
+                    });
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    const updated = draft.activeLocations.presetCities.filter((_, i) => i !== index);
+                    updateSection("activeLocations", {
+                      ...draft.activeLocations,
+                      presetCities: updated,
+                    });
+                  }}
+                  className="text-xs text-red-300"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Testimonials</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.testimonials.eyebrow}
+              onChange={(event) =>
+                updateSection("testimonials", {
+                  ...draft.testimonials,
+                  eyebrow: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.testimonials.heading}
+              onChange={(event) =>
+                updateSection("testimonials", {
+                  ...draft.testimonials,
+                  heading: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-white/70">Reviews</p>
+            <button
+              onClick={() =>
+                updateSection("testimonials", {
+                  ...draft.testimonials,
+                  reviews: [
+                    ...draft.testimonials.reviews,
+                    {
+                      name: "New Guest",
+                      quote: "",
+                      narrative: "",
+                      image: "/p1.jpg",
+                      rating: 5,
+                    },
+                  ],
+                })
+              }
+              className="text-xs text-accent-yellow"
+            >
+              + Add Review
+            </button>
+          </div>
+          <div className="mt-3 space-y-4">
+            {draft.testimonials.reviews.map((review, index) => (
+              <div key={`${review.name}-${index}`} className="rounded-xl border border-white/10 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-white">{review.name}</p>
+                  <button
+                    onClick={() => {
+                      const updated = draft.testimonials.reviews.filter((_, i) => i !== index);
+                      updateSection("testimonials", {
+                        ...draft.testimonials,
+                        reviews: updated,
+                      });
+                    }}
+                    className="text-xs text-red-300"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                  <input
+                    className={inputClass}
+                    value={review.name}
+                    onChange={(event) => {
+                      const updated = [...draft.testimonials.reviews];
+                      updated[index] = { ...review, name: event.target.value };
+                      updateSection("testimonials", {
+                        ...draft.testimonials,
+                        reviews: updated,
+                      });
+                    }}
+                  />
+                  <input
+                    className={inputClass}
+                    value={review.image}
+                    onChange={(event) => {
+                      const updated = [...draft.testimonials.reviews];
+                      updated[index] = { ...review, image: event.target.value };
+                      updateSection("testimonials", {
+                        ...draft.testimonials,
+                        reviews: updated,
+                      });
+                    }}
+                    placeholder="/image.jpg"
+                  />
+                </div>
+                <div className="mt-3 grid gap-3 md:grid-cols-3">
+                  <input
+                    className={inputClass}
+                    value={review.quote}
+                    onChange={(event) => {
+                      const updated = [...draft.testimonials.reviews];
+                      updated[index] = { ...review, quote: event.target.value };
+                      updateSection("testimonials", {
+                        ...draft.testimonials,
+                        reviews: updated,
+                      });
+                    }}
+                    placeholder="Quote"
+                  />
+                  <input
+                    type="number"
+                    className={inputClass}
+                    value={review.rating}
+                    onChange={(event) => {
+                      const updated = [...draft.testimonials.reviews];
+                      updated[index] = {
+                        ...review,
+                        rating: Number(event.target.value),
+                      };
+                      updateSection("testimonials", {
+                        ...draft.testimonials,
+                        reviews: updated,
+                      });
+                    }}
+                    min={1}
+                    max={5}
+                  />
+                  <input
+                    className={inputClass}
+                    value={review.narrative}
+                    onChange={(event) => {
+                      const updated = [...draft.testimonials.reviews];
+                      updated[index] = { ...review, narrative: event.target.value };
+                      updateSection("testimonials", {
+                        ...draft.testimonials,
+                        reviews: updated,
+                      });
+                    }}
+                    placeholder="Narrative"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TOUR */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Tour Marquee</h3>
+        <div className="mt-5 grid gap-4">
+          <div>
+            <label className={labelClass}>Row 1 Text</label>
+            <textarea
+              className={`${inputClass} min-h-[80px]`}
+              value={draft.tour.row1Text}
+              onChange={(event) =>
+                updateSection("tour", { ...draft.tour, row1Text: event.target.value })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Row 2 Text</label>
+            <textarea
+              className={`${inputClass} min-h-[80px]`}
+              value={draft.tour.row2Text}
+              onChange={(event) =>
+                updateSection("tour", { ...draft.tour, row2Text: event.target.value })
+              }
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* GALLERY */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Gallery</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.gallery.eyebrow}
+              onChange={(event) =>
+                updateSection("gallery", {
+                  ...draft.gallery,
+                  eyebrow: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.gallery.heading}
+              onChange={(event) =>
+                updateSection("gallery", {
+                  ...draft.gallery,
+                  heading: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-4">
+          {draft.gallery.rows.map((row, rowIndex) => (
+            <div key={`row-${rowIndex}`} className="rounded-xl border border-white/10 p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-white">Row {rowIndex + 1}</p>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      const updated = draft.gallery.rows.filter((_, i) => i !== rowIndex);
+                      updateSection("gallery", { ...draft.gallery, rows: updated });
+                    }}
+                    className="text-xs text-red-300"
+                  >
+                    Remove Row
+                  </button>
+                  <button
+                    onClick={() => {
+                      const updated = [...draft.gallery.rows];
+                      updated[rowIndex] = [
+                        ...updated[rowIndex],
+                        { src: "", alt: "" },
+                      ];
+                      updateSection("gallery", { ...draft.gallery, rows: updated });
+                    }}
+                    className="text-xs text-accent-yellow"
+                  >
+                    + Add Image
+                  </button>
+                </div>
+              </div>
+              <div className="mt-4 space-y-3">
+                {row.map((image, imageIndex) => (
+                  <div key={`${image.src}-${imageIndex}`} className="grid gap-3 md:grid-cols-[1fr_1fr_auto]">
+                    <input
+                      className={inputClass}
+                      value={image.src}
+                      onChange={(event) => {
+                        const updated = [...draft.gallery.rows];
+                        updated[rowIndex] = updated[rowIndex].map((item, idx) =>
+                          idx === imageIndex ? { ...item, src: event.target.value } : item
+                        );
+                        updateSection("gallery", { ...draft.gallery, rows: updated });
+                      }}
+                      placeholder="Image URL"
+                    />
+                    <input
+                      className={inputClass}
+                      value={image.alt}
+                      onChange={(event) => {
+                        const updated = [...draft.gallery.rows];
+                        updated[rowIndex] = updated[rowIndex].map((item, idx) =>
+                          idx === imageIndex ? { ...item, alt: event.target.value } : item
+                        );
+                        updateSection("gallery", { ...draft.gallery, rows: updated });
+                      }}
+                      placeholder="Alt text"
+                    />
+                    <button
+                      onClick={() => {
+                        const updated = [...draft.gallery.rows];
+                        updated[rowIndex] = updated[rowIndex].filter((_, idx) => idx !== imageIndex);
+                        updateSection("gallery", { ...draft.gallery, rows: updated });
+                      }}
+                      className="text-xs text-red-300"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+          <button
+            onClick={() =>
+              updateSection("gallery", {
+                ...draft.gallery,
+                rows: [...draft.gallery.rows, []],
+              })
+            }
+            className="text-xs text-accent-yellow"
+          >
+            + Add Row
+          </button>
+        </div>
+      </section>
+
+      {/* CHRONICLES */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Chronicles</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.chronicles.eyebrow}
+              onChange={(event) =>
+                updateSection("chronicles", {
+                  ...draft.chronicles,
+                  eyebrow: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.chronicles.heading}
+              onChange={(event) =>
+                updateSection("chronicles", {
+                  ...draft.chronicles,
+                  heading: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>CTA Label</label>
+            <input
+              className={inputClass}
+              value={draft.chronicles.ctaLabel}
+              onChange={(event) =>
+                updateSection("chronicles", {
+                  ...draft.chronicles,
+                  ctaLabel: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>CTA Href</label>
+            <input
+              className={inputClass}
+              value={draft.chronicles.ctaHref}
+              onChange={(event) =>
+                updateSection("chronicles", {
+                  ...draft.chronicles,
+                  ctaHref: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* EVENT PACKAGES */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Event Packages</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.eventPackages.eyebrow}
+              onChange={(event) =>
+                updateSection("eventPackages", {
+                  ...draft.eventPackages,
+                  eyebrow: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.eventPackages.heading}
+              onChange={(event) =>
+                updateSection("eventPackages", {
+                  ...draft.eventPackages,
+                  heading: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <label className={labelClass}>Subtext</label>
+          <textarea
+            className={`${inputClass} min-h-[90px]`}
+            value={draft.eventPackages.subtext}
+            onChange={(event) =>
+              updateSection("eventPackages", {
+                ...draft.eventPackages,
+                subtext: event.target.value,
+              })
+            }
+          />
+        </div>
+
+        <div className="mt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-white/70">Packages</p>
+            <button
+              onClick={() =>
+                updateSection("eventPackages", {
+                  ...draft.eventPackages,
+                  packages: [
+                    ...draft.eventPackages.packages,
+                    {
+                      id: "new-package",
+                      name: "New Package",
+                      tagline: "",
+                      price: "",
+                      duration: "",
+                      iconKey: "zap",
+                      themeColor: "",
+                      shadowColor: "",
+                      highlightText: "",
+                      features: [],
+                      bestFor: "",
+                    },
+                  ],
+                })
+              }
+              className="text-xs text-accent-yellow"
+            >
+              + Add Package
+            </button>
+          </div>
+          <div className="mt-3 space-y-4">
+            {draft.eventPackages.packages.map((pkg, index) => (
+              <PackageEditor
+                key={`${pkg.id}-${index}`}
+                pkg={pkg}
+                onChange={(next) => {
+                  const updated = [...draft.eventPackages.packages];
+                  updated[index] = next;
+                  updateSection("eventPackages", {
+                    ...draft.eventPackages,
+                    packages: updated,
+                  });
+                }}
+                onRemove={() => {
+                  const updated = draft.eventPackages.packages.filter((_, i) => i !== index);
+                  updateSection("eventPackages", {
+                    ...draft.eventPackages,
+                    packages: updated,
+                  });
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA STRIP */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">CTA Strip</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.ctaStrip.eyebrow}
+              onChange={(event) =>
+                updateSection("ctaStrip", {
+                  ...draft.ctaStrip,
+                  eyebrow: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.ctaStrip.heading}
+              onChange={(event) =>
+                updateSection("ctaStrip", {
+                  ...draft.ctaStrip,
+                  heading: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Highlight</label>
+            <input
+              className={inputClass}
+              value={draft.ctaStrip.highlight}
+              onChange={(event) =>
+                updateSection("ctaStrip", {
+                  ...draft.ctaStrip,
+                  highlight: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>CTA Label</label>
+            <input
+              className={inputClass}
+              value={draft.ctaStrip.ctaLabel}
+              onChange={(event) =>
+                updateSection("ctaStrip", {
+                  ...draft.ctaStrip,
+                  ctaLabel: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>CTA Href</label>
+            <input
+              className={inputClass}
+              value={draft.ctaStrip.ctaHref}
+              onChange={(event) =>
+                updateSection("ctaStrip", {
+                  ...draft.ctaStrip,
+                  ctaHref: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <label className={labelClass}>Body</label>
+          <textarea
+            className={`${inputClass} min-h-[90px]`}
+            value={draft.ctaStrip.body}
+            onChange={(event) =>
+              updateSection("ctaStrip", {
+                ...draft.ctaStrip,
+                body: event.target.value,
+              })
+            }
+          />
+        </div>
+      </section>
+
+      {/* FACILITIES */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">Facilities</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.facilities.eyebrow}
+              onChange={(event) =>
+                updateSection("facilities", {
+                  ...draft.facilities,
+                  eyebrow: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.facilities.heading}
+              onChange={(event) =>
+                updateSection("facilities", {
+                  ...draft.facilities,
+                  heading: event.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-6">
+          {draft.facilities.rows.map((row, rowIndex) => (
+            <div key={`facility-row-${rowIndex}`} className="rounded-xl border border-white/10 p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-white">Row {rowIndex + 1}</p>
+                <button
+                  onClick={() => {
+                    const updated = draft.facilities.rows.filter((_, i) => i !== rowIndex);
+                    updateSection("facilities", { ...draft.facilities, rows: updated });
+                  }}
+                  className="text-xs text-red-300"
+                >
+                  Remove Row
+                </button>
+              </div>
+              <div className="mt-4 space-y-3">
+                {row.map((item, itemIndex) => (
+                  <div key={`${item.label}-${itemIndex}`} className="grid gap-3 md:grid-cols-[1fr_1fr_auto]">
+                    <input
+                      className={inputClass}
+                      value={item.label}
+                      onChange={(event) => {
+                        const updated = [...draft.facilities.rows];
+                        updated[rowIndex] = updated[rowIndex].map((cell, idx) =>
+                          idx === itemIndex ? { ...cell, label: event.target.value } : cell
+                        );
+                        updateSection("facilities", { ...draft.facilities, rows: updated });
+                      }}
+                      placeholder="Label"
+                    />
+                    <input
+                      className={inputClass}
+                      value={item.icon}
+                      onChange={(event) => {
+                        const updated = [...draft.facilities.rows];
+                        updated[rowIndex] = updated[rowIndex].map((cell, idx) =>
+                          idx === itemIndex ? { ...cell, icon: event.target.value } : cell
+                        );
+                        updateSection("facilities", { ...draft.facilities, rows: updated });
+                      }}
+                      placeholder="Emoji"
+                    />
+                    <button
+                      onClick={() => {
+                        const updated = [...draft.facilities.rows];
+                        updated[rowIndex] = updated[rowIndex].filter((_, idx) => idx !== itemIndex);
+                        updateSection("facilities", { ...draft.facilities, rows: updated });
+                      }}
+                      className="text-xs text-red-300"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  onClick={() => {
+                    const updated = [...draft.facilities.rows];
+                    updated[rowIndex] = [
+                      ...updated[rowIndex],
+                      { label: "New Facility", icon: "" },
+                    ];
+                    updateSection("facilities", { ...draft.facilities, rows: updated });
+                  }}
+                  className="text-xs text-accent-yellow"
+                >
+                  + Add Facility
+                </button>
+              </div>
+            </div>
+          ))}
+          <button
+            onClick={() =>
+              updateSection("facilities", {
+                ...draft.facilities,
+                rows: [...draft.facilities.rows, []],
+              })
+            }
+            className="text-xs text-accent-yellow"
+          >
+            + Add Row
+          </button>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className={sectionCardClass}>
+        <h3 className="font-display text-lg text-white">FAQ</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.faq.eyebrow}
+              onChange={(event) =>
+                updateSection("faq", { ...draft.faq, eyebrow: event.target.value })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.faq.heading}
+              onChange={(event) =>
+                updateSection("faq", { ...draft.faq, heading: event.target.value })
+              }
+            />
+          </div>
+        </div>
+        <div className="mt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-white/70">Items</p>
+            <button
+              onClick={() =>
+                updateSection("faq", {
+                  ...draft.faq,
+                  items: [...draft.faq.items, { q: "New question", a: "" }],
+                })
+              }
+              className="text-xs text-accent-yellow"
+            >
+              + Add Item
+            </button>
+          </div>
+          <div className="mt-3 space-y-3">
+            {draft.faq.items.map((item, index) => (
+              <div key={`${item.q}-${index}`} className="rounded-xl border border-white/10 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-white">{item.q}</p>
+                  <button
+                    onClick={() => {
+                      const updated = draft.faq.items.filter((_, i) => i !== index);
+                      updateSection("faq", { ...draft.faq, items: updated });
+                    }}
+                    className="text-xs text-red-300"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                  <input
+                    className={inputClass}
+                    value={item.q}
+                    onChange={(event) => {
+                      const updated = [...draft.faq.items];
+                      updated[index] = { ...item, q: event.target.value };
+                      updateSection("faq", { ...draft.faq, items: updated });
+                    }}
+                    placeholder="Question"
+                  />
+                  <input
+                    className={inputClass}
+                    value={item.a}
+                    onChange={(event) => {
+                      const updated = [...draft.faq.items];
+                      updated[index] = { ...item, a: event.target.value };
+                      updateSection("faq", { ...draft.faq, items: updated });
+                    }}
+                    placeholder="Answer"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function LocationEditor({
+  location,
+  onChange,
+  onRemove,
+}: {
+  location: ActiveMela;
+  onChange: (next: ActiveMela) => void;
+  onRemove: () => void;
+}) {
+  const handleInstalledRides = (value: string) =>
+    value
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+  return (
+    <div className="rounded-xl border border-white/10 p-4">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-white">{location.name}</p>
+        <button onClick={onRemove} className="text-xs text-red-300">
+          Remove
+        </button>
+      </div>
+      <div className="mt-4 grid gap-3 md:grid-cols-2">
+        <input
+          className={inputClass}
+          value={location.id}
+          onChange={(event) => onChange({ ...location, id: event.target.value })}
+          placeholder="id"
+        />
+        <input
+          className={inputClass}
+          value={location.name}
+          onChange={(event) => onChange({ ...location, name: event.target.value })}
+          placeholder="Name"
+        />
+        <input
+          className={inputClass}
+          value={location.city}
+          onChange={(event) => onChange({ ...location, city: event.target.value })}
+          placeholder="City"
+        />
+        <input
+          className={inputClass}
+          value={location.venue}
+          onChange={(event) => onChange({ ...location, venue: event.target.value })}
+          placeholder="Venue"
+        />
+        <select
+          className={inputClass}
+          value={location.status}
+          onChange={(event) =>
+            onChange({ ...location, status: event.target.value as ActiveMela["status"] })
+          }
+        >
+          <option value="LIVE NOW">LIVE NOW</option>
+          <option value="UPCOMING">UPCOMING</option>
+        </select>
+        <input
+          className={inputClass}
+          value={location.dates}
+          onChange={(event) => onChange({ ...location, dates: event.target.value })}
+          placeholder="Dates"
+        />
+        <input
+          type="number"
+          className={inputClass}
+          value={location.lat}
+          onChange={(event) => onChange({ ...location, lat: Number(event.target.value) })}
+          placeholder="Latitude"
+        />
+        <input
+          type="number"
+          className={inputClass}
+          value={location.lng}
+          onChange={(event) => onChange({ ...location, lng: Number(event.target.value) })}
+          placeholder="Longitude"
+        />
+        <input
+          className={inputClass}
+          value={location.gmapsLink}
+          onChange={(event) => onChange({ ...location, gmapsLink: event.target.value })}
+          placeholder="Google Maps link"
+        />
+      </div>
+      <div className="mt-4 grid gap-3">
+        <textarea
+          className={`${inputClass} min-h-[90px]`}
+          value={location.details}
+          onChange={(event) => onChange({ ...location, details: event.target.value })}
+          placeholder="Details"
+        />
+        <input
+          className={inputClass}
+          value={location.installedRides.join(", ")}
+          onChange={(event) =>
+            onChange({ ...location, installedRides: handleInstalledRides(event.target.value) })
+          }
+          placeholder="Installed ride slugs (comma separated)"
+        />
+      </div>
+    </div>
+  );
+}
+
+function PackageEditor({
+  pkg,
+  onChange,
+  onRemove,
+}: {
+  pkg: EventPackage;
+  onChange: (next: EventPackage) => void;
+  onRemove: () => void;
+}) {
+  return (
+    <div className="rounded-xl border border-white/10 p-4">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-white">{pkg.name}</p>
+        <button onClick={onRemove} className="text-xs text-red-300">
+          Remove
+        </button>
+      </div>
+      <div className="mt-4 grid gap-3 md:grid-cols-2">
+        <input
+          className={inputClass}
+          value={pkg.id}
+          onChange={(event) => onChange({ ...pkg, id: event.target.value })}
+          placeholder="id"
+        />
+        <input
+          className={inputClass}
+          value={pkg.name}
+          onChange={(event) => onChange({ ...pkg, name: event.target.value })}
+          placeholder="Name"
+        />
+        <input
+          className={inputClass}
+          value={pkg.price}
+          onChange={(event) => onChange({ ...pkg, price: event.target.value })}
+          placeholder="Price"
+        />
+        <input
+          className={inputClass}
+          value={pkg.duration}
+          onChange={(event) => onChange({ ...pkg, duration: event.target.value })}
+          placeholder="Duration"
+        />
+        <input
+          className={inputClass}
+          value={pkg.tagline}
+          onChange={(event) => onChange({ ...pkg, tagline: event.target.value })}
+          placeholder="Tagline"
+        />
+        <input
+          className={inputClass}
+          value={pkg.bestFor}
+          onChange={(event) => onChange({ ...pkg, bestFor: event.target.value })}
+          placeholder="Best for"
+        />
+        <input
+          className={inputClass}
+          value={pkg.themeColor}
+          onChange={(event) => onChange({ ...pkg, themeColor: event.target.value })}
+          placeholder="Theme classes"
+        />
+        <input
+          className={inputClass}
+          value={pkg.shadowColor}
+          onChange={(event) => onChange({ ...pkg, shadowColor: event.target.value })}
+          placeholder="Shadow color"
+        />
+        <input
+          className={inputClass}
+          value={pkg.highlightText || ""}
+          onChange={(event) => onChange({ ...pkg, highlightText: event.target.value })}
+          placeholder="Highlight text"
+        />
+        <select
+          className={inputClass}
+          value={pkg.iconKey}
+          onChange={(event) =>
+            onChange({ ...pkg, iconKey: event.target.value as EventPackage["iconKey"] })
+          }
+        >
+          <option value="zap">Zap</option>
+          <option value="shield-check">Shield Check</option>
+          <option value="users">Users</option>
+        </select>
+      </div>
+      <div className="mt-4 grid gap-3">
+        <textarea
+          className={`${inputClass} min-h-[100px]`}
+          value={pkg.features.join("\n")}
+          onChange={(event) =>
+            onChange({ ...pkg, features: splitLines(event.target.value) })
+          }
+          placeholder="Features (one per line)"
+        />
+      </div>
+    </div>
+  );
+}

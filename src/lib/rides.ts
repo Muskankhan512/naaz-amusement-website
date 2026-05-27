@@ -28,7 +28,7 @@ export const rides: Ride[] = [
     tagline: "Where gravity is just a suggestion.",
     description:
       "Naaz Amusement's signature thrill ride — a towering experience that sends you spinning, twisting, and screaming through the Jaipur sky.",
-    image: "/p1.jpg",
+    image: "/18.jpeg",
     tint: "#210C6D",
   },
   {
@@ -43,7 +43,7 @@ export const rides: Ride[] = [
     tagline: "Scramble your senses at 100 feet.",
     description:
       "A towering ride that spins you in multiple axes at once. Not for the faint-hearted — but absolutely unforgettable.",
-    image: "/2.jpg",
+    image: "/11.jpeg",
     tint: "#EEA727",
   },
   {

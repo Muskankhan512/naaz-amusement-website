@@ -6,19 +6,13 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
 import { ArrowDown } from "lucide-react";
 import { site } from "@/lib/site";
+import { useContentStore } from "@/stores/content-store";
 
 type Stat = {
   endValue: number;
   suffix: string;
   label: string;
 };
-
-const stats: Stat[] = [
-  { endValue: 80, suffix: "+", label: "Rides & Attractions" },
-  { endValue: 18, suffix: "", label: "Acres of Pure Fun" },
-  { endValue: 6, suffix: "K+", label: "Google Reviews" },
-  { endValue: 100, suffix: "%", label: "Family Happiness" },
-];
 
 function AnimatedCounter({ endValue, suffix }: { endValue: number; suffix: string }) {
   const [count, setCount] = useState(0);
@@ -58,6 +52,9 @@ function AnimatedCounter({ endValue, suffix }: { endValue: number; suffix: strin
 }
 
 export function Hero() {
+  const { content, fetchContent } = useContentStore();
+  const hero = content.hero;
+  const stats = hero.stats as Stat[];
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -65,6 +62,10 @@ export function Hero() {
   });
 
   const scrollOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+
+  useEffect(() => {
+    fetchContent();
+  }, [fetchContent]);
 
   return (
     <section
@@ -94,28 +95,30 @@ export function Hero() {
           </div>
 
           {/* Offer banner */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="hidden mt-6 sm:mt-8 w-full max-w-md sm:max-w-lg"
-          >
-            <Link
-              href={site.bookingUrl}
-              target="_blank"
-              className="group flex flex-col items-center gap-2 sm:gap-3 rounded-[20px] border border-accent-yellow/30 bg-deep-purple/60 px-5 py-4 sm:px-8 sm:py-5 backdrop-blur-md transition hover:border-accent-yellow hover:bg-deep-purple/80"
+          {hero.offer.enabled && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="hidden mt-6 sm:mt-8 w-full max-w-md sm:max-w-lg"
             >
-              <span className="font-display text-[clamp(0.85rem,2.5vw,1.5rem)] text-accent-yellow text-center">
-                Book your tickets online and
-              </span>
-              <span className="font-display text-[clamp(1.5rem,4vw,3rem)] text-white text-center">
-                Get Flat 20% off*
-              </span>
-              <span className="mt-1 sm:mt-2 rounded-full bg-red-600 px-5 py-2 sm:px-6 font-display text-[0.7rem] sm:text-[0.8rem] uppercase tracking-wider text-white transition group-hover:bg-red-500">
-                BOOK YOUR TICKETS NOW
-              </span>
-            </Link>
-          </motion.div>
+              <Link
+                href={site.bookingUrl}
+                target="_blank"
+                className="group flex flex-col items-center gap-2 sm:gap-3 rounded-[20px] border border-accent-yellow/30 bg-deep-purple/60 px-5 py-4 sm:px-8 sm:py-5 backdrop-blur-md transition hover:border-accent-yellow hover:bg-deep-purple/80"
+              >
+                <span className="font-display text-[clamp(0.85rem,2.5vw,1.5rem)] text-accent-yellow text-center">
+                  {hero.offer.eyebrow}
+                </span>
+                <span className="font-display text-[clamp(1.5rem,4vw,3rem)] text-white text-center">
+                  {hero.offer.title}
+                </span>
+                <span className="mt-1 sm:mt-2 rounded-full bg-red-600 px-5 py-2 sm:px-6 font-display text-[0.7rem] sm:text-[0.8rem] uppercase tracking-wider text-white transition group-hover:bg-red-500">
+                  {hero.offer.cta}
+                </span>
+              </Link>
+            </motion.div>
+          )}
         </div>
 
         {/* Scroll down indicator */}
@@ -148,9 +151,7 @@ export function Hero() {
             transition={{ duration: 0.7 }}
             className="text-center font-body text-[clamp(0.9rem,1.3vw,1.125rem)] leading-relaxed text-white/90"
           >
-            At Naaz Amusement, we don&rsquo;t just build rides. We architect moments that
-            make your heart race, your family bond, and your soul feel 10 years
-            younger. Welcome to Jaipur&rsquo;s 18-acre universe of pure, unfiltered joy.
+            {hero.body}
           </motion.p>
 
           {/* Description */}
@@ -161,9 +162,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.15 }}
             className="mx-auto mt-8 sm:mt-12 max-w-4xl text-center font-display text-[clamp(1.2rem,2.5vw,2rem)] leading-[1.38] tracking-[-0.32px] text-white"
           >
-            Naaz Amusement is Rajasthan&rsquo;s premier themed entertainment destination. A
-            world-class amusement park designed by renowned architects, spread across
-            18 acres of adrenaline, laughter, and wonder.
+            {hero.description}
           </motion.h2>
 
           {/* Stats row */}

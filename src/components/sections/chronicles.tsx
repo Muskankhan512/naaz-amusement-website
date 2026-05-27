@@ -1,13 +1,22 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 
 import { blogPosts } from "@/lib/blog";
+import { useContentStore } from "@/stores/content-store";
 
 
 export function Chronicles() {
+  const { content, fetchContent } = useContentStore();
+  const chronicles = content.chronicles;
+
+  useEffect(() => {
+    fetchContent();
+  }, [fetchContent]);
+
   return (
     <section
       id="chronicles"
@@ -22,7 +31,7 @@ export function Chronicles() {
           transition={{ duration: 0.5 }}
           className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
         >
-          Naaz Amusement Chronicles
+          {chronicles.eyebrow}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -31,7 +40,7 @@ export function Chronicles() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-4 max-w-3xl font-display text-[clamp(1.6rem,3.5vw,2.375rem)] leading-[1.37] tracking-[0.76px] text-white"
         >
-          Stories, tips, and behind-the-scenes chaos from the kingdom.
+          {chronicles.heading}
         </motion.h2>
 
         {/* 2×2 Grid */}
@@ -74,10 +83,10 @@ export function Chronicles() {
         {/* View All Blog button */}
         <div className="mt-12 flex justify-center">
           <Link
-            href="/blog"
+            href={chronicles.ctaHref}
             className="inline-flex items-center rounded-full bg-white px-8 py-3 font-mono-ibm text-[14px] font-medium text-black transition hover:bg-accent-yellow hover:text-deep-purple"
           >
-            View All Blog
+            {chronicles.ctaLabel}
           </Link>
         </div>
       </div>

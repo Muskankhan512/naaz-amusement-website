@@ -101,6 +101,9 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: () => {
+        fetch("/api/auth/logout", { method: "POST" }).catch((error) => {
+          console.error("Logout API error:", error);
+        });
         set({ user: null });
       },
 

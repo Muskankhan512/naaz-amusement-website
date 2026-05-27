@@ -63,13 +63,24 @@ export async function POST(request: Request) {
       }
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       id: user._id.toString(),
       name: user.name,
       email: user.email,
       phone: user.phone,
       createdAt: user.createdAt,
     });
+
+    if (isMockAdmin) {
+      response.cookies.set("naaz-admin", "1", {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
+      });
+    }
+
+    return response;
   } catch (error: any) {
     console.error("Login error:", error);
     return NextResponse.json(

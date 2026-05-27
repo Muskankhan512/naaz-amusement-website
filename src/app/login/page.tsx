@@ -14,10 +14,32 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { ArrowLeft, Loader2, Sparkles, KeyRound, Mail } from "lucide-react";
 
-const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+const loginSchema = z
+  .object({
+    email: z.string().email("Please enter a valid email address"),
+    password: z.string().optional(),
+  })
+  .superRefine((values, ctx) => {
+    const isAdmin = values.email.toLowerCase().endsWith("@naazamusement.com");
+    const password = values.password ?? "";
+
+    if (!isAdmin && password.length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Password is required",
+        path: ["password"],
+      });
+      return;
+    }
+
+    if (!isAdmin && password.length > 0 && password.length < 6) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Password must be at least 6 characters",
+        path: ["password"],
+      });
+    }
+  });
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -53,7 +75,10 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const success = await login(data.email, data.password);
+      const email = data.email.trim().toLowerCase();
+      const password = data.password?.trim();
+      const isAdmin = email.endsWith("@naazamusement.com");
+      const success = await login(email, isAdmin && !password ? undefined : password);
       if (success) {
         toast.success("Welcome back to Naaz Amusement!");
         router.push("/profile");
@@ -177,6 +202,9 @@ export default function LoginPage() {
                   Forgot Password?
                 </Link>
               </div>
+              <p className="mt-2 text-[11px] text-white/40">
+                Admin login: use admin@naazamusement.com and leave password blank or use admin123.
+              </p>
             </div>
 
             {/* Submit Button */}

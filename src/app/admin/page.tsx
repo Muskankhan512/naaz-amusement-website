@@ -26,13 +26,14 @@ import {
   Layers,
   ArrowUpRight,
 } from "lucide-react";
+import { ContentManager } from "@/components/admin/content-manager";
 
 export default function AdminPage() {
   const { bookings, updateBookingStatus, deleteBooking, addBooking, user, login, fetchBookings } = useAuthStore();
   const { rides, addRide, updateRide, deleteRide, resetRides, fetchRides } = useRidesStore();
   
   const [mounted, setMounted] = useState(false);
-  const [activeTab, setActiveTab] = useState<"dashboard" | "bookings" | "rides" | "users">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "bookings" | "rides" | "users" | "content">("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
   const [isDemoLoggingIn, setIsDemoLoggingIn] = useState(false);
 
@@ -352,6 +353,16 @@ export default function AdminPage() {
                 }`}
               >
                 <Users className="h-4 w-4" /> Customers ({derivedUsers.length})
+              </button>
+              <button
+                onClick={() => setActiveTab("content")}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition font-display text-sm tracking-wider uppercase shrink-0 ${
+                  activeTab === "content"
+                    ? "bg-accent-yellow text-deep-purple shadow-lg shadow-accent-yellow/15"
+                    : "text-white/60 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                <Layers className="h-4 w-4" /> Content
               </button>
             </div>
 
@@ -792,6 +803,13 @@ export default function AdminPage() {
                       </table>
                     </div>
                   </div>
+                </div>
+              )}
+
+              {/* --- CONTENT TAB --- */}
+              {activeTab === "content" && (
+                <div className="animate-fadeIn">
+                  <ContentManager />
                 </div>
               )}
 

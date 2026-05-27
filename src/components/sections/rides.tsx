@@ -1,11 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
-import { rides } from "@/lib/rides";
+import { rides as defaultRides } from "@/lib/rides";
 import { cn } from "@/lib/utils";
+import { useRidesStore } from "@/stores/rides-store";
+import { useContentStore } from "@/stores/content-store";
 
 const tileSizes = [
   "md:row-span-2 aspect-[3/4]",
@@ -19,6 +22,19 @@ const tileSizes = [
 ];
 
 export function Rides() {
+  const { content, fetchContent } = useContentStore();
+  const { rides: dynamicRides, fetchRides } = useRidesStore();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    fetchRides();
+    fetchContent();
+  }, [fetchRides, fetchContent]);
+
+  const section = content.rides;
+  const rides = mounted && dynamicRides.length > 0 ? dynamicRides : defaultRides;
+
   return (
     <section
       id="rides"
@@ -29,17 +45,16 @@ export function Rides() {
         <div className="flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <p className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow">
-              Our Rides & Attractions
+              {section.eyebrow}
             </p>
             <h2 className="mt-3 sm:mt-4 font-display text-[clamp(2.4rem,4.8vw,4.2rem)] leading-[1.02] text-white">
-              80+ rides.{" "}
-              <span className="text-accent-yellow">A thousand</span> memories
-              from the kingdom.
+              {section.headingLead}{" "}
+              <span className="text-accent-yellow">{section.headingAccent}</span>{" "}
+              {section.headingTrail}
             </h2>
           </div>
           <p className="max-w-sm text-[0.98rem] leading-relaxed text-white/70">
-            From heart-stopping roller coasters to serene lazy rivers — every
-            attraction is maintained and inspected daily.
+            {section.subtext}
           </p>
         </div>
 

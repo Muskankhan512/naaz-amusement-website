@@ -3,79 +3,23 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
-
-type Experience = {
-  num: string;
-  title: string;
-  tagline: string;
-  image: string;
-};
-
-const experiences: Experience[] = [
-  {
-    num: "01",
-    title: "Amusement Park",
-    tagline: "Where Gravity is Just a Suggestion",
-    image: "/p1.jpg",
-  },
-  {
-    num: "02",
-    title: "Adventure Park",
-    tagline: "Your Comfort Zone Called. You Didn't Answer",
-    image: "/2.jpg",
-  },
-  {
-    num: "03",
-    title: "Khao Gali",
-    tagline:
-      "25+ obstacle courses suspended mid-air. Rope bridges, cargo nets, and sky cycling — where your courage gets tested.",
-    image: "/3.jpg",
-  },
-  {
-    num: "04",
-    title: "Sports Arena",
-    tagline:
-      "Beat the Jaipur heat with wave pools, water slides, and lazy rivers. A tropical escape without the airfare.",
-    image: "/4.jpeg",
-  },
-  {
-    num: "05",
-    title: "Pickleball Meadows",
-    tagline:
-      "Professional-grade facilities for tournaments, corporates, and weekend warriors. Play where champions train.",
-    image: "/5.jpg",
-  },
-  {
-    num: "06",
-    title: "Corporate Activities",
-    tagline:
-      "Team building experiences that actually build teams. Adventure courses, challenges, and collaborative fun.",
-    image: "/6.jpg",
-  },
-  {
-    num: "07",
-    title: "Birthdays & Parties",
-    tagline:
-      "Private party setups with themed décor, unlimited rides, and memories your child will talk about forever.",
-    image: "/p1.jpg",
-  },
-  {
-    num: "08",
-    title: "Events & Concerts",
-    tagline:
-      "With 50+ themed backdrops, Naaz Amusement is Jaipur's most Instagrammable event destination.",
-    image: "/2.jpg",
-  },
-];
-
-const TOTAL = experiences.length;
+import { useContentStore } from "@/stores/content-store";
+import type { Experience } from "@/lib/content";
 
 export function Portfolio() {
+  const { content, fetchContent } = useContentStore();
+  const portfolio = content.portfolio;
+  const experiences = portfolio.experiences;
+  const TOTAL = experiences.length;
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleActive = useCallback((i: number) => {
     setActiveIndex((prev) => (prev === i ? prev : i));
   }, []);
+
+  useEffect(() => {
+    fetchContent();
+  }, [fetchContent]);
 
   return (
     <section
@@ -91,7 +35,7 @@ export function Portfolio() {
           transition={{ duration: 0.5 }}
           className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
         >
-          Signature Experiences
+          {portfolio.eyebrow}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 24 }}
@@ -100,7 +44,7 @@ export function Portfolio() {
           transition={{ duration: 0.7, delay: 0.1 }}
           className="mt-4 sm:mt-6 max-w-5xl font-display text-[clamp(1.8rem,5vw,3rem)] leading-[1.17] tracking-[0.96px] text-white"
         >
-          Our portfolio of thrills showcases the diversity of our madness.
+          {portfolio.heading}
         </motion.h2>
       </div>
 
@@ -165,6 +109,7 @@ export function Portfolio() {
               key={exp.num}
               experience={exp}
               index={i}
+              total={TOTAL}
               isActive={i === activeIndex}
               onActive={handleActive}
             />
@@ -178,11 +123,13 @@ export function Portfolio() {
 function ExperienceCard({
   experience,
   index,
+  total,
   isActive,
   onActive,
 }: {
   experience: Experience;
   index: number;
+  total: number;
   isActive: boolean;
   onActive: (i: number) => void;
 }) {
@@ -224,7 +171,7 @@ function ExperienceCard({
         <div className="absolute left-5 top-5 z-10 lg:hidden">
           <span className="font-display text-[2.2rem] leading-none text-white drop-shadow-[0_4px_14px_rgba(0,0,0,0.6)]">
             {experience.num}
-            <span className="text-white/40">/{String(TOTAL).padStart(2, "0")}</span>
+            <span className="text-white/40">/{String(total).padStart(2, "0")}</span>
           </span>
         </div>
 

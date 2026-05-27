@@ -1,51 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Plus, Minus } from "lucide-react";
-
-type FaqItem = {
-  q: string;
-  a: string;
-};
-
-const faqs: FaqItem[] = [
-  {
-    q: "What are the park timings?",
-    a: "Naaz Amusement is open every day from 11:00 AM to 8:00 PM. Last entry is at 7:00 PM. During holidays and special events, we may extend hours — check our social media for updates.",
-  },
-  {
-    q: "How do I book tickets online?",
-    a: "Visit booking.naazamusementjaipur.com, choose your date and ticket type, apply any discount coupon if available, and complete payment. You'll receive an instant e-ticket via email and SMS.",
-  },
-  {
-    q: "Is there a discount for online bookings?",
-    a: "Yes! Book online and get flat 20% off on entry tickets. We also run seasonal offers and group discounts for families, schools, and corporates.",
-  },
-  {
-    q: "Is the park safe for young children?",
-    a: "Absolutely. We have dedicated kid-friendly zones with age-appropriate rides, trained ride operators, on-site medical staff, and comprehensive safety protocols. Every ride undergoes daily maintenance checks.",
-  },
-  {
-    q: "Can we bring outside food?",
-    a: "Outside food is not permitted inside the park, but our Khao Gali food court offers 25+ stalls covering everything from street food to fine dining. Bottled water is available throughout the park.",
-  },
-  {
-    q: "Is the park wheelchair accessible?",
-    a: "Yes. Entry, washrooms, food courts, and most viewing areas have ramps and accessible pathways. Many of our attractions are wheelchair-friendly, and staff is available for assistance.",
-  },
-  {
-    q: "Do you host corporate events and birthday parties?",
-    a: "Yes! We offer customized packages for corporate team-building, birthday parties, school trips, and private events. Contact our events team for tailored solutions.",
-  },
-  {
-    q: "What is the refund / cancellation policy?",
-    a: "Full refund if cancelled 48 hours before your booked date. Within 48 hours, we offer a free date change. Unused tickets cannot be refunded after the visit date has passed.",
-  },
-];
+import { useContentStore } from "@/stores/content-store";
+import type { FaqItem } from "@/lib/content";
 
 export function Faq() {
+  const { content, fetchContent } = useContentStore();
+  const faq = content.faq;
+  const faqs: FaqItem[] = faq.items;
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  useEffect(() => {
+    fetchContent();
+  }, [fetchContent]);
 
   return (
     <section
@@ -62,7 +31,7 @@ export function Faq() {
             transition={{ duration: 0.5 }}
             className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
           >
-            FAQ
+            {faq.eyebrow}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -71,7 +40,7 @@ export function Faq() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-4 font-display text-[clamp(2rem,4.5vw,3rem)] leading-[1.17] text-white"
           >
-            Got questions? We&rsquo;ve got answers.
+            {faq.heading}
           </motion.h2>
         </div>
 
