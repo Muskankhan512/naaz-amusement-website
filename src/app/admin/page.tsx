@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
 import { motion, AnimatePresence } from "motion/react";
 import { useAuthStore } from "@/stores/auth-store";
 import { useRidesStore } from "@/stores/rides-store";
 import { Ride, Thrill } from "@/lib/rides";
+import { isAdminEmail } from "@/lib/admin";
 import { toast } from "sonner";
 import {
   LayoutDashboard,
@@ -29,13 +31,12 @@ import {
 import { ContentManager } from "@/components/admin/content-manager";
 
 export default function AdminPage() {
-  const { bookings, updateBookingStatus, deleteBooking, addBooking, user, login, fetchBookings } = useAuthStore();
+  const { bookings, updateBookingStatus, deleteBooking, addBooking, user, fetchBookings } = useAuthStore();
   const { rides, addRide, updateRide, deleteRide, resetRides, fetchRides } = useRidesStore();
   
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"dashboard" | "bookings" | "rides" | "users" | "content">("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDemoLoggingIn, setIsDemoLoggingIn] = useState(false);
 
   // Modal states
   const [showAddRideModal, setShowAddRideModal] = useState(false);
@@ -96,19 +97,7 @@ export default function AdminPage() {
     );
   }
 
-  // Auth check: Email must contain naazamusement.com or allow evaluation mode
-  const isAdmin = user?.email.endsWith("@naazamusement.com");
-
-  const handleDemoLogin = async () => {
-    setIsDemoLoggingIn(true);
-    const result = await login("admin@naazamusement.com");
-    setIsDemoLoggingIn(false);
-    if (result.success) {
-      toast.success("Successfully logged in as Admin Administrator!");
-    } else {
-      toast.error(result.message || "Admin login failed. Please try again.");
-    }
-  };
+  const isAdmin = isAdminEmail(user?.email);
 
   // Stats calculation
   const totalRevenue = bookings
@@ -302,13 +291,12 @@ export default function AdminPage() {
                     Log in as administrator to unlock full management controls and booking edits.
                   </div>
                 </div>
-                <button
-                  onClick={handleDemoLogin}
-                  disabled={isDemoLoggingIn}
+                <Link
+                  href="/login"
                   className="bg-accent-yellow hover:bg-accent-yellow/90 text-deep-purple font-display text-xs px-4 py-2 rounded-xl transition flex items-center justify-center gap-1 shrink-0"
                 >
-                  {isDemoLoggingIn ? "Logging in..." : "Admin Access"} <ArrowUpRight className="h-3 w-3" />
-                </button>
+                  Admin Login <ArrowUpRight className="h-3 w-3" />
+                </Link>
               </div>
             )}
           </div>

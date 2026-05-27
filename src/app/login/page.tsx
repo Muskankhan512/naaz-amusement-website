@@ -11,6 +11,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ADMIN_EMAIL } from "@/lib/admin";
 import { toast } from "sonner";
 import { ArrowLeft, Loader2, Sparkles, KeyRound, Mail } from "lucide-react";
 
@@ -20,10 +21,9 @@ const loginSchema = z
     password: z.string().optional(),
   })
   .superRefine((values, ctx) => {
-    const isAdmin = values.email.toLowerCase().endsWith("@naazamusement.com");
     const password = values.password ?? "";
 
-    if (!isAdmin && password.length === 0) {
+    if (password.length === 0) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Password is required",
@@ -32,7 +32,7 @@ const loginSchema = z
       return;
     }
 
-    if (!isAdmin && password.length > 0 && password.length < 6) {
+    if (password.length < 6) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Password must be at least 6 characters",
@@ -77,8 +77,7 @@ export default function LoginPage() {
     try {
       const email = data.email.trim().toLowerCase();
       const password = data.password?.trim();
-      const isAdmin = email.endsWith("@naazamusement.com");
-      const result = await login(email, isAdmin && !password ? undefined : password);
+      const result = await login(email, password);
       if (result.success) {
         toast.success("Welcome back to Naaz Amusement!");
         router.push("/profile");
@@ -205,7 +204,7 @@ export default function LoginPage() {
                 </Link>
               </div>
               <p className="mt-2 text-[11px] text-white/40">
-                Admin login: use admin@naazamusement.com and leave password blank or use admin123.
+                Admin login: use {ADMIN_EMAIL} with your existing password.
               </p>
             </div>
 

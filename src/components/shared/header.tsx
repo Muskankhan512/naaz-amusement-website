@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Menu, Settings, X } from "lucide-react";
 import { site } from "@/lib/site";
 import { useAuthStore } from "@/stores/auth-store";
+import { isAdminEmail } from "@/lib/admin";
 
 const navLinks = [
   { label: "HOME", href: "/" },
@@ -31,7 +32,7 @@ export function Header() {
   }, []);
 
   const loggedIn = hasHydrated && user;
-  const isAdmin = Boolean(loggedIn && user?.email.endsWith("@naazamusement.com"));
+  const isAdmin = Boolean(loggedIn && isAdminEmail(user?.email));
 
   const dynamicLinks = [
     ...navLinks,

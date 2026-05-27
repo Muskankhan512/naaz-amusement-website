@@ -6,11 +6,9 @@ Set these locally and in your deployment environment:
 
 ```bash
 MONGODB_URI=mongodb://127.0.0.1:27017/naaz_amusement
-ADMIN_EMAIL=admin@naazamusement.com
-ADMIN_PASSWORD=admin123
-ADMIN_NAME=Admin
-ADMIN_PHONE=9026752751
 ```
+
+Admin login is fixed in code as `kushalmahawar71@gmail.com`; use that account's existing password.
 
 ## Getting Started
 
