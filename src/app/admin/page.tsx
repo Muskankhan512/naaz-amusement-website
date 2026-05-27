@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
 import { motion, AnimatePresence } from "motion/react";
-import { useAuthStore, Booking } from "@/stores/auth-store";
+import { useAuthStore } from "@/stores/auth-store";
 import { useRidesStore } from "@/stores/rides-store";
 import { Ride, Thrill } from "@/lib/rides";
 import { toast } from "sonner";
@@ -101,9 +101,13 @@ export default function AdminPage() {
 
   const handleDemoLogin = async () => {
     setIsDemoLoggingIn(true);
-    await login("admin@naazamusement.com");
+    const result = await login("admin@naazamusement.com");
     setIsDemoLoggingIn(false);
-    toast.success("Successfully logged in as Admin Administrator!");
+    if (result.success) {
+      toast.success("Successfully logged in as Admin Administrator!");
+    } else {
+      toast.error(result.message || "Admin login failed. Please try again.");
+    }
   };
 
   // Stats calculation

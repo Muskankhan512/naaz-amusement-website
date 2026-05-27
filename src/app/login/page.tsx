@@ -78,15 +78,17 @@ export default function LoginPage() {
       const email = data.email.trim().toLowerCase();
       const password = data.password?.trim();
       const isAdmin = email.endsWith("@naazamusement.com");
-      const success = await login(email, isAdmin && !password ? undefined : password);
-      if (success) {
+      const result = await login(email, isAdmin && !password ? undefined : password);
+      if (result.success) {
         toast.success("Welcome back to Naaz Amusement!");
         router.push("/profile");
       } else {
-        toast.error("Invalid credentials. Please try again.");
+        toast.error(result.message || "Invalid credentials. Please try again.");
       }
-    } catch {
-      toast.error("An error occurred during sign in.");
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "An error occurred during sign in."
+      );
     }
   };
 

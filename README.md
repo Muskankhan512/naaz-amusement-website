@@ -1,5 +1,17 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment Variables
+
+Set these locally and in your deployment environment:
+
+```bash
+MONGODB_URI=mongodb://127.0.0.1:27017/naaz_amusement
+ADMIN_EMAIL=admin@naazamusement.com
+ADMIN_PASSWORD=admin123
+ADMIN_NAME=Admin
+ADMIN_PHONE=9026752751
+```
+
 ## Getting Started
 
 First, run the development server:

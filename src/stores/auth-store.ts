@@ -24,11 +24,16 @@ export interface Booking {
   userPhone?: string;
 }
 
+export interface AuthResult {
+  success: boolean;
+  message?: string;
+}
+
 interface AuthState {
   user: User | null;
   bookings: Booking[];
   isLoading: boolean;
-  login: (email: string, password?: string) => Promise<boolean>;
+  login: (email: string, password?: string) => Promise<AuthResult>;
   register: (name: string, email: string, phone: string, password?: string) => Promise<boolean>;
   logout: () => void;
   updateProfile: (name: string, phone: string) => Promise<boolean>;
@@ -67,16 +72,26 @@ export const useAuthStore = create<AuthState>()(
             body: JSON.stringify({ email, password }),
           });
 
+          const data = await res.json().catch(() => null);
+
           if (res.ok) {
-            const userData = await res.json();
-            set({ user: userData, isLoading: false });
-            return true;
+            set({ user: data, isLoading: false });
+            return { success: true };
           }
+
+          set({ isLoading: false });
+          return {
+            success: false,
+            message: data?.message || "Unable to sign in. Please try again.",
+          };
         } catch (error) {
           console.error("Login API error:", error);
         }
         set({ isLoading: false });
-        return false;
+        return {
+          success: false,
+          message: "Unable to reach the login service. Please try again.",
+        };
       },
 
       register: async (name, email, phone, password) => {
