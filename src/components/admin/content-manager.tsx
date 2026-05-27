@@ -1,9 +1,84 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { RefreshCw, Save } from "lucide-react";
 import { toast } from "sonner";
 import { useContentStore } from "@/stores/content-store";
 import type { ActiveMela, EventPackage, HomeContent } from "@/lib/content";
+
+type ContentEditorSection = keyof HomeContent;
+
+const contentEditorSections: Array<{
+  key: ContentEditorSection;
+  label: string;
+  metric: (draft: HomeContent) => string;
+}> = [
+  {
+    key: "hero",
+    label: "Hero",
+    metric: (draft) => `${draft.hero.stats.length} stats`,
+  },
+  {
+    key: "portfolio",
+    label: "Portfolio",
+    metric: (draft) => `${draft.portfolio.experiences.length} cards`,
+  },
+  {
+    key: "planVisit",
+    label: "Plan Visit",
+    metric: (draft) => `${draft.planVisit.steps.length} steps`,
+  },
+  {
+    key: "rides",
+    label: "Rides Section",
+    metric: () => "Section copy",
+  },
+  {
+    key: "activeLocations",
+    label: "Active Locations",
+    metric: (draft) => `${draft.activeLocations.locations.length} locations`,
+  },
+  {
+    key: "testimonials",
+    label: "Testimonials",
+    metric: (draft) => `${draft.testimonials.reviews.length} reviews`,
+  },
+  {
+    key: "tour",
+    label: "Tour Marquee",
+    metric: () => "2 rows",
+  },
+  {
+    key: "gallery",
+    label: "Gallery",
+    metric: (draft) => `${draft.gallery.rows.length} rows`,
+  },
+  {
+    key: "chronicles",
+    label: "Chronicles",
+    metric: () => "CTA block",
+  },
+  {
+    key: "eventPackages",
+    label: "Event Packages",
+    metric: (draft) => `${draft.eventPackages.packages.length} packages`,
+  },
+  {
+    key: "ctaStrip",
+    label: "CTA Strip",
+    metric: () => "CTA block",
+  },
+  {
+    key: "facilities",
+    label: "Facilities",
+    metric: (draft) => `${draft.facilities.rows.length} rows`,
+  },
+  {
+    key: "faq",
+    label: "FAQ",
+    metric: (draft) => `${draft.faq.items.length} items`,
+  },
+];
 
 const inputClass =
   "w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-accent-yellow focus:outline-none";
@@ -20,6 +95,8 @@ const splitLines = (value: string) =>
 export function ContentManager() {
   const { content, fetchContent, updateContent, isLoading } = useContentStore();
   const [draft, setDraft] = useState<HomeContent>(content);
+  const [activeContentSection, setActiveContentSection] =
+    useState<ContentEditorSection>("hero");
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -27,7 +104,8 @@ export function ContentManager() {
   }, [fetchContent]);
 
   useEffect(() => {
-    setDraft(content);
+    const timer = window.setTimeout(() => setDraft(content), 0);
+    return () => window.clearTimeout(timer);
   }, [content]);
 
   const handleSave = async () => {
@@ -44,6 +122,12 @@ export function ContentManager() {
     setDraft((prev) => ({ ...prev, [section]: value }));
   };
 
+  const activeSectionMeta =
+    contentEditorSections.find((section) => section.key === activeContentSection) ??
+    contentEditorSections[0];
+  const getSectionCardClass = (section: ContentEditorSection) =>
+    activeContentSection === section ? sectionCardClass : "hidden";
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -57,24 +141,92 @@ export function ContentManager() {
         </div>
         <div className="flex items-center gap-3">
           <button
+            type="button"
             onClick={() => fetchContent(true)}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-display tracking-widest text-white transition hover:border-accent-yellow"
+            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-display tracking-widest text-white transition hover:border-accent-yellow disabled:opacity-60"
             disabled={isLoading}
           >
+            <RefreshCw className="h-3.5 w-3.5" />
             REFRESH
           </button>
           <button
+            type="button"
             onClick={handleSave}
-            className="rounded-xl bg-accent-yellow px-4 py-2 text-xs font-display tracking-widest text-deep-purple transition hover:bg-accent-yellow/90"
+            className="inline-flex items-center gap-2 rounded-xl bg-accent-yellow px-4 py-2 text-xs font-display tracking-widest text-deep-purple transition hover:bg-accent-yellow/90 disabled:opacity-60"
             disabled={isSaving || isLoading}
           >
+            <Save className="h-3.5 w-3.5" />
             {isSaving ? "SAVING..." : "SAVE ALL"}
           </button>
         </div>
       </div>
 
+      <div className="grid gap-5 lg:grid-cols-[260px_minmax(0,1fr)]">
+        <aside className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 lg:sticky lg:top-24 lg:self-start">
+          <div className="flex items-center justify-between px-2 py-2">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-white/50">
+              Sections
+            </p>
+            <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-white/60">
+              {contentEditorSections.length}
+            </span>
+          </div>
+          <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+            {contentEditorSections.map((section) => {
+              const isActive = activeContentSection === section.key;
+
+              return (
+                <button
+                  key={section.key}
+                  type="button"
+                  aria-pressed={isActive}
+                  onClick={() => setActiveContentSection(section.key)}
+                  className={`flex min-h-16 items-center justify-between gap-3 rounded-xl border px-3 py-3 text-left transition ${
+                    isActive
+                      ? "border-accent-yellow bg-accent-yellow text-deep-purple shadow-lg shadow-accent-yellow/10"
+                      : "border-white/10 bg-white/[0.03] text-white hover:border-white/20 hover:bg-white/[0.06]"
+                  }`}
+                >
+                  <span className="min-w-0">
+                    <span className="block truncate font-display text-xs uppercase tracking-wider">
+                      {section.label}
+                    </span>
+                    <span
+                      className={`mt-1 block text-[10px] ${
+                        isActive ? "text-deep-purple/70" : "text-white/45"
+                      }`}
+                    >
+                      {section.metric(draft)}
+                    </span>
+                  </span>
+                  <span
+                    className={`h-2 w-2 shrink-0 rounded-full ${
+                      isActive ? "bg-deep-purple" : "bg-white/20"
+                    }`}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </aside>
+
+        <div className="min-w-0 space-y-5">
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-3">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-white/45">
+                Now Editing
+              </p>
+              <h3 className="mt-1 font-display text-lg text-white">
+                {activeSectionMeta.label}
+              </h3>
+            </div>
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/60">
+              {activeSectionMeta.metric(draft)}
+            </span>
+          </div>
+
       {/* HERO */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("hero")}>
         <h3 className="font-display text-lg text-white">Hero</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -230,7 +382,7 @@ export function ContentManager() {
       </section>
 
       {/* PORTFOLIO */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("portfolio")}>
         <h3 className="font-display text-lg text-white">Portfolio</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -348,7 +500,7 @@ export function ContentManager() {
       </section>
 
       {/* PLAN VISIT */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("planVisit")}>
         <h3 className="font-display text-lg text-white">Plan Visit</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -477,7 +629,7 @@ export function ContentManager() {
       </section>
 
       {/* RIDES */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("rides")}>
         <h3 className="font-display text-lg text-white">Rides Section</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -543,7 +695,7 @@ export function ContentManager() {
       </section>
 
       {/* ACTIVE LOCATIONS */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("activeLocations")}>
         <h3 className="font-display text-lg text-white">Active Locations</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -720,7 +872,7 @@ export function ContentManager() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("testimonials")}>
         <h3 className="font-display text-lg text-white">Testimonials</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -873,7 +1025,7 @@ export function ContentManager() {
       </section>
 
       {/* TOUR */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("tour")}>
         <h3 className="font-display text-lg text-white">Tour Marquee</h3>
         <div className="mt-5 grid gap-4">
           <div>
@@ -900,7 +1052,7 @@ export function ContentManager() {
       </section>
 
       {/* GALLERY */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("gallery")}>
         <h3 className="font-display text-lg text-white">Gallery</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -1018,7 +1170,7 @@ export function ContentManager() {
       </section>
 
       {/* CHRONICLES */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("chronicles")}>
         <h3 className="font-display text-lg text-white">Chronicles</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -1077,7 +1229,7 @@ export function ContentManager() {
       </section>
 
       {/* EVENT PACKAGES */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("eventPackages")}>
         <h3 className="font-display text-lg text-white">Event Packages</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -1178,7 +1330,7 @@ export function ContentManager() {
       </section>
 
       {/* CTA STRIP */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("ctaStrip")}>
         <h3 className="font-display text-lg text-white">CTA Strip</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -1263,7 +1415,7 @@ export function ContentManager() {
       </section>
 
       {/* FACILITIES */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("facilities")}>
         <h3 className="font-display text-lg text-white">Facilities</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -1379,7 +1531,7 @@ export function ContentManager() {
       </section>
 
       {/* FAQ */}
-      <section className={sectionCardClass}>
+      <section className={getSectionCardClass("faq")}>
         <h3 className="font-display text-lg text-white">FAQ</h3>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
@@ -1460,6 +1612,8 @@ export function ContentManager() {
           </div>
         </div>
       </section>
+        </div>
+      </div>
     </div>
   );
 }
