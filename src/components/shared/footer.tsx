@@ -19,10 +19,10 @@ const innerPages = [
 
 const otherLinks = [
   { label: "Blog", href: "/blog" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Events", href: "/events" },
-  { label: "Corporate", href: "/corporate" },
-  { label: "Careers", href: "/careers" },
+  { label: "Gallery", href: "/#gallery" },
+  { label: "Events", href: "/#packages" },
+  { label: "Corporate", href: "/contact" },
+  { label: "Careers", href: "/contact" },
 ];
 
 const importantLinks = [
@@ -36,7 +36,7 @@ const socialLinks = [
   { label: "Instagram", href: `https://instagram.com/${site.instagram}` },
   { label: "Facebook", href: `https://facebook.com/${site.facebook}` },
   { label: "YouTube", href: `https://youtube.com/@${site.youtube}` },
-  { label: "Google Maps", href: "#" },
+  { label: "Google Maps", href: site.mapsUrl },
 ];
 
 export function Footer() {

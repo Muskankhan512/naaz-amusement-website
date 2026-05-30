@@ -40,7 +40,11 @@ interface AuthState {
   addBooking: (booking: Omit<Booking, "id" | "createdAt">) => Promise<void>;
   updateBookingStatus: (id: string, status: "Pending" | "Confirmed") => Promise<void>;
   deleteBooking: (id: string) => Promise<void>;
-  resetPassword: (email: string) => Promise<boolean>;
+  resetPassword: (email: string, password: string) => Promise<AuthResult>;
+  changePassword: (
+    currentPassword: string,
+    newPassword: string
+  ) => Promise<AuthResult>;
   fetchBookings: () => Promise<void>;
 }
 
@@ -209,11 +213,69 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      resetPassword: async () => {
+      resetPassword: async (email, password) => {
         set({ isLoading: true });
-        await new Promise((resolve) => setTimeout(resolve, 800));
-        set({ isLoading: false });
-        return true;
+        try {
+          const res = await fetch("/api/auth/forgot-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+          const data = await res.json().catch(() => null);
+          set({ isLoading: false });
+
+          if (res.ok) {
+            return { success: true };
+          }
+          return {
+            success: false,
+            message: data?.message || "Unable to reset password.",
+          };
+        } catch (error) {
+          console.error("Reset password API error:", error);
+          set({ isLoading: false });
+          return {
+            success: false,
+            message: "Unable to reach the server. Please try again.",
+          };
+        }
+      },
+
+      changePassword: async (currentPassword, newPassword) => {
+        const currentUser = get().user;
+        if (!currentUser) {
+          return { success: false, message: "You are not signed in." };
+        }
+
+        set({ isLoading: true });
+        try {
+          const res = await fetch("/api/auth/profile", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: currentUser.email,
+              currentPassword,
+              newPassword,
+            }),
+          });
+          const data = await res.json().catch(() => null);
+          set({ isLoading: false });
+
+          if (res.ok) {
+            return { success: true };
+          }
+          return {
+            success: false,
+            message: data?.message || "Unable to change password.",
+          };
+        } catch (error) {
+          console.error("Change password API error:", error);
+          set({ isLoading: false });
+          return {
+            success: false,
+            message: "Unable to reach the server. Please try again.",
+          };
+        }
       },
     }),
     {

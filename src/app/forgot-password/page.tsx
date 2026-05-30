@@ -11,11 +11,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Sparkles, Mail, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Loader2, Sparkles, Mail, CheckCircle2, Lock } from "lucide-react";
 
-const forgotPasswordSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-});
+const forgotPasswordSchema = z
+  .object({
+    email: z.string().email("Please enter a valid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
@@ -31,17 +38,19 @@ export default function ForgotPasswordPage() {
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
     try {
-      const success = await resetPassword(data.email);
-      if (success) {
+      const result = await resetPassword(data.email, data.password);
+      if (result.success) {
         setIsSubmitted(true);
-        toast.success("Password reset instructions sent!");
+        toast.success("Password updated! You can sign in now.");
       } else {
-        toast.error("Failed to process request. Please try again.");
+        toast.error(result.message || "Failed to reset password.");
       }
     } catch {
       toast.error("An error occurred. Please try again.");
@@ -86,12 +95,12 @@ export default function ForgotPasswordPage() {
             <span>Naaz Account Recovery</span>
           </motion.div>
           <h1 className="mt-4 font-display text-[36px] sm:text-[44px] leading-none text-white">
-            {isSubmitted ? "EMAIL SENT" : "RESET PASSWORD"}
+            {isSubmitted ? "PASSWORD UPDATED" : "RESET PASSWORD"}
           </h1>
           <p className="mt-2 text-sm text-fk-offwhite/60">
             {isSubmitted
-              ? "Check your inbox for instructions to set your new password."
-              : "Enter your registered email and we&apos;ll send you a link to reset your password."}
+              ? "Your password has been updated. You can now sign in with your new password."
+              : "Enter your registered email and choose a new password."}
           </p>
         </div>
 
@@ -124,6 +133,56 @@ export default function ForgotPasswordPage() {
                 </div>
               </div>
 
+              {/* New Password Field */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password" className="text-xs font-medium text-fk-offwhite/90">
+                    New Password
+                  </Label>
+                  {errors.password && (
+                    <span className="text-[11px] text-red-400 font-medium">
+                      {errors.password.message}
+                    </span>
+                  )}
+                </div>
+                <div className="relative">
+                  <Lock className="absolute top-2.5 left-3 h-4 w-4 text-fk-offwhite/40" />
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="••••••"
+                    className="pl-9 h-10 bg-white/[0.04] border-white/10 text-white placeholder:text-white/20 focus-visible:border-accent-yellow focus-visible:ring-accent-yellow/20"
+                    disabled={isLoading}
+                    {...register("password")}
+                  />
+                </div>
+              </div>
+
+              {/* Confirm Password Field */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="confirmPassword" className="text-xs font-medium text-fk-offwhite/90">
+                    Confirm Password
+                  </Label>
+                  {errors.confirmPassword && (
+                    <span className="text-[11px] text-red-400 font-medium">
+                      {errors.confirmPassword.message}
+                    </span>
+                  )}
+                </div>
+                <div className="relative">
+                  <Lock className="absolute top-2.5 left-3 h-4 w-4 text-fk-offwhite/40" />
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="••••••"
+                    className="pl-9 h-10 bg-white/[0.04] border-white/10 text-white placeholder:text-white/20 focus-visible:border-accent-yellow focus-visible:ring-accent-yellow/20"
+                    disabled={isLoading}
+                    {...register("confirmPassword")}
+                  />
+                </div>
+              </div>
+
               {/* Submit Button */}
               <Button
                 type="submit"
@@ -132,10 +191,10 @@ export default function ForgotPasswordPage() {
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> SENDING RESET LINK...
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> UPDATING PASSWORD...
                   </>
                 ) : (
-                  "SEND RESET LINK"
+                  "UPDATE PASSWORD"
                 )}
               </Button>
             </form>
@@ -150,14 +209,13 @@ export default function ForgotPasswordPage() {
                 <CheckCircle2 className="h-10 w-10" />
               </motion.div>
               <p className="text-xs text-fk-offwhite/60">
-                We&apos;ve sent a password reset link to your email. Please follow the instructions in the email to access your account.
+                Your password has been updated successfully. Use your new password to sign in to your account.
               </p>
-              <Button
-                onClick={() => setIsSubmitted(false)}
-                className="w-full h-10 rounded-lg bg-white/10 text-white hover:bg-white/20 font-display text-[15px] tracking-wide"
-              >
-                RESEND EMAIL
-              </Button>
+              <Link href="/login" className="block">
+                <Button className="w-full h-10 rounded-lg bg-accent-yellow text-deep-purple hover:bg-accent-yellow/90 font-display text-[15px] tracking-wide">
+                  GO TO SIGN IN
+                </Button>
+              </Link>
             </div>
           )}
 

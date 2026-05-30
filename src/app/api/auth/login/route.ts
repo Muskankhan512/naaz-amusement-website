@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { isAdminEmail } from "@/lib/admin";
+import { createAdminToken } from "@/lib/auth-token";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
@@ -76,11 +77,12 @@ export async function POST(request: Request) {
     const response = NextResponse.json(userResponse(user));
 
     if (isAdmin) {
-      response.cookies.set(ADMIN_COOKIE, "1", {
+      response.cookies.set(ADMIN_COOKIE, await createAdminToken(lowerEmail), {
         httpOnly: true,
         sameSite: "lax",
         secure: process.env.NODE_ENV === "production",
         path: "/",
+        maxAge: 60 * 60 * 24 * 7,
       });
     }
 

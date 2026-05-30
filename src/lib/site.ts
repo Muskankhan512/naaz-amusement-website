@@ -14,6 +14,8 @@ export const site = {
   fbPixelId: process.env.NEXT_PUBLIC_FB_PIXEL_ID ?? "",
   address:
     "Ajmer Road, Near Bagru Toll, Jaipur, Rajasthan 302028",
+  mapsUrl:
+    "https://www.google.com/maps/search/?api=1&query=Naaz+Amusement+Ajmer+Road+Bagru+Jaipur",
   email: "info@naazamusementjaipur.com",
   phone: "+91-9026752751",
 } as const;

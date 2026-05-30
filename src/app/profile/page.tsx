@@ -34,9 +34,37 @@ type ProfileFormData = z.infer<typeof profileSchema>;
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user, bookings, logout, updateProfile, fetchBookings } = useAuthStore();
+  const { user, bookings, logout, updateProfile, changePassword, fetchBookings } =
+    useAuthStore();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"tickets" | "history" | "settings">("tickets");
+  const [pwForm, setPwForm] = useState({
+    current: "",
+    next: "",
+    confirm: "",
+  });
+  const [pwSaving, setPwSaving] = useState(false);
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pwForm.next.length < 6) {
+      toast.error("New password must be at least 6 characters.");
+      return;
+    }
+    if (pwForm.next !== pwForm.confirm) {
+      toast.error("New passwords do not match.");
+      return;
+    }
+    setPwSaving(true);
+    const result = await changePassword(pwForm.current, pwForm.next);
+    setPwSaving(false);
+    if (result.success) {
+      toast.success("Password changed successfully.");
+      setPwForm({ current: "", next: "", confirm: "" });
+    } else {
+      toast.error(result.message || "Failed to change password.");
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -417,6 +445,79 @@ export default function ProfilePage() {
                       }`}
                     >
                       SAVE PROFILE CHANGES
+                    </Button>
+                  </form>
+                </div>
+
+                {/* Change Password */}
+                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+                  <h2 className="font-display text-lg text-white">
+                    CHANGE <span className="text-accent-yellow">PASSWORD</span>
+                  </h2>
+                  <p className="mt-1 text-sm text-fk-offwhite/60">
+                    Update the password you use to sign in.
+                  </p>
+
+                  <form
+                    onSubmit={handleChangePassword}
+                    className="mt-6 space-y-5 max-w-lg"
+                  >
+                    <div className="space-y-1.5">
+                      <Label htmlFor="currentPassword" className="text-xs font-medium text-fk-offwhite/90">
+                        Current Password
+                      </Label>
+                      <Input
+                        id="currentPassword"
+                        type="password"
+                        placeholder="••••••"
+                        value={pwForm.current}
+                        onChange={(e) =>
+                          setPwForm((prev) => ({ ...prev, current: e.target.value }))
+                        }
+                        className="h-10 bg-white/[0.04] border-white/10 text-white placeholder:text-white/20 focus-visible:border-accent-yellow focus-visible:ring-accent-yellow/20"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="newPassword" className="text-xs font-medium text-fk-offwhite/90">
+                        New Password
+                      </Label>
+                      <Input
+                        id="newPassword"
+                        type="password"
+                        placeholder="••••••"
+                        value={pwForm.next}
+                        onChange={(e) =>
+                          setPwForm((prev) => ({ ...prev, next: e.target.value }))
+                        }
+                        className="h-10 bg-white/[0.04] border-white/10 text-white placeholder:text-white/20 focus-visible:border-accent-yellow focus-visible:ring-accent-yellow/20"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="confirmNewPassword" className="text-xs font-medium text-fk-offwhite/90">
+                        Confirm New Password
+                      </Label>
+                      <Input
+                        id="confirmNewPassword"
+                        type="password"
+                        placeholder="••••••"
+                        value={pwForm.confirm}
+                        onChange={(e) =>
+                          setPwForm((prev) => ({ ...prev, confirm: e.target.value }))
+                        }
+                        className="h-10 bg-white/[0.04] border-white/10 text-white placeholder:text-white/20 focus-visible:border-accent-yellow focus-visible:ring-accent-yellow/20"
+                      />
+                    </div>
+                    <Button
+                      type="submit"
+                      disabled={
+                        pwSaving ||
+                        !pwForm.current ||
+                        !pwForm.next ||
+                        !pwForm.confirm
+                      }
+                      className="h-10 px-6 rounded-lg font-display text-[15px] tracking-wide bg-accent-yellow text-deep-purple hover:bg-accent-yellow/90 disabled:bg-white/10 disabled:text-fk-offwhite/40"
+                    >
+                      {pwSaving ? "UPDATING..." : "UPDATE PASSWORD"}
                     </Button>
                   </form>
                 </div>

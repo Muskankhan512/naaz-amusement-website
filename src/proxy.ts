@@ -1,15 +1,30 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { verifyAdminToken } from "@/lib/auth-token";
 
 const ADMIN_COOKIE = "naaz-admin";
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  if (pathname.startsWith("/api/content") && request.method === "GET") {
+  const method = request.method;
+
+  // Public reads — the homepage and detail pages need these without auth.
+  const isPublicRead =
+    method === "GET" &&
+    (pathname.startsWith("/api/content") ||
+      pathname.startsWith("/api/rides") ||
+      pathname === "/api/bookings");
+
+  // Public booking creation — guests submit bookings from the /book page.
+  const isPublicBookingCreate =
+    method === "POST" && pathname === "/api/bookings";
+
+  if (isPublicRead || isPublicBookingCreate) {
     return NextResponse.next();
   }
 
-  const isAdmin = request.cookies.get(ADMIN_COOKIE)?.value === "1";
+  const token = request.cookies.get(ADMIN_COOKIE)?.value;
+  const isAdmin = await verifyAdminToken(token);
 
   if (isAdmin) {
     return NextResponse.next();
@@ -25,5 +40,11 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/content/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/api/content/:path*",
+    "/api/rides/:path*",
+    "/api/bookings/:path*",
+    "/api/db-reset/:path*",
+  ],
 };
