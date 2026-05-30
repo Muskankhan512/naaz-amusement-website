@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { RefreshCw, Save } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
+import { RefreshCw, Save, Pencil, Trash2, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { useContentStore } from "@/stores/content-store";
 import { CloudinaryUploadButton } from "@/components/admin/cloudinary-upload-button";
@@ -92,6 +92,98 @@ const splitLines = (value: string) =>
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean);
+
+/**
+ * Compact, list-style editable row used across every section.
+ * Shows a clean one-line summary (optional thumbnail + title + subtitle) with
+ * Edit / Remove actions. The full edit fields only appear when "Edit" is clicked.
+ */
+function ItemRow({
+  title,
+  subtitle,
+  thumb,
+  hasThumb = false,
+  onRemove,
+  defaultOpen = false,
+  children,
+}: {
+  title: string;
+  subtitle?: string;
+  thumb?: string;
+  hasThumb?: boolean;
+  onRemove?: () => void;
+  defaultOpen?: boolean;
+  children: ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]">
+      <div className="flex items-center gap-3 px-3 py-2.5">
+        {hasThumb ? (
+          <div className="h-10 w-10 shrink-0 overflow-hidden rounded-md border border-white/10 bg-white/5">
+            {thumb ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={thumb} alt="" className="h-full w-full object-cover" />
+            ) : null}
+          </div>
+        ) : null}
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium text-white">
+            {title || "Untitled"}
+          </p>
+          {subtitle ? (
+            <p className="truncate text-[11px] text-white/40">{subtitle}</p>
+          ) : null}
+        </div>
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          className={`inline-flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition ${
+            open
+              ? "border-accent-yellow/60 bg-accent-yellow/10 text-accent-yellow"
+              : "border-white/10 text-white/70 hover:border-accent-yellow hover:text-white"
+          }`}
+        >
+          <Pencil className="h-3.5 w-3.5" />
+          {open ? "Close" : "Edit"}
+        </button>
+        {onRemove ? (
+          <button
+            type="button"
+            onClick={onRemove}
+            className="inline-flex shrink-0 items-center justify-center rounded-lg border border-white/10 p-1.5 text-red-300 transition hover:border-red-400/50 hover:text-red-200"
+            aria-label="Remove"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+        ) : null}
+      </div>
+      {open ? (
+        <div className="border-t border-white/5 bg-white/[0.01] p-4">{children}</div>
+      ) : null}
+    </div>
+  );
+}
+
+function AddButton({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex items-center gap-1.5 rounded-lg border border-dashed border-white/20 px-3 py-2 text-xs font-medium text-accent-yellow transition hover:border-accent-yellow hover:bg-accent-yellow/5"
+    >
+      <Plus className="h-3.5 w-3.5" />
+      {label}
+    </button>
+  );
+}
 
 export function ContentManager() {
   const { content, fetchContent, updateContent, isLoading } = useContentStore();
@@ -315,7 +407,8 @@ export function ContentManager() {
         <div className="mt-6">
           <div className="flex items-center justify-between">
             <p className="text-sm text-white/70">Stats</p>
-            <button
+            <AddButton
+              label="Add Stat"
               onClick={() =>
                 updateSection("hero", {
                   ...draft.hero,
@@ -325,31 +418,20 @@ export function ContentManager() {
                   ],
                 })
               }
-              className="text-xs text-accent-yellow"
-            >
-              + Add Stat
-            </button>
+            />
           </div>
-          <div className="mt-3 space-y-3">
+          <div className="mt-3 space-y-2">
             {draft.hero.stats.map((stat, index) => (
-              <div
+              <ItemRow
                 key={`${stat.label}-${index}`}
-                className="rounded-xl border border-white/10 p-4"
+                title={stat.label || "New Stat"}
+                subtitle={`${stat.endValue}${stat.suffix}`}
+                onRemove={() => {
+                  const next = draft.hero.stats.filter((_, i) => i !== index);
+                  updateSection("hero", { ...draft.hero, stats: next });
+                }}
               >
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-white">{stat.label || "New Stat"}</p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const next = draft.hero.stats.filter((_, i) => i !== index);
-                      updateSection("hero", { ...draft.hero, stats: next });
-                    }}
-                    className="text-xs text-red-300"
-                  >
-                    Remove
-                  </button>
-                </div>
-                <div className="mt-4 grid gap-3 md:grid-cols-3">
+                <div className="grid gap-3 md:grid-cols-3">
                   <div>
                     <label className={labelClass}>Value</label>
                     <input
@@ -394,7 +476,7 @@ export function ContentManager() {
                     />
                   </div>
                 </div>
-              </div>
+              </ItemRow>
             ))}
           </div>
         </div>
@@ -435,7 +517,8 @@ export function ContentManager() {
         <div className="mt-6">
           <div className="flex items-center justify-between">
             <p className="text-sm text-white/70">Experiences</p>
-            <button
+            <AddButton
+              label="Add Experience"
               onClick={() =>
                 updateSection("portfolio", {
                   ...draft.portfolio,
@@ -450,27 +533,22 @@ export function ContentManager() {
                   ],
                 })
               }
-              className="text-xs text-accent-yellow"
-            >
-              + Add Experience
-            </button>
+            />
           </div>
-          <div className="mt-3 space-y-4">
+          <div className="mt-3 space-y-2">
             {draft.portfolio.experiences.map((exp, index) => (
-              <div key={`${exp.title}-${index}`} className="rounded-xl border border-white/10 p-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-white">{exp.title || "New Experience"}</p>
-                  <button
-                    onClick={() => {
-                      const next = draft.portfolio.experiences.filter((_, i) => i !== index);
-                      updateSection("portfolio", { ...draft.portfolio, experiences: next });
-                    }}
-                    className="text-xs text-red-300"
-                  >
-                    Remove
-                  </button>
-                </div>
-                <div className="mt-4 grid gap-3 md:grid-cols-4">
+              <ItemRow
+                key={`${exp.title}-${index}`}
+                hasThumb
+                thumb={exp.image}
+                title={exp.title || "New Experience"}
+                subtitle={exp.tagline}
+                onRemove={() => {
+                  const next = draft.portfolio.experiences.filter((_, i) => i !== index);
+                  updateSection("portfolio", { ...draft.portfolio, experiences: next });
+                }}
+              >
+                <div className="grid gap-3 md:grid-cols-2">
                   <div>
                     <label className={labelClass}>Number</label>
                     <input
@@ -534,7 +612,7 @@ export function ContentManager() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </ItemRow>
             ))}
           </div>
         </div>
@@ -575,7 +653,8 @@ export function ContentManager() {
         <div className="mt-6">
           <div className="flex items-center justify-between">
             <p className="text-sm text-white/70">Steps</p>
-            <button
+            <AddButton
+              label="Add Step"
               onClick={() =>
                 updateSection("planVisit", {
                   ...draft.planVisit,
@@ -591,27 +670,22 @@ export function ContentManager() {
                   ],
                 })
               }
-              className="text-xs text-accent-yellow"
-            >
-              + Add Step
-            </button>
+            />
           </div>
-          <div className="mt-3 space-y-4">
+          <div className="mt-3 space-y-2">
             {draft.planVisit.steps.map((step, index) => (
-              <div key={`${step.title}-${index}`} className="rounded-xl border border-white/10 p-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-white">{step.title || "New Step"}</p>
-                  <button
-                    onClick={() => {
-                      const next = draft.planVisit.steps.filter((_, i) => i !== index);
-                      updateSection("planVisit", { ...draft.planVisit, steps: next });
-                    }}
-                    className="text-xs text-red-300"
-                  >
-                    Remove
-                  </button>
-                </div>
-                <div className="mt-4 grid gap-3 md:grid-cols-5">
+              <ItemRow
+                key={`${step.title}-${index}`}
+                hasThumb
+                thumb={step.image}
+                title={step.title || "New Step"}
+                subtitle={`Step ${step.num}`}
+                onRemove={() => {
+                  const next = draft.planVisit.steps.filter((_, i) => i !== index);
+                  updateSection("planVisit", { ...draft.planVisit, steps: next });
+                }}
+              >
+                <div className="grid gap-3 md:grid-cols-2">
                   <div>
                     <label className={labelClass}>Step Number</label>
                     <input
@@ -662,19 +736,6 @@ export function ContentManager() {
                     </div>
                   </div>
                   <div>
-                    <label className={labelClass}>Number Color Class</label>
-                    <input
-                      className={inputClass}
-                      value={step.numColor}
-                      onChange={(event) => {
-                        const next = [...draft.planVisit.steps];
-                        next[index] = { ...step, numColor: event.target.value };
-                        updateSection("planVisit", { ...draft.planVisit, steps: next });
-                      }}
-                      placeholder="text-accent-yellow"
-                    />
-                  </div>
-                  <div>
                     <label className={labelClass}>Body Copy</label>
                     <input
                       className={inputClass}
@@ -688,7 +749,7 @@ export function ContentManager() {
                     />
                   </div>
                 </div>
-              </div>
+              </ItemRow>
             ))}
           </div>
         </div>
@@ -808,7 +869,8 @@ export function ContentManager() {
         <div className="mt-6">
           <div className="flex items-center justify-between">
             <p className="text-sm text-white/70">Locations</p>
-            <button
+            <AddButton
+              label="Add Location"
               onClick={() =>
                 updateSection("activeLocations", {
                   ...draft.activeLocations,
@@ -830,12 +892,9 @@ export function ContentManager() {
                   ],
                 })
               }
-              className="text-xs text-accent-yellow"
-            >
-              + Add Location
-            </button>
+            />
           </div>
-          <div className="mt-3 space-y-4">
+          <div className="mt-3 space-y-2">
             {draft.activeLocations.locations.map((loc, index) => (
               <LocationEditor
                 key={`${loc.id}-${index}`}
@@ -863,7 +922,8 @@ export function ContentManager() {
         <div className="mt-6">
           <div className="flex items-center justify-between">
             <p className="text-sm text-white/70">Preset Cities</p>
-            <button
+            <AddButton
+              label="Add City"
               onClick={() =>
                 updateSection("activeLocations", {
                   ...draft.activeLocations,
@@ -873,34 +933,23 @@ export function ContentManager() {
                   ],
                 })
               }
-              className="text-xs text-accent-yellow"
-            >
-              + Add City
-            </button>
+            />
           </div>
-          <div className="mt-3 space-y-4">
+          <div className="mt-3 space-y-2">
             {draft.activeLocations.presetCities.map((city, index) => (
-              <div
+              <ItemRow
                 key={`${city.name}-${index}`}
-                className="rounded-xl border border-white/10 p-4"
+                title={city.name || "New City"}
+                subtitle={`${city.lat}, ${city.lng}`}
+                onRemove={() => {
+                  const updated = draft.activeLocations.presetCities.filter((_, i) => i !== index);
+                  updateSection("activeLocations", {
+                    ...draft.activeLocations,
+                    presetCities: updated,
+                  });
+                }}
               >
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-white">{city.name || "New City"}</p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const updated = draft.activeLocations.presetCities.filter((_, i) => i !== index);
-                      updateSection("activeLocations", {
-                        ...draft.activeLocations,
-                        presetCities: updated,
-                      });
-                    }}
-                    className="text-xs text-red-300"
-                  >
-                    Remove
-                  </button>
-                </div>
-                <div className="mt-4 grid gap-3 md:grid-cols-3">
+                <div className="grid gap-3 md:grid-cols-3">
                   <div>
                     <label className={labelClass}>City Name</label>
                     <input
@@ -952,7 +1001,7 @@ export function ContentManager() {
                     />
                   </div>
                 </div>
-              </div>
+              </ItemRow>
             ))}
           </div>
         </div>
@@ -993,7 +1042,8 @@ export function ContentManager() {
         <div className="mt-6">
           <div className="flex items-center justify-between">
             <p className="text-sm text-white/70">Reviews</p>
-            <button
+            <AddButton
+              label="Add Review"
               onClick={() =>
                 updateSection("testimonials", {
                   ...draft.testimonials,
@@ -1009,30 +1059,25 @@ export function ContentManager() {
                   ],
                 })
               }
-              className="text-xs text-accent-yellow"
-            >
-              + Add Review
-            </button>
+            />
           </div>
-          <div className="mt-3 space-y-4">
+          <div className="mt-3 space-y-2">
             {draft.testimonials.reviews.map((review, index) => (
-              <div key={`${review.name}-${index}`} className="rounded-xl border border-white/10 p-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-white">{review.name}</p>
-                  <button
-                    onClick={() => {
-                      const updated = draft.testimonials.reviews.filter((_, i) => i !== index);
-                      updateSection("testimonials", {
-                        ...draft.testimonials,
-                        reviews: updated,
-                      });
-                    }}
-                    className="text-xs text-red-300"
-                  >
-                    Remove
-                  </button>
-                </div>
-                <div className="mt-4 grid gap-3 md:grid-cols-2">
+              <ItemRow
+                key={`${review.name}-${index}`}
+                hasThumb
+                thumb={review.image}
+                title={review.name}
+                subtitle={`★ ${review.rating} · ${review.quote}`}
+                onRemove={() => {
+                  const updated = draft.testimonials.reviews.filter((_, i) => i !== index);
+                  updateSection("testimonials", {
+                    ...draft.testimonials,
+                    reviews: updated,
+                  });
+                }}
+              >
+                <div className="grid gap-3 md:grid-cols-2">
                   <div>
                     <label className={labelClass}>Guest Name</label>
                     <input
@@ -1078,8 +1123,6 @@ export function ContentManager() {
                       />
                     </div>
                   </div>
-                </div>
-                <div className="mt-3 grid gap-3 md:grid-cols-3">
                   <div>
                     <label className={labelClass}>Quote</label>
                     <input
@@ -1117,7 +1160,7 @@ export function ContentManager() {
                       max={5}
                     />
                   </div>
-                  <div>
+                  <div className="md:col-span-2">
                     <label className={labelClass}>Narrative</label>
                     <input
                       className={inputClass}
@@ -1134,7 +1177,7 @@ export function ContentManager() {
                     />
                   </div>
                 </div>
-              </div>
+              </ItemRow>
             ))}
           </div>
         </div>
@@ -1199,57 +1242,32 @@ export function ContentManager() {
           </div>
         </div>
 
-        <div className="mt-6 space-y-4">
+        <div className="mt-6 space-y-2">
           {draft.gallery.rows.map((row, rowIndex) => (
-            <div key={`row-${rowIndex}`} className="rounded-xl border border-white/10 p-4">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-white">Row {rowIndex + 1}</p>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => {
-                      const updated = draft.gallery.rows.filter((_, i) => i !== rowIndex);
-                      updateSection("gallery", { ...draft.gallery, rows: updated });
-                    }}
-                    className="text-xs text-red-300"
-                  >
-                    Remove Row
-                  </button>
-                  <button
-                    onClick={() => {
-                      const updated = [...draft.gallery.rows];
-                      updated[rowIndex] = [
-                        ...updated[rowIndex],
-                        { src: "", alt: "" },
-                      ];
-                      updateSection("gallery", { ...draft.gallery, rows: updated });
-                    }}
-                    className="text-xs text-accent-yellow"
-                  >
-                    + Add Image
-                  </button>
-                </div>
-              </div>
-              <div className="mt-4 space-y-4">
+            <ItemRow
+              key={`row-${rowIndex}`}
+              title={`Row ${rowIndex + 1}`}
+              subtitle={`${row.length} image${row.length === 1 ? "" : "s"}`}
+              onRemove={() => {
+                const updated = draft.gallery.rows.filter((_, i) => i !== rowIndex);
+                updateSection("gallery", { ...draft.gallery, rows: updated });
+              }}
+            >
+              <div className="space-y-2">
                 {row.map((image, imageIndex) => (
-                  <div
+                  <ItemRow
                     key={`${image.src}-${imageIndex}`}
-                    className="rounded-lg border border-white/5 bg-white/[0.01] p-3"
+                    hasThumb
+                    thumb={image.src}
+                    title={image.alt || `Image ${imageIndex + 1}`}
+                    subtitle={image.src}
+                    onRemove={() => {
+                      const updated = [...draft.gallery.rows];
+                      updated[rowIndex] = updated[rowIndex].filter((_, idx) => idx !== imageIndex);
+                      updateSection("gallery", { ...draft.gallery, rows: updated });
+                    }}
                   >
-                    <div className="flex items-center justify-between">
-                      <p className="text-xs text-white/50">Image {imageIndex + 1}</p>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const updated = [...draft.gallery.rows];
-                          updated[rowIndex] = updated[rowIndex].filter((_, idx) => idx !== imageIndex);
-                          updateSection("gallery", { ...draft.gallery, rows: updated });
-                        }}
-                        className="text-xs text-red-300"
-                      >
-                        Remove Image
-                      </button>
-                    </div>
-                    <div className="mt-3 grid gap-3 md:grid-cols-2">
+                    <div className="grid gap-3 md:grid-cols-2">
                       <div>
                         <label className={labelClass}>Image URL</label>
                         <div className="flex min-w-0 gap-2">
@@ -1293,22 +1311,28 @@ export function ContentManager() {
                         />
                       </div>
                     </div>
-                  </div>
+                  </ItemRow>
                 ))}
+                <AddButton
+                  label="Add Image"
+                  onClick={() => {
+                    const updated = [...draft.gallery.rows];
+                    updated[rowIndex] = [...updated[rowIndex], { src: "", alt: "" }];
+                    updateSection("gallery", { ...draft.gallery, rows: updated });
+                  }}
+                />
               </div>
-            </div>
+            </ItemRow>
           ))}
-          <button
+          <AddButton
+            label="Add Row"
             onClick={() =>
               updateSection("gallery", {
                 ...draft.gallery,
                 rows: [...draft.gallery.rows, []],
               })
             }
-            className="text-xs text-accent-yellow"
-          >
-            + Add Row
-          </button>
+          />
         </div>
       </section>
 
@@ -1419,7 +1443,8 @@ export function ContentManager() {
         <div className="mt-6">
           <div className="flex items-center justify-between">
             <p className="text-sm text-white/70">Packages</p>
-            <button
+            <AddButton
+              label="Add Package"
               onClick={() =>
                 updateSection("eventPackages", {
                   ...draft.eventPackages,
@@ -1432,8 +1457,9 @@ export function ContentManager() {
                       price: "",
                       duration: "",
                       iconKey: "zap",
-                      themeColor: "",
-                      shadowColor: "",
+                      themeColor:
+                        "text-accent-yellow border-accent-yellow/20 hover:border-accent-yellow/50",
+                      shadowColor: "rgba(238, 167, 39, 0.15)",
                       highlightText: "",
                       features: [],
                       bestFor: "",
@@ -1441,12 +1467,9 @@ export function ContentManager() {
                   ],
                 })
               }
-              className="text-xs text-accent-yellow"
-            >
-              + Add Package
-            </button>
+            />
           </div>
-          <div className="mt-3 space-y-4">
+          <div className="mt-3 space-y-2">
             {draft.eventPackages.packages.map((pkg, index) => (
               <PackageEditor
                 key={`${pkg.id}-${index}`}
@@ -1589,42 +1612,29 @@ export function ContentManager() {
           </div>
         </div>
 
-        <div className="mt-6 space-y-6">
+        <div className="mt-6 space-y-2">
           {draft.facilities.rows.map((row, rowIndex) => (
-            <div key={`facility-row-${rowIndex}`} className="rounded-xl border border-white/10 p-4">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-white">Row {rowIndex + 1}</p>
-                <button
-                  onClick={() => {
-                    const updated = draft.facilities.rows.filter((_, i) => i !== rowIndex);
-                    updateSection("facilities", { ...draft.facilities, rows: updated });
-                  }}
-                  className="text-xs text-red-300"
-                >
-                  Remove Row
-                </button>
-              </div>
-              <div className="mt-4 space-y-4">
+            <ItemRow
+              key={`facility-row-${rowIndex}`}
+              title={`Row ${rowIndex + 1}`}
+              subtitle={`${row.length} item${row.length === 1 ? "" : "s"}`}
+              onRemove={() => {
+                const updated = draft.facilities.rows.filter((_, i) => i !== rowIndex);
+                updateSection("facilities", { ...draft.facilities, rows: updated });
+              }}
+            >
+              <div className="space-y-2">
                 {row.map((item, itemIndex) => (
-                  <div
+                  <ItemRow
                     key={`${item.label}-${itemIndex}`}
-                    className="rounded-lg border border-white/5 bg-white/[0.01] p-3"
+                    title={`${item.icon ? `${item.icon} ` : ""}${item.label || `Item ${itemIndex + 1}`}`}
+                    onRemove={() => {
+                      const updated = [...draft.facilities.rows];
+                      updated[rowIndex] = updated[rowIndex].filter((_, idx) => idx !== itemIndex);
+                      updateSection("facilities", { ...draft.facilities, rows: updated });
+                    }}
                   >
-                    <div className="flex items-center justify-between">
-                      <p className="text-xs text-white/50">Item {itemIndex + 1}</p>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const updated = [...draft.facilities.rows];
-                          updated[rowIndex] = updated[rowIndex].filter((_, idx) => idx !== itemIndex);
-                          updateSection("facilities", { ...draft.facilities, rows: updated });
-                        }}
-                        className="text-xs text-red-300"
-                      >
-                        Remove Item
-                      </button>
-                    </div>
-                    <div className="mt-3 grid gap-3 md:grid-cols-2">
+                    <div className="grid gap-3 md:grid-cols-2">
                       <div>
                         <label className={labelClass}>Facility Label</label>
                         <input
@@ -1656,9 +1666,10 @@ export function ContentManager() {
                         />
                       </div>
                     </div>
-                  </div>
+                  </ItemRow>
                 ))}
-                <button
+                <AddButton
+                  label="Add Facility"
                   onClick={() => {
                     const updated = [...draft.facilities.rows];
                     updated[rowIndex] = [
@@ -1667,24 +1678,19 @@ export function ContentManager() {
                     ];
                     updateSection("facilities", { ...draft.facilities, rows: updated });
                   }}
-                  className="text-xs text-accent-yellow"
-                >
-                  + Add Facility
-                </button>
+                />
               </div>
-            </div>
+            </ItemRow>
           ))}
-          <button
+          <AddButton
+            label="Add Row"
             onClick={() =>
               updateSection("facilities", {
                 ...draft.facilities,
                 rows: [...draft.facilities.rows, []],
               })
             }
-            className="text-xs text-accent-yellow"
-          >
-            + Add Row
-          </button>
+          />
         </div>
       </section>
 
@@ -1716,34 +1722,28 @@ export function ContentManager() {
         <div className="mt-6">
           <div className="flex items-center justify-between">
             <p className="text-sm text-white/70">Items</p>
-            <button
+            <AddButton
+              label="Add Item"
               onClick={() =>
                 updateSection("faq", {
                   ...draft.faq,
                   items: [...draft.faq.items, { q: "New question", a: "" }],
                 })
               }
-              className="text-xs text-accent-yellow"
-            >
-              + Add Item
-            </button>
+            />
           </div>
-          <div className="mt-3 space-y-3">
+          <div className="mt-3 space-y-2">
             {draft.faq.items.map((item, index) => (
-              <div key={`${item.q}-${index}`} className="rounded-xl border border-white/10 p-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-white">{item.q}</p>
-                  <button
-                    onClick={() => {
-                      const updated = draft.faq.items.filter((_, i) => i !== index);
-                      updateSection("faq", { ...draft.faq, items: updated });
-                    }}
-                    className="text-xs text-red-300"
-                  >
-                    Remove
-                  </button>
-                </div>
-                <div className="mt-4 grid gap-3 md:grid-cols-2">
+              <ItemRow
+                key={`${item.q}-${index}`}
+                title={item.q || "New question"}
+                subtitle={item.a}
+                onRemove={() => {
+                  const updated = draft.faq.items.filter((_, i) => i !== index);
+                  updateSection("faq", { ...draft.faq, items: updated });
+                }}
+              >
+                <div className="grid gap-3">
                   <div>
                     <label className={labelClass}>Question</label>
                     <input
@@ -1760,7 +1760,7 @@ export function ContentManager() {
                   <div>
                     <label className={labelClass}>Answer</label>
                     <textarea
-                      className={`${inputClass} min-h-[60px]`}
+                      className={`${inputClass} min-h-[80px]`}
                       value={item.a}
                       onChange={(event) => {
                         const updated = [...draft.faq.items];
@@ -1771,7 +1771,7 @@ export function ContentManager() {
                     />
                   </div>
                 </div>
-              </div>
+              </ItemRow>
             ))}
           </div>
         </div>
@@ -1798,14 +1798,12 @@ function LocationEditor({
       .filter(Boolean);
 
   return (
-    <div className="rounded-xl border border-white/10 p-4">
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-white">{location.name}</p>
-        <button onClick={onRemove} className="text-xs text-red-300">
-          Remove
-        </button>
-      </div>
-      <div className="mt-4 grid gap-3 md:grid-cols-2">
+    <ItemRow
+      title={location.name || "New Location"}
+      subtitle={[location.city, location.status].filter(Boolean).join(" · ")}
+      onRemove={onRemove}
+    >
+      <div className="grid gap-3 md:grid-cols-2">
         <div>
           <label className={labelClass}>Location ID</label>
           <input
@@ -1916,7 +1914,7 @@ function LocationEditor({
           />
         </div>
       </div>
-    </div>
+    </ItemRow>
   );
 }
 
@@ -1930,23 +1928,12 @@ function PackageEditor({
   onRemove: () => void;
 }) {
   return (
-    <div className="rounded-xl border border-white/10 p-4">
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-white">{pkg.name}</p>
-        <button onClick={onRemove} className="text-xs text-red-300">
-          Remove
-        </button>
-      </div>
-      <div className="mt-4 grid gap-3 md:grid-cols-2">
-        <div>
-          <label className={labelClass}>Package ID</label>
-          <input
-            className={inputClass}
-            value={pkg.id}
-            onChange={(event) => onChange({ ...pkg, id: event.target.value })}
-            placeholder="id"
-          />
-        </div>
+    <ItemRow
+      title={pkg.name || "New Package"}
+      subtitle={[pkg.price, pkg.duration].filter(Boolean).join(" · ")}
+      onRemove={onRemove}
+    >
+      <div className="grid gap-3 md:grid-cols-2">
         <div>
           <label className={labelClass}>Package Name</label>
           <input
@@ -1993,24 +1980,6 @@ function PackageEditor({
           />
         </div>
         <div>
-          <label className={labelClass}>Theme Classes</label>
-          <input
-            className={inputClass}
-            value={pkg.themeColor}
-            onChange={(event) => onChange({ ...pkg, themeColor: event.target.value })}
-            placeholder="Theme classes"
-          />
-        </div>
-        <div>
-          <label className={labelClass}>Shadow Color</label>
-          <input
-            className={inputClass}
-            value={pkg.shadowColor}
-            onChange={(event) => onChange({ ...pkg, shadowColor: event.target.value })}
-            placeholder="Shadow color"
-          />
-        </div>
-        <div>
           <label className={labelClass}>Highlight Text</label>
           <input
             className={inputClass}
@@ -2047,6 +2016,6 @@ function PackageEditor({
           />
         </div>
       </div>
-    </div>
+    </ItemRow>
   );
 }
