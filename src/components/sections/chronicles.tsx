@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 
 import { blogPosts } from "@/lib/blog";
 import { useContentStore } from "@/stores/content-store";
+import { Eyebrow } from "@/components/shared/eyebrow";
 
 
 export function Chronicles() {
@@ -31,7 +32,7 @@ export function Chronicles() {
           transition={{ duration: 0.5 }}
           className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
         >
-          {chronicles.eyebrow}
+          <Eyebrow>{chronicles.eyebrow}</Eyebrow>
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -53,7 +54,7 @@ export function Chronicles() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.55, delay: i * 0.08 }}
-              className="group relative overflow-hidden rounded-xl bg-white/5 backdrop-blur-sm transition-all hover:bg-white/10"
+              className="group relative overflow-hidden rounded-xl bg-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl"
             >
               <Link href={`/blog/${story.slug}`} className="block">
                 <div className="relative aspect-[16/10] w-full overflow-hidden">

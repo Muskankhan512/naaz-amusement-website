@@ -4,22 +4,15 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
+import { Eyebrow } from "@/components/shared/eyebrow";
 import { ArrowUpRight } from "lucide-react";
 import { rides as defaultRides } from "@/lib/rides";
-import { cn } from "@/lib/utils";
 import { useRidesStore } from "@/stores/rides-store";
 import { useContentStore } from "@/stores/content-store";
 
-const tileSizes = [
-  "md:row-span-2 aspect-[3/4]",
-  "aspect-[4/3]",
-  "aspect-[4/3]",
-  "md:row-span-2 aspect-[3/4]",
-  "aspect-[4/3]",
-  "md:row-span-2 aspect-[3/4]",
-  "md:row-span-2 aspect-[3/4]",
-  "aspect-[4/3]",
-];
+// Show only the first 2 rows on the homepage (4 cards per row on desktop).
+// The rest are accessible via the "View all attractions" button.
+const PREVIEW_COUNT = 8;
 
 export function Rides() {
   const { content, fetchContent } = useContentStore();
@@ -33,7 +26,8 @@ export function Rides() {
   }, [fetchRides, fetchContent]);
 
   const section = content.rides;
-  const rides = mounted && dynamicRides.length > 0 ? dynamicRides : defaultRides;
+  const allRides = mounted && dynamicRides.length > 0 ? dynamicRides : defaultRides;
+  const rides = allRides.slice(0, PREVIEW_COUNT);
 
   return (
     <section
@@ -45,7 +39,7 @@ export function Rides() {
         <div className="flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <p className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow">
-              {section.eyebrow}
+              <Eyebrow>{section.eyebrow}</Eyebrow>
             </p>
             <h2 className="mt-3 sm:mt-4 font-display text-[clamp(2.4rem,4.8vw,4.2rem)] leading-[1.02] text-white">
               {section.headingLead}{" "}
@@ -58,8 +52,8 @@ export function Rides() {
           </p>
         </div>
 
-        {/* Masonry gallery */}
-        <div className="mt-10 sm:mt-14 grid auto-rows-[160px] sm:auto-rows-[180px] grid-cols-2 gap-2 sm:gap-3 md:auto-rows-[200px] md:grid-cols-3 lg:grid-cols-4">
+        {/* 2-row preview grid */}
+        <div className="mt-10 sm:mt-14 grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-4">
           {rides.map((r, i) => (
             <motion.article
               key={r.slug}
@@ -67,10 +61,7 @@ export function Rides() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: (i % 4) * 0.06 }}
-              className={cn(
-                "group relative overflow-hidden rounded-lg bg-white/5 transition-shadow hover:shadow-xl",
-                tileSizes[i % tileSizes.length]
-              )}
+              className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-white/5 transition-shadow hover:shadow-xl"
             >
               <Link
                 href={`/rides/${r.slug}`}
@@ -111,10 +102,7 @@ export function Rides() {
 
         {/* See all CTA */}
         <div className="mt-12 flex justify-center">
-          <Link
-            href="/attractions"
-            className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 text-[0.74rem] font-semibold uppercase tracking-[0.2em] text-white shadow-sm backdrop-blur transition hover:border-accent-yellow hover:bg-accent-yellow hover:text-deep-purple"
-          >
+          <Link href="/attractions" className="btn-glass group">
             View all attractions
             <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>

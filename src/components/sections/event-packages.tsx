@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { Check, ArrowRight, ShieldCheck, Zap, Users } from "lucide-react";
 import Link from "next/link";
 import { useContentStore } from "@/stores/content-store";
+import { Eyebrow } from "@/components/shared/eyebrow";
 import type { EventPackage } from "@/lib/content";
 
 const iconMap: Record<EventPackage["iconKey"], any> = {
@@ -37,7 +38,7 @@ export function EventPackages() {
             viewport={{ once: true }}
             className="font-display text-xs uppercase tracking-[0.2em] text-accent-yellow"
           >
-            {section.eyebrow}
+            <Eyebrow className="justify-center">{section.eyebrow}</Eyebrow>
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -64,7 +65,7 @@ export function EventPackages() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.15 }}
-                className={`relative flex flex-col justify-between rounded-[2rem] border bg-white/[0.01] p-8 backdrop-blur-2xl transition-all duration-300 hover:bg-white/[0.03] ${pkg.themeColor}`}
+                className={`relative flex flex-col justify-between rounded-[2rem] border bg-white/[0.01] p-8 backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.03] hover:shadow-2xl ${pkg.themeColor}`}
                 style={{
                   boxShadow: `0 10px 30px -10px ${pkg.shadowColor}`
                 }}

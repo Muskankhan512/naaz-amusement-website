@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { motion } from "motion/react";
 import { useContentStore } from "@/stores/content-store";
+import { Eyebrow } from "@/components/shared/eyebrow";
 import type { FacilityItem } from "@/lib/content";
 
 export function Facilities() {
@@ -29,7 +30,7 @@ export function Facilities() {
             transition={{ duration: 0.5 }}
             className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
           >
-            {facilities.eyebrow}
+            <Eyebrow className="justify-center">{facilities.eyebrow}</Eyebrow>
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

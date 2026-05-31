@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import { site } from "@/lib/site";
 import { useContentStore } from "@/stores/content-store";
 
@@ -84,41 +84,76 @@ export function Hero() {
             sizes="100vw"
             className="object-cover object-center"
           />
-          {/* Gradient overlay to blend into purple */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-deep-purple" />
+          {/* Gradient overlays to blend into purple + ensure text legibility */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/25 to-deep-purple" />
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "radial-gradient(ellipse at center, transparent 30%, rgba(33,12,109,0.55) 100%)",
+            }}
+          />
         </div>
 
-        {/* Center wordmark */}
-        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4">
-          <div className="text-center">
-            <h1 className="sr-only">Naaz Amusement</h1>
-          </div>
-
-          {/* Offer banner */}
+        {/* Center wordmark + CTAs */}
+        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center">
+          {/* Offer pill */}
           {hero.offer.enabled && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="hidden mt-6 sm:mt-8 w-full max-w-md sm:max-w-lg"
+              transition={{ delay: 0.2, duration: 0.7 }}
             >
               <Link
                 href={site.bookingUrl}
-                target="_blank"
-                className="group flex flex-col items-center gap-2 sm:gap-3 rounded-[20px] border border-accent-yellow/30 bg-deep-purple/60 px-5 py-4 sm:px-8 sm:py-5 backdrop-blur-md transition hover:border-accent-yellow hover:bg-deep-purple/80"
+                className="group inline-flex items-center gap-2 rounded-full border border-accent-yellow/40 bg-deep-purple/40 px-4 py-1.5 text-[clamp(0.65rem,1.6vw,0.8rem)] font-display uppercase tracking-wider text-accent-yellow backdrop-blur-md transition hover:border-accent-yellow hover:bg-deep-purple/60"
               >
-                <span className="font-display text-[clamp(0.85rem,2.5vw,1.5rem)] text-accent-yellow text-center">
-                  {hero.offer.eyebrow}
-                </span>
-                <span className="font-display text-[clamp(1.5rem,4vw,3rem)] text-white text-center">
-                  {hero.offer.title}
-                </span>
-                <span className="mt-1 sm:mt-2 rounded-full bg-red-600 px-5 py-2 sm:px-6 font-display text-[0.7rem] sm:text-[0.8rem] uppercase tracking-wider text-white transition group-hover:bg-red-500">
-                  {hero.offer.cta}
-                </span>
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent-yellow animate-pulse" />
+                {hero.offer.eyebrow} {hero.offer.title}
               </Link>
             </motion.div>
           )}
+
+          {/* Wordmark */}
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-6 font-display uppercase leading-[0.92] tracking-[0.02em] text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.6)] text-[clamp(2.8rem,11vw,8.5rem)]"
+          >
+            {site.name.split(" ").map((word, i) => (
+              <span key={word} className={i === 1 ? "block text-accent-yellow" : "block"}>
+                {word}
+              </span>
+            ))}
+          </motion.h1>
+
+          {/* Tagline */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.7 }}
+            className="mt-5 max-w-xl font-body text-[clamp(0.85rem,1.6vw,1.15rem)] leading-relaxed text-white/85"
+          >
+            {site.tagline}
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.7 }}
+            className="mt-8 flex w-full max-w-md flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4"
+          >
+            <Link href={site.bookingUrl} className="btn-primary w-full sm:w-auto">
+              Book Tickets
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link href="/attractions" className="btn-glass w-full sm:w-auto">
+              Explore Rides
+            </Link>
+          </motion.div>
         </div>
 
         {/* Scroll down indicator */}

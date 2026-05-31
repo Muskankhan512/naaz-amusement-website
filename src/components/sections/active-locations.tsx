@@ -7,6 +7,7 @@ import { rides as defaultRides } from "@/lib/rides";
 import Link from "next/link";
 import { useRidesStore } from "@/stores/rides-store";
 import { useContentStore } from "@/stores/content-store";
+import { Eyebrow } from "@/components/shared/eyebrow";
 import type { ActiveMela, PresetCity } from "@/lib/content";
 
 export function ActiveLocations() {
@@ -291,7 +292,7 @@ export function ActiveLocations() {
             viewport={{ once: true }}
             className="font-display text-xs uppercase tracking-[0.2em] text-accent-yellow"
           >
-            {section.eyebrow}
+            <Eyebrow className="justify-center">{section.eyebrow}</Eyebrow>
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

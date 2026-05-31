@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
+import { Eyebrow } from "@/components/shared/eyebrow";
 import { useContentStore } from "@/stores/content-store";
 
 export function Gallery() {
@@ -27,7 +28,7 @@ export function Gallery() {
           transition={{ duration: 0.5 }}
           className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
         >
-          {gallery.eyebrow}
+          <Eyebrow>{gallery.eyebrow}</Eyebrow>
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

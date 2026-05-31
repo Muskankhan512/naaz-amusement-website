@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
+import { Eyebrow } from "@/components/shared/eyebrow";
 import { ArrowRight } from "lucide-react";
 import { useContentStore } from "@/stores/content-store";
 
@@ -34,7 +35,7 @@ export function CtaStrip() {
           transition={{ duration: 0.5 }}
           className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
         >
-          {cta.eyebrow}
+          <Eyebrow>{cta.eyebrow}</Eyebrow>
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -64,10 +65,7 @@ export function CtaStrip() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-8 sm:mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
         >
-          <Link
-            href={cta.ctaHref}
-            className="group inline-flex items-center gap-3 rounded-full bg-accent-yellow px-8 py-4 font-display text-[0.9rem] uppercase tracking-wide text-deep-purple shadow-lg transition hover:bg-white"
-          >
+          <Link href={cta.ctaHref} className="btn-primary group">
             {cta.ctaLabel}
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
           </Link>

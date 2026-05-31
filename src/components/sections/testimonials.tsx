@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { Star } from "lucide-react";
 import { useContentStore } from "@/stores/content-store";
+import { Eyebrow } from "@/components/shared/eyebrow";
 import type { Review } from "@/lib/content";
 
 export function Testimonials() {
@@ -34,7 +35,7 @@ export function Testimonials() {
           transition={{ duration: 0.5 }}
           className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
         >
-          {testimonials.eyebrow}
+          <Eyebrow>{testimonials.eyebrow}</Eyebrow>
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

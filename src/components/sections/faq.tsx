@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Plus, Minus } from "lucide-react";
 import { useContentStore } from "@/stores/content-store";
+import { Eyebrow } from "@/components/shared/eyebrow";
 import type { FaqItem } from "@/lib/content";
 
 export function Faq() {
@@ -19,7 +20,7 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="relative isolate overflow-hidden bg-deep-purple py-16 sm:py-24 md:py-32"
+      className="ambient-orbs relative isolate overflow-hidden bg-deep-purple py-16 sm:py-24 md:py-32"
     >
       <div className="mx-auto max-w-4xl px-4 sm:px-5 md:px-8">
         {/* Header */}
@@ -31,7 +32,7 @@ export function Faq() {
             transition={{ duration: 0.5 }}
             className="font-display text-[clamp(0.85rem,1.2vw,1.1rem)] uppercase tracking-wide text-accent-yellow"
           >
-            {faq.eyebrow}
+            <Eyebrow className="justify-center">{faq.eyebrow}</Eyebrow>
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
