@@ -290,7 +290,7 @@ export const defaultHomeContent: HomeContent = {
     eyebrow: "Our Rides & Attractions",
     headingLead: "80+ rides.",
     headingAccent: "A thousand",
-    headingTrail: "memories from the kingdom.",
+    headingTrail: "memories made with Naaz.",
     subtext:
       "From heart-stopping roller coasters to serene lazy rivers — every attraction is maintained and inspected daily.",
   },
@@ -412,7 +412,7 @@ export const defaultHomeContent: HomeContent = {
       {
         name: "Vishal Chellani",
         quote:
-          "Adventure is super cool activity, it's a great FUN in this KINGDOM. My family had the time of their lives. We're coming back next month!",
+          "Adventure is super cool activity, it's a great FUN at Naaz Amusement. My family had the time of their lives. We're coming back next month!",
         narrative:
           "An adventure zone loyalist who came for the ziplines and rope courses but discovered that Naaz Amusement is just as much a family destination as it is a thrill-seeker's paradise. What started as a solo adrenaline trip turned into a full-family affair, with everyone from his kids to his parents finding something to love. The fact that he's already planning a return visit next month tells you everything — this isn't a one-and-done park, it's the kind of place that earns repeat loyalty.",
         image: "/3.jpg",
@@ -427,7 +427,7 @@ export const defaultHomeContent: HomeContent = {
   },
   gallery: {
     eyebrow: "Gallery",
-    heading: "A visual feast from the kingdom.",
+    heading: "A visual feast from Naaz Amusement.",
     rows: [
       [
         { src: u("1517423568366-8b83523034fd"), alt: "Naaz Amusement ride at night" },
@@ -463,7 +463,7 @@ export const defaultHomeContent: HomeContent = {
   },
   chronicles: {
     eyebrow: "Naaz Amusement Chronicles",
-    heading: "Stories, tips, and behind-the-scenes chaos from the kingdom.",
+    heading: "Stories, tips, and behind-the-scenes chaos from Naaz Amusement.",
     ctaLabel: "View All Blog",
     ctaHref: "/blog",
   },
@@ -536,9 +536,9 @@ export const defaultHomeContent: HomeContent = {
     ],
   },
   ctaStrip: {
-    eyebrow: "Ready to Rule?",
-    heading: "Your Kingdom Awaits.",
-    highlight: "Claim Your Throne.",
+    eyebrow: "Ready for the Fun?",
+    heading: "Your Adventure Awaits.",
+    highlight: "Let's Ride.",
     body:
       "Book your tickets today and unlock a world of 80+ rides, gourmet food courts, adventure zones, and memories that will last forever.",
     ctaLabel: "BOOK TICKET NOW",
@@ -546,7 +546,7 @@ export const defaultHomeContent: HomeContent = {
   },
   facilities: {
     eyebrow: "Your Comfort",
-    heading: "Everything you need, right inside the kingdom.",
+    heading: "Everything you need, right inside Naaz Amusement.",
     rows: [
       [
         { label: "Free Parking", icon: "🅿️" },

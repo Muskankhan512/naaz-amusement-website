@@ -55,7 +55,7 @@ export default function BlogListingPage() {
               <span className="text-accent-yellow">Behind-The-Scenes</span>
             </h1>
             <p className="mt-6 text-base leading-relaxed text-white/70">
-              Stay up to date with the latest announcements, safety reports, sports tournaments, and special events happening at Jaipur's favorite amusement kingdom.
+              Stay up to date with the latest announcements, safety reports, sports tournaments, and special events happening at Jaipur's favorite amusement destination.
             </p>
           </div>
 

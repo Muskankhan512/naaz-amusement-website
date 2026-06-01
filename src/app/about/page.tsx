@@ -60,7 +60,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
             >
               <span className="font-display text-xs uppercase tracking-[0.2em] text-accent-yellow">
-                WELCOME TO THE KINGDOM
+                WELCOME TO NAAZ AMUSEMENT
               </span>
               <h1 className="mt-4 font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-none tracking-wide text-white">
                 Rajasthan's Premier <br />

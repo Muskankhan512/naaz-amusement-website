@@ -100,7 +100,7 @@ export const rides: Ride[] = [
     capacity: 4,
     pricePaise: 40000,
     duration: "2 min",
-    tagline: "Fly across the kingdom.",
+    tagline: "Fly across the fairground.",
     description:
       "Soar across the adventure park on our 200-meter zip line. Feel the wind as the entire park spreads out beneath you.",
     image: "/6.jpg",

@@ -39,7 +39,7 @@ export default function Home() {
         <Chronicles />
         {/* 9. Curated Event Packages */}
         <EventPackages />
-        {/* 10. Ready to Rule */}
+        {/* 10. Final CTA */}
         <CtaStrip />
         {/* 11. Your Comfort — facility pills */}
         <Facilities />
