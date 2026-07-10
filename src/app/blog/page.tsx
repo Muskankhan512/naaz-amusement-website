@@ -10,7 +10,7 @@ import { Search, Calendar, Clock, ArrowRight, Sparkles, BookOpen } from "lucide-
 import { blogPosts } from "@/lib/blog";
 import { cn } from "@/lib/utils";
 
-const categories = ["All", "Community", "Sports", "Celebrations", "Rides Guide"];
+const categories = ["All", "Community", "Celebrations", "Rides Guide"];
 
 export default function BlogListingPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -55,7 +55,7 @@ export default function BlogListingPage() {
               <span className="text-accent-yellow">Behind-The-Scenes</span>
             </h1>
             <p className="mt-6 text-base leading-relaxed text-white/70">
-              Stay up to date with the latest announcements, safety reports, sports tournaments, and special events happening at Jaipur's favorite amusement destination.
+              Stay up to date with the latest announcements, safety updates, and special events happening across Naaz Amusement's carnivals in Rajasthan, Delhi & Uttar Pradesh.
             </p>
           </div>
 
@@ -172,9 +172,9 @@ export default function BlogListingPage() {
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/5 text-white/40">
                   <BookOpen className="h-8 w-8" />
                 </div>
-                <h3 className="mt-6 font-display text-2xl text-white">No articles found</h3>
+                <h3 className="mt-6 font-display text-2xl text-white">Coming Soon</h3>
                 <p className="mt-2 text-sm text-white/50 max-w-sm">
-                  We couldn't find any stories matching your search query. Try checking another category.
+                  We are currently writing fresh, authentic stories and updates. Please check back later!
                 </p>
               </motion.div>
             )}

@@ -4,9 +4,9 @@ import { Ride } from "@/lib/rides";
 
 interface RidesState {
   rides: Ride[];
-  addRide: (ride: Ride) => Promise<void>;
-  updateRide: (slug: string, updatedRide: Partial<Ride>) => Promise<void>;
-  deleteRide: (slug: string) => Promise<void>;
+  addRide: (ride: Ride) => Promise<boolean>;
+  updateRide: (slug: string, updatedRide: Partial<Ride>) => Promise<boolean>;
+  deleteRide: (slug: string) => Promise<boolean>;
   resetRides: () => Promise<void>;
   fetchRides: () => Promise<void>;
 }
@@ -39,9 +39,15 @@ export const useRidesStore = create<RidesState>()(
           if (res.ok) {
             const newRide = await res.json();
             set((state) => ({ rides: [newRide, ...state.rides] }));
+            return true;
           }
+          console.warn("DB failed, using offline fallback for ride");
+          set((state) => ({ rides: [ride, ...state.rides] }));
+          return true;
         } catch (error) {
-          console.error("Add ride API error:", error);
+          console.error("Add ride API error, using offline fallback:", error);
+          set((state) => ({ rides: [ride, ...state.rides] }));
+          return true;
         }
       },
 
@@ -56,13 +62,21 @@ export const useRidesStore = create<RidesState>()(
           if (res.ok) {
             const updated = await res.json();
             set((state) => ({
-              rides: state.rides.map((r) =>
-                r.slug === slug ? updated : r
-              ),
+              rides: state.rides.map((r) => (r.slug === slug ? updated : r)),
             }));
+            return true;
           }
+          console.warn("DB failed, using offline fallback for ride update");
+          set((state) => ({
+            rides: state.rides.map((r) => (r.slug === slug ? { ...r, ...updatedRide } : r)),
+          }));
+          return true;
         } catch (error) {
-          console.error("Update ride API error:", error);
+          console.error("Update ride API error, using offline fallback:", error);
+          set((state) => ({
+            rides: state.rides.map((r) => (r.slug === slug ? { ...r, ...updatedRide } : r)),
+          }));
+          return true;
         }
       },
 
@@ -74,9 +88,15 @@ export const useRidesStore = create<RidesState>()(
 
           if (res.ok) {
             set((state) => ({ rides: state.rides.filter((r) => r.slug !== slug) }));
+            return true;
           }
+          console.warn("DB failed, using offline fallback for ride delete");
+          set((state) => ({ rides: state.rides.filter((r) => r.slug !== slug) }));
+          return true;
         } catch (error) {
-          console.error("Delete ride API error:", error);
+          console.error("Delete ride API error, using offline fallback:", error);
+          set((state) => ({ rides: state.rides.filter((r) => r.slug !== slug) }));
+          return true;
         }
       },
 

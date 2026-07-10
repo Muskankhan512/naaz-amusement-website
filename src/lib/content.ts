@@ -166,8 +166,7 @@ export type HomeContent = {
   };
 };
 
-const u = (id: string, w = 900) =>
-  `https://images.unsplash.com/photo-${id}?w=${w}&q=80&auto=format&fit=crop`;
+
 
 export const defaultHomeContent: HomeContent = {
   hero: {
@@ -403,32 +402,22 @@ export const defaultHomeContent: HomeContent = {
     heading: "A visual feast from Naaz Amusement.",
     rows: [
       [
-        { src: u("1517423568366-8b83523034fd"), alt: "Naaz Amusement ride at night" },
-        { src: u("1533174072545-7a4b6ad7a6c3"), alt: "Crowd at amusement park" },
-        { src: u("1559131397-f94da358f7ca"), alt: "Carnival arcade at dusk" },
-        { src: u("1551817958-d9d86fb29431"), alt: "Swing ride in motion" },
-        { src: u("1467810563316-b5476525c0f9"), alt: "Carnival lights" },
-        { src: u("1554189097-ffe88e998a2b"), alt: "Children at fair" },
-        { src: u("1530541930197-ff16ac917b0e"), alt: "Carousel detail" },
-        { src: u("1543872084-c7bd3822856f"), alt: "Park arch lit up" },
+        { src: "/11.jpeg", alt: "Naaz Amusement ride at night" },
+        { src: "/12jpeg.jpeg", alt: "Crowd at amusement park" },
+        { src: "/13.jpeg", alt: "Carnival arcade at dusk" },
+        { src: "/14.jpeg", alt: "Swing ride in motion" },
+        { src: "/15.jpeg", alt: "Carnival lights" },
+        { src: "/17.jpeg", alt: "Children at fair" },
+        { src: "/18.jpeg", alt: "Carousel detail" },
       ],
       [
-        { src: u("1543872084-c7bd3822856f"), alt: "Park entrance" },
-        { src: u("1554189097-ffe88e998a2b"), alt: "Families enjoying rides" },
-        { src: u("1517423568366-8b83523034fd"), alt: "Night time rides" },
-        { src: u("1559131397-f94da358f7ca"), alt: "Arcade games" },
-        { src: u("1533174072545-7a4b6ad7a6c3"), alt: "Water attractions" },
-        { src: u("1551817958-d9d86fb29431"), alt: "Adventure zone" },
-        { src: u("1467810563316-b5476525c0f9"), alt: "Food court area" },
-        { src: u("1530541930197-ff16ac917b0e"), alt: "Bumper cars" },
-      ],
-      [
-        { src: u("1530541930197-ff16ac917b0e"), alt: "Dinosaur attraction" },
-        { src: u("1467810563316-b5476525c0f9"), alt: "Water plaza" },
-        { src: u("1543872084-c7bd3822856f"), alt: "Gate entrance" },
-        { src: u("1551817958-d9d86fb29431"), alt: "Roller coaster" },
-        { src: u("1517423568366-8b83523034fd"), alt: "Evening atmosphere" },
-        { src: u("1554189097-ffe88e998a2b"), alt: "Event stage" },
+        { src: "/19.jpeg", alt: "Park arch lit up" },
+        { src: "/2.jpg", alt: "Park entrance" },
+        { src: "/3.jpg", alt: "Families enjoying rides" },
+        { src: "/4.jpeg", alt: "Night time rides" },
+        { src: "/5.jpg", alt: "Arcade games" },
+        { src: "/6.jpg", alt: "Water attractions" },
+        { src: "/p1.jpg", alt: "Adventure zone" },
       ],
     ],
   },
@@ -461,7 +450,7 @@ export const defaultHomeContent: HomeContent = {
           "2 Family Rides (Bumper Cars, Wave Pool)",
           "Full technical operator crew & safety supervisors",
           "Custom decorative lighting & entrance setup",
-          "Complimentary transport within Jaipur limits",
+          "Complimentary transport within city limits (subject to location)",
         ],
         bestFor: "Public Melas, Carnivals, Corporate Family Days",
       },
@@ -550,36 +539,32 @@ export const defaultHomeContent: HomeContent = {
     heading: "Got questions? We've got answers.",
     items: [
       {
-        q: "What are the park timings?",
-        a: "Naaz Amusement is open every day from 11:00 AM to 8:00 PM. Last entry is at 7:00 PM. During holidays and special events, we may extend hours — check our social media for updates.",
+        q: "Naaz Amusement kahan-kahan lagta hai?",
+        a: "Hum Rajasthan ke kai shehron, Uttar Pradesh, aur Dussehra ke samay Delhi mein alag-alag melas aur carnivals mein rides lagate hain. \"Active Locations\" section check karein current aur upcoming locations ke liye.",
       },
       {
-        q: "How do I book tickets online?",
-        a: "Visit booking.naazamusementjaipur.com, choose your date and ticket type, apply any discount coupon if available, and complete payment. You'll receive an instant e-ticket via email and SMS.",
+        q: "Timings kya hain?",
+        a: "Timings har mela location ke hisaab se alag ho sakti hain. Exact dates aur timings ke liye humari website ke \"Live Locations\" section ya current mela ki details check karein.",
       },
       {
-        q: "Is there a discount for online bookings?",
-        a: "Yes! Book online and get flat 20% off on entry tickets. We also run seasonal offers and group discounts for families, schools, and corporates.",
+        q: "Tickets online kaise book karein?",
+        a: "Website ke \"Active Locations\" section se apna city/mela select karein, rides chunein, aur UPI se payment complete karein. Confirmation ke saath QR ticket mil jayega.",
       },
       {
-        q: "Is the park safe for young children?",
-        a: "Absolutely. We have dedicated kid-friendly zones with age-appropriate rides, trained ride operators, on-site medical staff, and comprehensive safety protocols. Every ride undergoes daily maintenance checks.",
+        q: "Kya online booking pe discount milta hai?",
+        a: "Haan, humari website se bulk ticket booking par special discounts available hote hain. Current offers ke liye mela page check karein.",
       },
       {
-        q: "Can we bring outside food?",
-        a: "Outside food is not permitted inside the park, but our food court offers 25+ stalls covering everything from street food to fine dining. Bottled water is available throughout the park.",
+        q: "Kya rides bachon ke liye safe hain?",
+        a: "Bilkul! Hamare saare rides certified aur highly trained operators dwara chalaye jaate hain. Har ride open hone se pehle daily safety checks aur trial runs hote hain.",
       },
       {
-        q: "Is the park wheelchair accessible?",
-        a: "Yes. Entry, washrooms, food courts, and most viewing areas have ramps and accessible pathways. Many of our attractions are wheelchair-friendly, and staff is available for assistance.",
+        q: "Kya event/corporate bookings hoti hain?",
+        a: "Haan, hum shaadi, corporate events, pre-wedding sangeets, aur school outings ke liye custom packages offer karte hain. Hamari website par \"Event Packages\" section check karein.",
       },
       {
-        q: "Do you host corporate events and birthday parties?",
-        a: "Yes! We offer customized packages for corporate team-building, birthday parties, school trips, and private events. Contact our events team for tailored solutions.",
-      },
-      {
-        q: "What is the refund / cancellation policy?",
-        a: "Full refund if cancelled 48 hours before your booked date. Within 48 hours, we offer a free date change. Unused tickets cannot be refunded after the visit date has passed.",
+        q: "Refund/cancellation policy kya hai?",
+        a: "Tickets generally non-refundable hote hain. Agar mela kisi technical problem ya weather ki wajah se close rehta hai, toh aap apne ticket ko same location par agle din use kar sakte hain.",
       },
     ],
   },

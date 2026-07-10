@@ -132,54 +132,55 @@ export function Header() {
       {/* Fullscreen Menu Overlay */}
       <AnimatePresence>
         {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[60] flex flex-col bg-white overflow-y-auto"
-          >
-            {/* Close bar */}
-            <div className="flex items-center justify-end px-4 py-4 sm:px-6 sm:py-5 md:px-10">
-              <button
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-2 sm:gap-3 font-display text-[20px] sm:text-[24px] text-[#131313] transition hover:text-accent-magenta"
-              >
-                <span className="hidden sm:inline">CLOSE</span>
-                <X className="h-5 w-5 sm:h-6 sm:w-6" />
-              </button>
-            </div>
-
-            {/* Nav links */}
-            <nav className="flex flex-1 flex-col items-start justify-start py-4 sm:justify-center gap-2 sm:gap-4 px-6 sm:px-10 md:px-20 min-h-max">
-              {dynamicLinks.map((item, i) => (
-                <motion.div
-                  key={item.href}
-                  initial={{ opacity: 0, x: -40 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06, duration: 0.4 }}
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.3, type: "spring", bounce: 0.2 }}
+              className="relative w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <span className="font-display text-xl tracking-wide text-deep-purple">NAVIGATION</span>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="rounded-full bg-gray-100 p-2 text-gray-600 transition hover:bg-gray-200 hover:text-gray-900"
                 >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <nav className="flex flex-col gap-2">
+                {dynamicLinks.map((item) => (
                   <Link
+                    key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="font-display text-[clamp(2.2rem,8vw,6rem)] leading-tight text-[#131313] transition-colors hover:text-accent-magenta"
+                    className="flex items-center rounded-xl px-4 py-3 text-[15px] font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-accent-magenta"
                   >
                     {item.label}
                   </Link>
-                </motion.div>
-              ))}
-            </nav>
+                ))}
+              </nav>
 
-            {/* Book tickets CTA */}
-            <div className="px-6 pb-6 sm:px-10 sm:pb-10 md:px-20">
-              <Link
-                href={site.bookingUrl}
-                className="inline-flex items-center gap-3 rounded-full bg-deep-purple px-6 py-3 sm:px-8 sm:py-4 font-display text-[12px] sm:text-[14px] uppercase tracking-wide text-white transition hover:bg-accent-magenta"
-              >
-                BOOK YOUR TICKETS
-              </Link>
-            </div>
-          </motion.div>
+              <div className="mt-6 pt-6 border-t border-gray-100">
+                <Link
+                  href={site.bookingUrl}
+                  className="flex w-full items-center justify-center rounded-full bg-deep-purple px-6 py-3.5 font-display text-[14px] uppercase tracking-wide text-white transition hover:bg-accent-magenta"
+                >
+                  BOOK YOUR TICKETS
+                </Link>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </>

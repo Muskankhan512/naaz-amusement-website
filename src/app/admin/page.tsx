@@ -204,35 +204,40 @@ export default function AdminPage() {
   const derivedUsers = Array.from(userStatsMap.values());
 
   // Form submission - Add Ride
-  const handleAddRideSubmit = (e: React.FormEvent) => {
+  const handleAddRideSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!rideForm.name || !rideForm.slug) {
       toast.error("Please fill in Ride Name and URL Slug");
       return;
     }
-    addRide({
+    const success = await addRide({
       ...rideForm,
       pricePaise: Number(rideForm.pricePaise),
       minAge: Number(rideForm.minAge),
       capacity: Number(rideForm.capacity),
     });
-    toast.success(`${rideForm.name} added to rides store!`);
-    setShowAddRideModal(false);
-    // Reset form
-    setRideForm({
-      name: "",
-      slug: "",
-      nameHi: "",
-      thrill: "Medium",
-      minAge: 10,
-      capacity: 24,
-      pricePaise: 5000000,
-      duration: "5 min",
-      tagline: "",
-      description: "",
-      image: "/p1.jpg",
-      tint: "#210C6D",
-    });
+    
+    if (success) {
+      toast.success(`${rideForm.name} added to rides store!`);
+      setShowAddRideModal(false);
+      // Reset form
+      setRideForm({
+        name: "",
+        slug: "",
+        nameHi: "",
+        thrill: "Medium",
+        minAge: 10,
+        capacity: 24,
+        pricePaise: 5000000,
+        duration: "5 min",
+        tagline: "",
+        description: "",
+        image: "/p1.jpg",
+        tint: "#210C6D",
+      });
+    } else {
+      toast.error("Failed to add ride. Please check connection.");
+    }
   };
 
   // Form submission - Edit Ride
@@ -255,18 +260,22 @@ export default function AdminPage() {
     setShowEditRideModal(true);
   };
 
-  const handleEditRideSubmit = (e: React.FormEvent) => {
+  const handleEditRideSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editingRideSlug) {
-      updateRide(editingRideSlug, {
+      const success = await updateRide(editingRideSlug, {
         ...rideForm,
         pricePaise: Number(rideForm.pricePaise),
         minAge: Number(rideForm.minAge),
         capacity: Number(rideForm.capacity),
       });
-      toast.success(`${rideForm.name} updated successfully!`);
-      setShowEditRideModal(false);
-      setEditingRideSlug(null);
+      if (success) {
+        toast.success(`${rideForm.name} updated successfully!`);
+        setShowEditRideModal(false);
+        setEditingRideSlug(null);
+      } else {
+        toast.error("Failed to update ride. Please check connection.");
+      }
     }
   };
 
@@ -951,11 +960,14 @@ export default function AdminPage() {
                         <div className="border-t border-white/5 pt-4">
                           <h5 className="font-display text-sm text-white/70 mb-4">Location Specific Ride Pricing</h5>
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                            {loc.ridePricing.map((rp, i) => {
-                              const rideInfo = rides.find(r => r.slug === rp.rideSlug);
-                              if (!rideInfo) return null;
+                            {rides.map((rideInfo) => {
+                              const existingPricingIndex = loc.ridePricing.findIndex(rp => rp.rideSlug === rideInfo.slug);
+                              const existingPricing = existingPricingIndex >= 0 ? loc.ridePricing[existingPricingIndex] : null;
+                              
+                              const currentPricePaise = existingPricing ? existingPricing.pricePaise : rideInfo.pricePaise;
+
                               return (
-                                <div key={rp.rideSlug} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+                                <div key={rideInfo.slug} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
                                   <div>
                                     <div className="text-xs font-bold text-white">{rideInfo.name}</div>
                                     <div className="text-[10px] text-white/40">Base: ₹{rideInfo.pricePaise / 100}</div>
@@ -964,10 +976,17 @@ export default function AdminPage() {
                                     <input 
                                       type="number"
                                       className="w-20 bg-black/50 border border-white/10 rounded px-2 py-1 text-xs text-accent-yellow font-mono text-right"
-                                      value={rp.pricePaise / 100}
+                                      value={currentPricePaise / 100}
                                       onChange={(e) => {
+                                        const newPricePaise = Number(e.target.value) * 100;
                                         const newPricing = [...loc.ridePricing];
-                                        newPricing[i] = { ...rp, pricePaise: Number(e.target.value) * 100 };
+                                        
+                                        if (existingPricingIndex >= 0) {
+                                          newPricing[existingPricingIndex] = { ...newPricing[existingPricingIndex], pricePaise: newPricePaise };
+                                        } else {
+                                          newPricing.push({ rideSlug: rideInfo.slug, pricePaise: newPricePaise, isActive: true });
+                                        }
+                                        
                                         updateLocation(loc.id, { ridePricing: newPricing });
                                       }}
                                     />
@@ -975,6 +994,12 @@ export default function AdminPage() {
                                 </div>
                               );
                             })}
+                            
+                            {rides.length === 0 && (
+                              <div className="text-center py-4 text-white/30 text-[10px] col-span-full">
+                                No rides available. Add rides from the "RIDES" tab first.
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -1259,7 +1284,7 @@ export default function AdminPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-white/50 uppercase tracking-widest text-[9px] mb-1 font-semibold">Rental Cost (Paise)</label>
+                    <label className="block text-white/50 uppercase tracking-widest text-[9px] mb-1 font-semibold">Base Ticket Price (Paise, eg: 5000 = ₹50)</label>
                     <input
                       type="number"
                       value={rideForm.pricePaise}
@@ -1683,32 +1708,38 @@ export default function AdminPage() {
               </div>
 
               <form 
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
                   if (!locationForm.name || !locationForm.city || !locationForm.address) {
                     toast.error("Please fill required fields");
                     return;
                   }
-                  addLocation({
+                  
+                  const success = await addLocation({
                     ...locationForm,
                     startDate: new Date(locationForm.startDate).toISOString(),
                     endDate: new Date(locationForm.endDate).toISOString(),
                     isActive: true,
                     ridePricing: rides.map(r => ({ rideSlug: r.slug, pricePaise: r.pricePaise, isActive: true }))
                   });
-                  toast.success("Location added!");
-                  setShowAddLocationModal(false);
-                  setLocationForm({
-                    name: "",
-                    city: "Jaipur",
-                    address: "",
-                    startDate: new Date().toISOString().split("T")[0],
-                    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
-                    lat: 26.9124,
-                    lng: 75.7873,
-                    gmapsLink: "",
-                    details: "",
-                  });
+                  
+                  if (success) {
+                    toast.success("Location added!");
+                    setShowAddLocationModal(false);
+                    setLocationForm({
+                      name: "",
+                      city: "Jaipur",
+                      address: "",
+                      startDate: new Date().toISOString().split("T")[0],
+                      endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                      lat: 26.9124,
+                      lng: 75.7873,
+                      gmapsLink: "",
+                      details: "",
+                    });
+                  } else {
+                    toast.error("Failed to add location. Database connection might be offline.");
+                  }
                 }} 
                 className="space-y-4"
               >

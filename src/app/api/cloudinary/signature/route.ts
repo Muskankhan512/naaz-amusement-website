@@ -54,8 +54,13 @@ function signParams(params: Record<string, string>, apiSecret: string) {
     .digest("hex");
 }
 
+import { verifyAdminToken } from "@/lib/auth-token";
+
 export async function POST(request: NextRequest) {
-  if (request.cookies.get(ADMIN_COOKIE)?.value !== "1") {
+  const adminCookie = request.cookies.get(ADMIN_COOKIE)?.value;
+  const isAdmin = await verifyAdminToken(adminCookie);
+
+  if (!isAdmin) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 

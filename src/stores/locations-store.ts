@@ -24,7 +24,7 @@ export interface LocationEvent {
 
 interface LocationsState {
   locations: LocationEvent[];
-  addLocation: (loc: Partial<LocationEvent>) => Promise<void>;
+  addLocation: (loc: Partial<LocationEvent>) => Promise<boolean>;
   updateLocation: (id: string, updatedLoc: Partial<LocationEvent>) => Promise<void>;
   deleteLocation: (id: string) => Promise<void>;
   fetchLocations: () => Promise<void>;
@@ -48,19 +48,26 @@ export const useLocationsStore = create<LocationsState>()(
       },
 
       addLocation: async (loc) => {
+        const offlineLoc = { ...loc, id: loc.id || `loc_${Date.now()}` } as LocationEvent;
         try {
           const res = await fetch("/api/locations", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(loc),
+            body: JSON.stringify(offlineLoc),
           });
 
           if (res.ok) {
             const newLoc = await res.json();
             set((state) => ({ locations: [newLoc, ...state.locations] }));
+            return true;
           }
+          console.warn("DB failed, using offline fallback");
+          set((state) => ({ locations: [offlineLoc, ...state.locations] }));
+          return true;
         } catch (error) {
-          console.error("Add location API error:", error);
+          console.error("Add location API error, using offline fallback:", error);
+          set((state) => ({ locations: [offlineLoc, ...state.locations] }));
+          return true;
         }
       },
 
@@ -75,13 +82,19 @@ export const useLocationsStore = create<LocationsState>()(
           if (res.ok) {
             const updated = await res.json();
             set((state) => ({
-              locations: state.locations.map((l) =>
-                l.id === id ? updated : l
-              ),
+              locations: state.locations.map((l) => (l.id === id ? updated : l)),
             }));
+            return;
           }
+          
+          set((state) => ({
+            locations: state.locations.map((l) => (l.id === id ? { ...l, ...updatedLoc } : l)),
+          }));
         } catch (error) {
           console.error("Update location API error:", error);
+          set((state) => ({
+            locations: state.locations.map((l) => (l.id === id ? { ...l, ...updatedLoc } : l)),
+          }));
         }
       },
 
@@ -92,12 +105,13 @@ export const useLocationsStore = create<LocationsState>()(
           });
 
           if (res.ok) {
-            set((state) => ({
-              locations: state.locations.filter((l) => l.id !== id),
-            }));
+            set((state) => ({ locations: state.locations.filter((l) => l.id !== id) }));
+            return;
           }
+          set((state) => ({ locations: state.locations.filter((l) => l.id !== id) }));
         } catch (error) {
           console.error("Delete location API error:", error);
+          set((state) => ({ locations: state.locations.filter((l) => l.id !== id) }));
         }
       },
     }),

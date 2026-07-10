@@ -10,7 +10,6 @@ import { Tour } from "@/components/sections/tour";
 import { Gallery } from "@/components/sections/gallery";
 import { Chronicles } from "@/components/sections/chronicles";
 import { CtaStrip } from "@/components/sections/cta-strip";
-import { Facilities } from "@/components/sections/facilities";
 import { Faq } from "@/components/sections/faq";
 
 export default function Home() {
@@ -39,8 +38,6 @@ export default function Home() {
         <EventPackages />
         {/* 10. Final CTA */}
         <CtaStrip />
-        {/* 11. Your Comfort — facility pills */}
-        <Facilities />
         {/* 12. FAQ */}
         <Faq />
       </main>

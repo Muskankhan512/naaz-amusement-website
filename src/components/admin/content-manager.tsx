@@ -1776,6 +1776,89 @@ export function ContentManager() {
           </div>
         </div>
       </section>
+
+      {/* EVENT PACKAGES */}
+      <section className={getSectionCardClass("eventPackages")}>
+        <h3 className="font-display text-lg text-white">Event Packages</h3>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div>
+            <label className={labelClass}>Eyebrow</label>
+            <input
+              className={inputClass}
+              value={draft.eventPackages.eyebrow}
+              onChange={(event) =>
+                updateSection("eventPackages", { ...draft.eventPackages, eyebrow: event.target.value })
+              }
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Heading</label>
+            <input
+              className={inputClass}
+              value={draft.eventPackages.heading}
+              onChange={(event) =>
+                updateSection("eventPackages", { ...draft.eventPackages, heading: event.target.value })
+              }
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className={labelClass}>Subtext</label>
+            <textarea
+              className={`${inputClass} min-h-[80px]`}
+              value={draft.eventPackages.subtext}
+              onChange={(event) =>
+                updateSection("eventPackages", { ...draft.eventPackages, subtext: event.target.value })
+              }
+            />
+          </div>
+        </div>
+        <div className="mt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-white/70">Packages</p>
+            <AddButton
+              label="Add Package"
+              onClick={() =>
+                updateSection("eventPackages", {
+                  ...draft.eventPackages,
+                  packages: [
+                    ...draft.eventPackages.packages,
+                    {
+                      id: "new-pkg-" + Date.now(),
+                      name: "New Package",
+                      tagline: "",
+                      price: "₹ 0",
+                      duration: "per day",
+                      iconKey: "zap",
+                      themeColor: "text-accent-yellow border-accent-yellow/20 hover:border-accent-yellow/50",
+                      shadowColor: "rgba(238, 167, 39, 0.15)",
+                      features: ["Feature 1", "Feature 2"],
+                      bestFor: "Events",
+                    },
+                  ],
+                })
+              }
+            />
+          </div>
+          <div className="mt-3 space-y-2">
+            {draft.eventPackages.packages.map((pkg, index) => (
+              <PackageEditor
+                key={`${pkg.id}-${index}`}
+                pkg={pkg}
+                onChange={(next) => {
+                  const updated = [...draft.eventPackages.packages];
+                  updated[index] = next;
+                  updateSection("eventPackages", { ...draft.eventPackages, packages: updated });
+                }}
+                onRemove={() => {
+                  const updated = draft.eventPackages.packages.filter((_, i) => i !== index);
+                  updateSection("eventPackages", { ...draft.eventPackages, packages: updated });
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
         </div>
       </div>
     </div>
