@@ -264,7 +264,7 @@ export const defaultHomeContent: HomeContent = {
     headingAccent: "Decades of",
     headingTrail: "memories made with Naaz.",
     subtext:
-      "From thrilling high-speed rides to classic family favourites — every attraction is maintained to the highest safety standards and operated by our trained crew.",
+      "From thrilling rides to family favourites, every attraction at Naaz Amusement is designed for fun, maintained to the highest safety standards, and operated by our trained team to ensure a safe and enjoyable experience for everyone",
   },
   activeLocations: {
     eyebrow: "Live Installations & Melas",
