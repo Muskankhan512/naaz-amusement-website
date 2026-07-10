@@ -113,13 +113,6 @@ export function Header() {
 
           {/* Right actions */}
           <div className="flex items-center gap-4 sm:gap-5 xl:gap-6">
-            {/* Book Tickets CTA on Desktop */}
-            <Link
-              href={site.bookingUrl}
-              className="hidden lg:inline-flex items-center justify-center rounded-full border border-accent-yellow bg-accent-yellow px-4 py-2 font-display text-[11px] xl:text-[13px] uppercase tracking-widest text-deep-purple transition hover:bg-white hover:border-white"
-            >
-              BOOK TICKETS
-            </Link>
 
             {hasHydrated && (
               <Link
