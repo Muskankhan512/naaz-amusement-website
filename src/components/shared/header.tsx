@@ -82,6 +82,12 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={(e) => {
+                  if (link.href === "/" && window.location.pathname === "/") {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                }}
                 className="font-display text-[11px] xl:text-[13px] tracking-wide text-fk-offwhite transition hover:text-accent-yellow uppercase whitespace-nowrap"
               >
                 {link.label}
