@@ -95,13 +95,7 @@ export function Header() {
             ))}
           </div>
 
-          {/* Mobile Booking Link - left (visible only on mobile to replace navLinks space) */}
-          <Link
-            href={site.bookingUrl}
-            className="lg:hidden font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite underline underline-offset-4 transition hover:text-accent-yellow"
-          >
-            BOOK TICKETS
-          </Link>
+
 
           {/* Logo center (visible on scroll) */}
           <Link href="/" className="absolute left-1/2 -translate-x-1/2">
