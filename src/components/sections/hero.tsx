@@ -98,22 +98,6 @@ export function Hero() {
 
         {/* Center wordmark + CTAs */}
         <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center">
-          {/* Offer pill */}
-          {hero.offer.enabled && (
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.7 }}
-            >
-              <Link
-                href={site.bookingUrl}
-                className="group inline-flex items-center gap-2 rounded-full border border-accent-yellow/40 bg-deep-purple/40 px-4 py-1.5 text-[clamp(0.65rem,1.6vw,0.8rem)] font-display uppercase tracking-wider text-accent-yellow backdrop-blur-md transition hover:border-accent-yellow hover:bg-deep-purple/60"
-              >
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent-yellow animate-pulse" />
-                {hero.offer.eyebrow} {hero.offer.title}
-              </Link>
-            </motion.div>
-          )}
 
           {/* Wordmark */}
           <motion.h1
