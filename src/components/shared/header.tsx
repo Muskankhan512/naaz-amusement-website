@@ -11,13 +11,12 @@ import { isAdminEmail } from "@/lib/admin";
 
 const navLinks = [
   { label: "HOME", href: "/" },
-  { label: "ABOUT US", href: "/about" },
+  { label: "ABOUT", href: "/about" },
   { label: "PACKAGES", href: "/#packages" },
   { label: "REVIEWS", href: "/#reviews" },
   { label: "FAQ", href: "/#faq" },
-  { label: "ATTRACTIONS", href: "/attractions" },
-  { label: "TICKET INFO", href: "/ticket-info" },
-  { label: "CONTACT US", href: "/contact" },
+  { label: "RIDES", href: "/attractions" },
+  { label: "CONTACT", href: "/contact" },
 ];
 
 export function Header() {
@@ -77,33 +76,26 @@ export function Header() {
         )}
       >
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 sm:px-6 md:px-10">
-          {/* Quick Links — left */}
-          <div className="flex items-center gap-4 sm:gap-6">
-            <Link
-              href={site.bookingUrl}
-              className="font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite underline underline-offset-4 transition hover:text-accent-yellow"
-            >
-              BOOK TICKETS
-            </Link>
-            <Link
-              href="/#packages"
-              className="hidden lg:block font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite transition hover:text-accent-yellow uppercase"
-            >
-              Packages
-            </Link>
-            <Link
-              href="/#reviews"
-              className="hidden lg:block font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite transition hover:text-accent-yellow uppercase"
-            >
-              Reviews
-            </Link>
-            <Link
-              href="/#faq"
-              className="hidden lg:block font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite transition hover:text-accent-yellow uppercase"
-            >
-              FAQ
-            </Link>
+          {/* Navigation Links — left */}
+          <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="font-display text-[11px] xl:text-[13px] tracking-wide text-fk-offwhite transition hover:text-accent-yellow uppercase whitespace-nowrap"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
+
+          {/* Mobile Booking Link - left (visible only on mobile to replace navLinks space) */}
+          <Link
+            href={site.bookingUrl}
+            className="lg:hidden font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite underline underline-offset-4 transition hover:text-accent-yellow"
+          >
+            BOOK TICKETS
+          </Link>
 
           {/* Logo center (visible on scroll) */}
           <Link href="/" className="absolute left-1/2 -translate-x-1/2">
@@ -120,11 +112,19 @@ export function Header() {
           </Link>
 
           {/* Right actions */}
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-4 sm:gap-5 xl:gap-6">
+            {/* Book Tickets CTA on Desktop */}
+            <Link
+              href={site.bookingUrl}
+              className="hidden lg:inline-flex items-center justify-center rounded-full border border-accent-yellow bg-accent-yellow px-4 py-2 font-display text-[11px] xl:text-[13px] uppercase tracking-widest text-deep-purple transition hover:bg-white hover:border-white"
+            >
+              BOOK TICKETS
+            </Link>
+
             {hasHydrated && (
               <Link
                 href={loggedIn ? "/profile" : "/login"}
-                className="font-display text-[12px] sm:text-[14px] tracking-wide text-fk-offwhite hover:text-accent-yellow transition uppercase"
+                className="font-display text-[11px] xl:text-[13px] tracking-wide text-fk-offwhite hover:text-accent-yellow transition uppercase whitespace-nowrap"
               >
                 {loggedIn ? `HI, ${user.name.split(" ")[0]}` : "SIGN IN"}
               </Link>
@@ -133,17 +133,17 @@ export function Header() {
             {isAdmin && (
               <Link
                 href="/admin"
-                className="inline-flex items-center gap-2 rounded-full border border-accent-yellow/40 bg-white/5 px-3 py-1.5 font-display text-[11px] uppercase tracking-widest text-accent-yellow transition hover:border-accent-yellow hover:bg-accent-yellow hover:text-deep-purple"
+                className="hidden xl:inline-flex items-center gap-2 rounded-full border border-accent-yellow/40 bg-white/5 px-3 py-1.5 font-display text-[11px] uppercase tracking-widest text-accent-yellow transition hover:border-accent-yellow hover:bg-accent-yellow hover:text-deep-purple"
               >
                 <Settings className="h-3.5 w-3.5" />
                 Admin Panel
               </Link>
             )}
 
-            {/* Menu — right */}
+            {/* Menu — right (Hidden on Desktop) */}
             <button
               onClick={() => setOpen((v) => !v)}
-              className="flex items-center gap-2 sm:gap-3 font-display text-[18px] sm:text-[24px] leading-[28px] tracking-normal text-[#EDEDED] transition hover:text-white"
+              className="lg:hidden flex items-center gap-2 sm:gap-3 font-display text-[18px] sm:text-[24px] leading-[28px] tracking-normal text-[#EDEDED] transition hover:text-white"
             >
               <span className="hidden sm:inline">MENU</span>
               {open ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
