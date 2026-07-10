@@ -148,23 +148,7 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Scroll down indicator */}
-        <motion.div
-          style={{ opacity: scrollOpacity }}
-          className="absolute bottom-6 sm:bottom-8 left-1/2 z-20 -translate-x-1/2"
-        >
-          <div className="flex flex-col items-center gap-1.5 sm:gap-2">
-            <span className="font-display text-[12px] sm:text-[16px] uppercase tracking-wide text-white">
-              SCROLL DOWN
-            </span>
-            <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <ArrowDown className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
-            </motion.div>
-          </div>
-        </motion.div>
+
       </div>
 
       {/* HERO BOTTOM — Purple section with copy + stats */}
