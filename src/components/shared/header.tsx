@@ -13,9 +13,9 @@ const navLinks = [
   { label: "HOME", href: "/" },
   { label: "ABOUT", href: "/about" },
   { label: "PACKAGES", href: "/#packages" },
+  { label: "RIDES", href: "/attractions" },
   { label: "REVIEWS", href: "/#reviews" },
   { label: "FAQ", href: "/#faq" },
-  { label: "RIDES", href: "/attractions" },
   { label: "CONTACT", href: "/contact" },
 ];
 
