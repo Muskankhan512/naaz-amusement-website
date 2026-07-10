@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import { site, waLink } from "@/lib/site";
-import { Facebook, Instagram } from "lucide-react";
 
 export function WhatsAppFloat() {
   const href = waLink(
@@ -24,7 +23,9 @@ export function WhatsAppFloat() {
         whileTap={{ scale: 0.9 }}
         className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-[#1877F2] text-white shadow-lg ring-2 ring-white/70"
       >
-        <Facebook className="h-5 w-5 sm:h-6 sm:w-6" />
+        <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
       </motion.a>
 
       {/* Instagram */}
@@ -40,7 +41,11 @@ export function WhatsAppFloat() {
         whileTap={{ scale: 0.9 }}
         className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] text-white shadow-lg ring-2 ring-white/70"
       >
-        <Instagram className="h-5 w-5 sm:h-6 sm:w-6" />
+        <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+        </svg>
       </motion.a>
 
       {/* WhatsApp */}
