@@ -13,7 +13,7 @@ const pricingOptions = [
     name: "General Admission (Adult)",
     price: "₹799",
     description: "Full access to all 80+ standard mechanical swings, water pool zones, and show displays.",
-    features: ["Access to all rides", "Water Park entry", "Khao Gali entry", "Free parking"],
+    features: ["Access to all rides", "Water Park entry", "Free parking"],
   },
   {
     name: "Child Pass (Under 4ft)",
@@ -192,7 +192,7 @@ export default function TicketInfoPage() {
                 </div>
                 <div className="border-l-2 border-accent-yellow pl-4">
                   <h4 className="font-bold text-white mb-1">Food & Beverage Policy</h4>
-                  <p>Outside food and alcoholic beverages are strictly prohibited inside the park. Khao Gali offers a wide range of vegetarian food and filtered water.</p>
+                  <p>Outside food and alcoholic beverages are strictly prohibited inside the park. Our food court offers a wide range of vegetarian food and filtered water.</p>
                 </div>
                 <div className="border-l-2 border-accent-yellow pl-4">
                   <h4 className="font-bold text-white mb-1">Re-entry Rules</h4>

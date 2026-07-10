@@ -1,20 +1,25 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
+import { decodeUserEmail } from "@/lib/auth-token";
 
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
   try {
     await connectToDatabase();
-    const { email, name, phone, currentPassword, newPassword } =
-      await request.json();
-
-    if (!email) {
+    
+    const userCookie = request.cookies.get("naaz-user")?.value;
+    const sessionEmail = decodeUserEmail(userCookie);
+    
+    if (!sessionEmail) {
       return NextResponse.json(
-        { message: "Email is required" },
-        { status: 400 }
+        { message: "Unauthorized" },
+        { status: 401 }
       );
     }
+
+    const { name, phone, currentPassword, newPassword } = await request.json();
+    const email = sessionEmail;
 
     // Password change flow — verify current password before updating.
     if (typeof newPassword === "string" && newPassword.length > 0) {

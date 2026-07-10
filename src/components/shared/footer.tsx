@@ -5,24 +5,16 @@ const quickLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Attractions", href: "/attractions" },
-  { label: "Ticket Info", href: "/ticket-info" },
+  { label: "Book Tickets", href: "/book" },
   { label: "Contact Us", href: "/contact" },
 ];
 
-const innerPages = [
-  { label: "Amusement Park", href: "/attractions" },
-  { label: "Adventure Park", href: "/attractions" },
-  { label: "Khao Gali", href: "/khao-gali" },
-  { label: "Sports Arena", href: "/attractions" },
-  { label: "Pickleball Meadows", href: "/attractions" },
-];
-
-const otherLinks = [
-  { label: "Blog", href: "/blog" },
+const exploreLinks = [
+  { label: "Our Rides", href: "/attractions" },
+  { label: "Event Packages", href: "/#packages" },
+  { label: "Live Locations", href: "/#locations" },
   { label: "Gallery", href: "/#gallery" },
-  { label: "Events", href: "/#packages" },
-  { label: "Corporate", href: "/contact" },
-  { label: "Careers", href: "/contact" },
+  { label: "Ticket Info", href: "/ticket-info" },
 ];
 
 const importantLinks = [
@@ -48,7 +40,7 @@ export function Footer() {
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/10"
       />
 
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-10 px-4 sm:grid-cols-3 sm:gap-8 sm:px-5 md:px-8 lg:grid-cols-5">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-10 px-4 sm:grid-cols-2 sm:gap-8 sm:px-5 md:px-8 lg:grid-cols-4">
         {/* Quick Link */}
         <FooterColumn title="Quick Link">
           {quickLinks.map((l) => (
@@ -56,16 +48,9 @@ export function Footer() {
           ))}
         </FooterColumn>
 
-        {/* Inner Pages */}
-        <FooterColumn title="Inner Pages">
-          {innerPages.map((l) => (
-            <FooterLink key={l.label} {...l} />
-          ))}
-        </FooterColumn>
-
-        {/* Other */}
-        <FooterColumn title="Other">
-          {otherLinks.map((l) => (
+        {/* Explore Links */}
+        <FooterColumn title="Explore">
+          {exploreLinks.map((l) => (
             <FooterLink key={l.label} {...l} />
           ))}
         </FooterColumn>

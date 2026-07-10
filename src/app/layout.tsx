@@ -49,7 +49,6 @@ export const metadata: Metadata = {
     "rides",
     "attractions",
     "water park",
-    "adventure park",
     "family entertainment",
   ],
   openGraph: {
@@ -57,7 +56,7 @@ export const metadata: Metadata = {
     siteName: "Naaz Amusement Jaipur",
     title: "Naaz Amusement — Rajasthan's Premier Amusement Park",
     description:
-      "80+ rides & attractions across 18 acres. Amusement Park, Adventure Park, Water Park, Sports Arena & more.",
+      "80+ rides & attractions across 18 acres. Amusement Park, Water Park & more.",
     locale: "en_IN",
   },
   twitter: {
@@ -85,7 +84,7 @@ export default function RootLayout({
       className={`${staatliches.variable} ${hostGrotesk.variable} ${geist.variable} ${ibmPlexMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full bg-deep-purple text-white">
+      <body className="min-h-full bg-deep-purple text-white pb-24 sm:pb-0">
         <TooltipProvider delay={150}>
           {children}
           <WhatsAppFloat />

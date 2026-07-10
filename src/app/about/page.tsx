@@ -9,10 +9,10 @@ import { site } from "@/lib/site";
 import Link from "next/link";
 
 const stats = [
-  { label: "Acres of Fun", value: `${site.acres}+` },
+  { label: "Years of Legacy", value: `40+` },
   { label: "Rides & Attractions", value: site.ridesCount },
   { label: "Google Reviews", value: site.googleReviews },
-  { label: "Happy Visitors", value: "1M+" },
+  { label: "States Covered", value: "3" },
 ];
 
 const pillars = [
@@ -63,18 +63,18 @@ export default function AboutPage() {
                 WELCOME TO NAAZ AMUSEMENT
               </span>
               <h1 className="mt-4 font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-none tracking-wide text-white">
-                Rajasthan's Premier <br />
-                <span className="text-accent-yellow">Themed Destination</span>
+                North India's Favourite <br />
+                <span className="text-accent-yellow">Traveling Carnival</span>
               </h1>
               <p className="mt-6 text-base leading-relaxed text-white/70 max-w-xl">
-                Spread across 18 acres of adrenaline, laughter, and wonder, Naaz Amusement is more than just an amusement park. It is a world-class celebration of joy, designed to create memories that last a lifetime.
+                For 40 years, Naaz Amusement has been lighting up melas, fairs, and city festivals across Rajasthan, Delhi, and Uttar Pradesh. We don't have a fixed address — we bring the carnival to your city.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
                   href={site.bookingUrl}
                   className="inline-flex h-12 items-center justify-center rounded-full bg-accent-yellow px-8 text-xs font-display tracking-widest text-deep-purple transition hover:scale-[1.02] shadow-[0_0_15px_rgba(238,167,39,0.25)]"
                 >
-                  BOOK TICKETS NOW
+                  BOOK SETUP NOW
                 </Link>
                 <Link
                   href="/attractions"
@@ -132,13 +132,13 @@ export default function AboutPage() {
                 OUR HISTORY
               </span>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] leading-none tracking-wide">
-                Born From A Vision To Elevate Fun
+                A 40-Year Journey Across North India
               </h2>
               <p className="text-sm leading-relaxed text-white/60">
-                Founded with a vision of bringing world-class thrill experiences to Rajasthan, Naaz Amusement started as a collection of premier joyrides. Over the years, we grew into an expansive 18-acre family entertainment park on Ajmer Road near the Bagru Toll, Jaipur.
+                Since 1986, Naaz Amusement has been a familiar name at the biggest melas and carnivals across Rajasthan, Delhi, and Uttar Pradesh. What began as a small collection of joyrides has grown into one of North India's most trusted traveling ride operators.
               </p>
               <p className="text-sm leading-relaxed text-white/60">
-                Today, the park features over 80 state-of-the-art mechanical swings, a grand water park area, custom obstacle course arrays, food streets, and lush green picnic lawns, rendering it the ultimate venue for weekend family escapes, corporate outings, and grand school trips.
+                Every year, we set up our 20+ high-thrill and family rides at major trade fairs, Dussehra melas, and city carnivals. Our fleet is fully owned, maintained to international safety standards, and operated by a trained permanent crew — ensuring the same quality of experience at every location.
               </p>
             </motion.div>
 
@@ -161,9 +161,9 @@ export default function AboutPage() {
               <div className="rounded-xl border border-white/5 bg-white/[0.01] p-6 flex gap-4 items-start">
                 <MapPin className="h-6 w-6 text-accent-yellow shrink-0 mt-1" />
                 <div>
-                  <h4 className="font-display text-base text-white">Located in Jaipur, Rajasthan</h4>
+                  <h4 className="font-display text-base text-white">Pan North India Operations</h4>
                   <p className="mt-1 text-xs text-white/40 leading-relaxed">
-                    Conveniently positioned on Ajmer Road, making it easily accessible from Jaipur city and neighboring regions.
+                    We operate across Rajasthan, Delhi, and Uttar Pradesh — setting up rides at major melas, Dussehra grounds, and city carnivals throughout the year.
                   </p>
                 </div>
               </div>

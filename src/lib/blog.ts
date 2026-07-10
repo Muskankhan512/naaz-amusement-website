@@ -68,42 +68,6 @@ export const blogPosts: BlogPost[] = [
     ]
   },
   {
-    slug: "pickleball-meadows-tournament-at-naaz-amusement-jaipur",
-    title: "Pickleball Meadows Tournament at Naaz Amusement Jaipur",
-    meta: "Naaz Amusement Jaipur · Apr 25, 2026",
-    excerpt: "Highlighting the high-octane action and top moments from the first-ever open Pickleball Championship held at our state-of-the-art sports arenas.",
-    image: u("1517423568366-8b83523034fd"),
-    readTime: "4 min read",
-    category: "Sports",
-    blocks: [
-      {
-        type: "paragraph",
-        text: "Pickleball is sweeping the nation, and Naaz Amusement is proud to be at the forefront of this athletic wave. On April 25, 2026, we hosted the inaugural Pickleball Meadows Open Tournament at our newly inaugurated professional-grade pickleball courts, welcoming players and enthusiasts from all over Rajasthan."
-      },
-      {
-        type: "subheading",
-        text: "Over 64 Teams Clash for the Title"
-      },
-      {
-        type: "paragraph",
-        text: "The tournament saw enthusiastic participation, with 64 teams competing across Men's Doubles, Women's Doubles, and Mixed Doubles categories. The matches were played on our synthetic courts, designed specifically to match global tournament standards, complete with professional LED lighting and spectator galleries."
-      },
-      {
-        type: "quote",
-        text: "The level of competition we saw today was outstanding. Pickleball Meadows is destined to become the hub of racket sports in Jaipur.",
-        author: "Chief Referee, Rajasthan Pickleball Association"
-      },
-      {
-        type: "subheading",
-        text: "Champions and Future Tournaments"
-      },
-      {
-        type: "paragraph",
-        text: "After a series of intense, fast-paced matches, Jaipur's local favorites clinched the Men's Doubles championship in a thrilling three-set finale. Winners were awarded cash prizes, trophies, and annual VIP passes to Naaz Amusement. Following the tournament's massive success, we are happy to announce that Pickleball Meadows will now host regular weekend clinics and corporate ladder tournaments."
-      }
-    ]
-  },
-  {
     slug: "naaz-amusement---best-place-to-celebrate-1st-birthday-in-jaipur",
     title: "Naaz Amusement - Best Place to Celebrate 1st Birthday in Jaipur",
     meta: "Naaz Amusement Jaipur · Apr 22, 2026",
@@ -135,7 +99,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "The main drawback of traditional venues is keeping guests entertained. At Naaz Amusement, your adult guests can enjoy high-thrill rides, teenagers can tackle the obstacle courses, and kids can safely enjoy our bumper cars and mini train rides. Couple that with a customized catering menu from our famous Khao Gali halwais, and you have a recipe for the perfect party."
+        text: "The main drawback of traditional venues is keeping guests entertained. At Naaz Amusement, your adult guests can enjoy high-thrill rides, teenagers can tackle the obstacle courses, and kids can safely enjoy our bumper cars and mini train rides. Couple that with a customized catering menu from our expert halwais, and you have a recipe for the perfect party."
       }
     ]
   },

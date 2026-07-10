@@ -567,7 +567,7 @@ function TicketCard({ booking }: { booking: Booking }) {
         </div>
 
         <h3 className="font-display text-[26px] mt-2 leading-none uppercase tracking-wide">
-          {booking.eventType} RENTAL
+          {booking.locationId ? "MELA TICKETS" : `${booking.eventType} RENTAL`}
         </h3>
 
         <div className="mt-4 grid grid-cols-2 gap-4 border-t border-deep-purple/10 pt-4">
@@ -587,22 +587,29 @@ function TicketCard({ booking }: { booking: Booking }) {
 
           <div className="space-y-0.5">
             <span className="text-[10px] text-deep-purple/60 block uppercase font-medium">
-              Guests count
+              {booking.locationId ? "Total Tickets" : "Guests count"}
             </span>
             <span className="text-sm font-semibold flex items-center gap-1">
               <UserIcon className="h-3.5 w-3.5 text-accent-magenta" />
-              {booking.guests} People
+              {booking.locationId 
+                ? `${booking.tickets?.reduce((acc, t) => acc + t.quantity, 0) || 0} Tickets` 
+                : `${booking.guests} People`}
             </span>
           </div>
 
           <div className="col-span-2 space-y-0.5">
             <span className="text-[10px] text-deep-purple/60 block uppercase font-medium">
-              Selected Attractions ({booking.selectedRides.length})
+              Selected Attractions ({booking.locationId ? (booking.tickets?.length || 0) : (booking.selectedRides?.length || 0)})
             </span>
             <p className="text-xs font-medium text-deep-purple/80 truncate">
-              {booking.selectedRides.length > 0
-                ? booking.selectedRides.map((r) => r.replace("-", " ")).join(", ")
-                : "Standard entry only"}
+              {booking.locationId
+                ? booking.tickets && booking.tickets.length > 0 
+                  ? booking.tickets.map(t => `${t.quantity}x ${t.rideSlug}`).join(", ") 
+                  : "Standard entry only"
+                : booking.selectedRides && booking.selectedRides.length > 0
+                  ? booking.selectedRides.map((r) => r.replace("-", " ")).join(", ")
+                  : "Standard entry only"
+              }
             </p>
           </div>
         </div>

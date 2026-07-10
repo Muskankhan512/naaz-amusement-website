@@ -1,7 +1,6 @@
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
 import { Hero } from "@/components/sections/hero";
-import { Portfolio } from "@/components/sections/portfolio";
 import { PlanVisit } from "@/components/sections/plan-visit";
 import { Rides } from "@/components/sections/rides";
 import { EventPackages } from "@/components/sections/event-packages";
@@ -21,8 +20,7 @@ export default function Home() {
       <main className="flex-1">
         {/* 1. Hero — photo + wordmark + stats */}
         <Hero />
-        {/* 2. Signature Experiences — dark teal, sticky scroll */}
-        <Portfolio />
+
         {/* 3. Plan Your Visit — 4 steps */}
         <PlanVisit />
         {/* 3.5. Featured Rides — Masonry layout */}

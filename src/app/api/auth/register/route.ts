@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
+import { createUserToken } from "@/lib/auth-token";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
       password: hashedPassword,
     });
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         id: newUser._id.toString(),
         name: newUser.name,
@@ -43,6 +44,16 @@ export async function POST(request: Request) {
       },
       { status: 201 }
     );
+
+    response.cookies.set("naaz-user", await createUserToken(email.toLowerCase()), {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    return response;
   } catch (error: any) {
     console.error("Registration error:", error);
     return NextResponse.json(

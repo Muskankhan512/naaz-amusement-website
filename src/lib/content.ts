@@ -172,20 +172,20 @@ const u = (id: string, w = 900) =>
 export const defaultHomeContent: HomeContent = {
   hero: {
     body:
-      "At Naaz Amusement, we don't just build rides. We architect moments that make your heart race, your family bond, and your soul feel 10 years younger. Welcome to Jaipur's 18-acre universe of pure, unfiltered joy.",
+      "For four decades, Naaz Amusement has been part of the biggest celebrations across North India. From Dussehra melas in Delhi to city carnivals across Rajasthan and Uttar Pradesh, our rides have created memories for generations of families — one mela at a time.",
     description:
-      "Naaz Amusement is Rajasthan's premier themed entertainment destination. A world-class amusement park designed by renowned architects, spread across 18 acres of adrenaline, laughter, and wonder.",
+      "40 Years of Bringing Joy to Fairs & Festivals — North India's trusted amusement ride operator, lighting up melas and celebrations across Rajasthan, Delhi & Uttar Pradesh since 1986.",
     offer: {
       enabled: true,
-      eyebrow: "Book your tickets online and",
+      eyebrow: "Book your setup online and",
       title: "Get Flat 20% off*",
-      cta: "BOOK YOUR TICKETS NOW",
+      cta: "BOOK YOUR SETUP NOW",
     },
     stats: [
-      { endValue: 80, suffix: "+", label: "Rides & Attractions" },
-      { endValue: 18, suffix: "", label: "Acres of Pure Fun" },
+      { endValue: 40, suffix: "+", label: "Years of Legacy" },
+      { endValue: 20, suffix: "+", label: "Rides & Attractions" },
+      { endValue: 3, suffix: "", label: "States Covered (RJ, DL, UP)" },
       { endValue: 6, suffix: "K+", label: "Google Reviews" },
-      { endValue: 100, suffix: "%", label: "Family Happiness" },
     ],
   },
   portfolio: {
@@ -200,47 +200,20 @@ export const defaultHomeContent: HomeContent = {
       },
       {
         num: "02",
-        title: "Adventure Park",
-        tagline: "Your Comfort Zone Called. You Didn't Answer",
-        image: "/2.jpg",
-      },
-      {
-        num: "03",
-        title: "Khao Gali",
-        tagline:
-          "25+ obstacle courses suspended mid-air. Rope bridges, cargo nets, and sky cycling — where your courage gets tested.",
-        image: "/3.jpg",
-      },
-      {
-        num: "04",
-        title: "Sports Arena",
-        tagline:
-          "Beat the Jaipur heat with wave pools, water slides, and lazy rivers. A tropical escape without the airfare.",
-        image: "/4.jpeg",
-      },
-      {
-        num: "05",
-        title: "Pickleball Meadows",
-        tagline:
-          "Professional-grade facilities for tournaments, corporates, and weekend warriors. Play where champions train.",
-        image: "/5.jpg",
-      },
-      {
-        num: "06",
         title: "Corporate Activities",
         tagline:
           "Team building experiences that actually build teams. Adventure courses, challenges, and collaborative fun.",
         image: "/6.jpg",
       },
       {
-        num: "07",
+        num: "03",
         title: "Birthdays & Parties",
         tagline:
           "Private party setups with themed decor, unlimited rides, and memories your child will talk about forever.",
         image: "/p1.jpg",
       },
       {
-        num: "08",
+        num: "04",
         title: "Events & Concerts",
         tagline:
           "With 50+ themed backdrops, Naaz Amusement is Jaipur's most Instagrammable event destination.",
@@ -288,11 +261,11 @@ export const defaultHomeContent: HomeContent = {
   },
   rides: {
     eyebrow: "Our Rides & Attractions",
-    headingLead: "80+ rides.",
-    headingAccent: "A thousand",
+    headingLead: "20+ rides.",
+    headingAccent: "Decades of",
     headingTrail: "memories made with Naaz.",
     subtext:
-      "From heart-stopping roller coasters to serene lazy rivers — every attraction is maintained and inspected daily.",
+      "From thrilling high-speed rides to classic family favourites — every attraction is maintained to the highest safety standards and operated by our trained crew.",
   },
   activeLocations: {
     eyebrow: "Live Installations & Melas",
@@ -455,8 +428,6 @@ export const defaultHomeContent: HomeContent = {
         { src: u("1543872084-c7bd3822856f"), alt: "Gate entrance" },
         { src: u("1551817958-d9d86fb29431"), alt: "Roller coaster" },
         { src: u("1517423568366-8b83523034fd"), alt: "Evening atmosphere" },
-        { src: u("1533174072545-7a4b6ad7a6c3"), alt: "Sports arena" },
-        { src: u("1559131397-f94da358f7ca"), alt: "Pickleball courts" },
         { src: u("1554189097-ffe88e998a2b"), alt: "Event stage" },
       ],
     ],
@@ -540,8 +511,8 @@ export const defaultHomeContent: HomeContent = {
     heading: "Your Adventure Awaits.",
     highlight: "Let's Ride.",
     body:
-      "Book your tickets today and unlock a world of 80+ rides, gourmet food courts, adventure zones, and memories that will last forever.",
-    ctaLabel: "BOOK TICKET NOW",
+      "Book your ride setup today and bring the magic of North India's most trusted traveling carnival to your next mela, fair, or celebration.",
+    ctaLabel: "BOOK SETUP NOW",
     ctaHref: "/book",
   },
   facilities: {
@@ -596,7 +567,7 @@ export const defaultHomeContent: HomeContent = {
       },
       {
         q: "Can we bring outside food?",
-        a: "Outside food is not permitted inside the park, but our Khao Gali food court offers 25+ stalls covering everything from street food to fine dining. Bottled water is available throughout the park.",
+        a: "Outside food is not permitted inside the park, but our food court offers 25+ stalls covering everything from street food to fine dining. Bottled water is available throughout the park.",
       },
       {
         q: "Is the park wheelchair accessible?",

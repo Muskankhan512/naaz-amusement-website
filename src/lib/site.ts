@@ -1,10 +1,10 @@
 export const site = {
   name: "Naaz Amusement",
-  tagline: "Rajasthan's Premier Themed Entertainment Destination",
+  tagline: "North India's trusted amusement ride operator — lighting up melas and celebrations across Rajasthan, Delhi & Uttar Pradesh since 1986.",
   description:
-    "A world-class amusement park designed by renowned architects, spread across 18 acres of adrenaline, laughter, and wonder.",
-  acres: 18,
-  ridesCount: "80+",
+    "For four decades, Naaz Amusement has been part of the biggest celebrations across North India. From Dussehra melas in Delhi to city carnivals across Rajasthan and Uttar Pradesh, our rides have created memories for generations of families — one mela at a time.",
+  legacyYears: 40,
+  ridesCount: "20+",
   googleReviews: "6K+",
   bookingUrl: "/book",
   whatsapp: "+919026752751",
@@ -13,9 +13,9 @@ export const site = {
   youtube: "naazamusementjaipur",
   fbPixelId: process.env.NEXT_PUBLIC_FB_PIXEL_ID ?? "",
   address:
-    "Ajmer Road, Near Bagru Toll, Jaipur, Rajasthan 302028",
+    "Rajasthan, Delhi & Uttar Pradesh — Pan North India Operations",
   mapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=Naaz+Amusement+Ajmer+Road+Bagru+Jaipur",
+    "https://www.google.com/maps/search/?api=1&query=Naaz+Amusement+Jaipur",
   email: "info@naazamusementjaipur.com",
   phone: "+91-9026752751",
 } as const;

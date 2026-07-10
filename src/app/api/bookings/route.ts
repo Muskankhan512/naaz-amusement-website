@@ -1,13 +1,29 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Booking from "@/models/Booking";
+import { verifyAdminToken, decodeUserEmail } from "@/lib/auth-token";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
-    const bookingsList = await Booking.find().sort({ createdAt: -1 });
+    
+    const adminToken = request.cookies.get("naaz-admin")?.value;
+    const isAdmin = await verifyAdminToken(adminToken);
 
-    return NextResponse.json(bookingsList);
+    if (isAdmin) {
+      const bookingsList = await Booking.find().sort({ createdAt: -1 });
+      return NextResponse.json(bookingsList);
+    }
+
+    const userToken = request.cookies.get("naaz-user")?.value;
+    const userEmail = decodeUserEmail(userToken);
+    
+    if (userEmail) {
+      const bookingsList = await Booking.find({ userEmail }).sort({ createdAt: -1 });
+      return NextResponse.json(bookingsList);
+    }
+
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   } catch (error: any) {
     console.error("Fetch bookings error:", error);
     return NextResponse.json(
@@ -17,7 +33,7 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     await connectToDatabase();
     const bookingDetails = await request.json();

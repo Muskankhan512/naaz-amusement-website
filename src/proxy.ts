@@ -1,8 +1,9 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { verifyAdminToken } from "@/lib/auth-token";
+import { verifyAdminToken, verifyUserToken } from "@/lib/auth-token";
 
 const ADMIN_COOKIE = "naaz-admin";
+const USER_COOKIE = "naaz-user";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -12,8 +13,7 @@ export async function proxy(request: NextRequest) {
   const isPublicRead =
     method === "GET" &&
     (pathname.startsWith("/api/content") ||
-      pathname.startsWith("/api/rides") ||
-      pathname === "/api/bookings");
+      pathname.startsWith("/api/rides"));
 
   // Public booking creation — guests submit bookings from the /book page.
   const isPublicBookingCreate =
@@ -23,11 +23,26 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const token = request.cookies.get(ADMIN_COOKIE)?.value;
-  const isAdmin = await verifyAdminToken(token);
+  const adminToken = request.cookies.get(ADMIN_COOKIE)?.value;
+  const isAdmin = await verifyAdminToken(adminToken);
 
   if (isAdmin) {
     return NextResponse.next();
+  }
+
+  const userToken = request.cookies.get(USER_COOKIE)?.value;
+  const isUser = await verifyUserToken(userToken);
+
+  if (isUser) {
+    const allowedUserPaths = [
+      "/api/bookings",
+      "/api/auth/profile",
+      "/api/auth/logout"
+    ];
+
+    if (allowedUserPaths.some((p) => pathname.startsWith(p))) {
+      return NextResponse.next();
+    }
   }
 
   if (pathname.startsWith("/api/")) {
@@ -45,6 +60,7 @@ export const config = {
     "/api/content/:path*",
     "/api/rides/:path*",
     "/api/bookings/:path*",
+    "/api/auth/profile",
     "/api/db-reset/:path*",
   ],
 };

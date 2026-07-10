@@ -28,7 +28,7 @@ export const rides: Ride[] = [
     tagline: "Where gravity is just a suggestion.",
     description:
       "Naaz Amusement's signature thrill ride — a towering experience that sends you spinning, twisting, and screaming through the Jaipur sky.",
-    image: "/18.jpeg",
+    image: "/generic-bouncy.png",
     tint: "#210C6D",
   },
   {
@@ -102,7 +102,7 @@ export const rides: Ride[] = [
     duration: "2 min",
     tagline: "Fly across the fairground.",
     description:
-      "Soar across the adventure park on our 200-meter zip line. Feel the wind as the entire park spreads out beneath you.",
+      "Soar across the park on our 200-meter zip line. Feel the wind as the entire park spreads out beneath you.",
     image: "/6.jpg",
     tint: "#EEA727",
   },
@@ -118,7 +118,7 @@ export const rides: Ride[] = [
     tagline: "Float, relax, repeat.",
     description:
       "A gentle, winding river ride through tropical landscapes. Grab a tube and let the current do the rest.",
-    image: "/p1.jpg",
+    image: "/14.jpeg",
     tint: "#172F2E",
   },
   {

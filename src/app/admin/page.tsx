@@ -7,8 +7,10 @@ import { Footer } from "@/components/shared/footer";
 import { motion, AnimatePresence } from "motion/react";
 import { useAuthStore } from "@/stores/auth-store";
 import { useRidesStore } from "@/stores/rides-store";
+import { useLocationsStore, LocationEvent, RidePricing } from "@/stores/locations-store";
 import { Ride, Thrill } from "@/lib/rides";
 import { isAdminEmail } from "@/lib/admin";
+
 import { toast } from "sonner";
 import { CloudinaryUploadButton } from "@/components/admin/cloudinary-upload-button";
 import {
@@ -28,21 +30,59 @@ import {
   Briefcase,
   Layers,
   ArrowUpRight,
+  MessageSquare,
+  PhoneCall,
+  MapPin,
+  Clock,
 } from "lucide-react";
 import { ContentManager } from "@/components/admin/content-manager";
 
 export default function AdminPage() {
   const { bookings, updateBookingStatus, deleteBooking, addBooking, user, fetchBookings } = useAuthStore();
   const { rides, addRide, updateRide, deleteRide, resetRides, fetchRides } = useRidesStore();
+  const { locations, addLocation, updateLocation, deleteLocation, fetchLocations } = useLocationsStore();
   
   const [mounted, setMounted] = useState(false);
-  const [activeTab, setActiveTab] = useState<"dashboard" | "bookings" | "rides" | "users" | "content">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "bookings" | "rides" | "users" | "content" | "locations" | "inquiries">("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Inquiries state
+  const [inquiries, setInquiries] = useState<any[]>([]);
+  const [inquiriesLoading, setInquiriesLoading] = useState(false);
+
+  const fetchInquiries = async () => {
+    setInquiriesLoading(true);
+    try {
+      const res = await fetch("/api/inquiries");
+      if (res.ok) setInquiries(await res.json());
+    } catch (e) {
+      console.error("Failed to fetch inquiries", e);
+    } finally {
+      setInquiriesLoading(false);
+    }
+  };
+
+  const updateInquiryStatus = async (id: string, status: string) => {
+    try {
+      const res = await fetch(`/api/inquiries/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (res.ok) {
+        setInquiries(prev => prev.map(inq => inq.id === id ? { ...inq, status } : inq));
+        toast.success(`Status updated to ${status}`);
+      }
+    } catch (e) {
+      toast.error("Failed to update status");
+    }
+  };
 
   // Modal states
   const [showAddRideModal, setShowAddRideModal] = useState(false);
   const [showEditRideModal, setShowEditRideModal] = useState(false);
   const [showAddBookingModal, setShowAddBookingModal] = useState(false);
+  const [showAddLocationModal, setShowAddLocationModal] = useState(false);
   
   // Selected ride for editing
   const [editingRideSlug, setEditingRideSlug] = useState<string | null>(null);
@@ -77,14 +117,29 @@ export default function AdminPage() {
     status: "Pending" as "Pending" | "Confirmed",
   });
 
+  // Form states - Location
+  const [locationForm, setLocationForm] = useState({
+    name: "",
+    city: "Jaipur",
+    address: "",
+    startDate: new Date().toISOString().split("T")[0],
+    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+    lat: 26.9124,
+    lng: 75.7873,
+    gmapsLink: "",
+    details: "",
+  });
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setMounted(true);
       fetchBookings();
       fetchRides();
+      fetchLocations();
+      fetchInquiries();
     }, 0);
     return () => clearTimeout(timer);
-  }, [fetchBookings, fetchRides]);
+  }, [fetchBookings, fetchRides, fetchLocations]);
 
   if (!mounted) {
     return (
@@ -348,6 +403,33 @@ export default function AdminPage() {
                 <Users className="h-4 w-4" /> Customers ({derivedUsers.length})
               </button>
               <button
+                onClick={() => { setActiveTab("locations"); }}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition font-display text-sm tracking-wider uppercase shrink-0 ${
+                  activeTab === "locations"
+                    ? "bg-accent-yellow text-deep-purple shadow-lg shadow-accent-yellow/15"
+                    : "text-white/60 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                <LayoutDashboard className="h-4 w-4" /> Melas / Locations
+              </button>
+              <button
+                onClick={() => { setActiveTab("inquiries"); fetchInquiries(); }}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition font-display text-sm tracking-wider uppercase shrink-0 relative ${
+                  activeTab === "inquiries"
+                    ? "bg-accent-yellow text-deep-purple shadow-lg shadow-accent-yellow/15"
+                    : "text-white/60 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                <MessageSquare className="h-4 w-4" /> Inquiries
+                {inquiries.filter(i => i.status === "New").length > 0 && (
+                  <span className={`ml-auto text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                    activeTab === "inquiries" ? "bg-deep-purple text-accent-yellow" : "bg-accent-yellow text-deep-purple"
+                  }`}>
+                    {inquiries.filter(i => i.status === "New").length}
+                  </span>
+                )}
+              </button>
+              <button
                 onClick={() => setActiveTab("content")}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition font-display text-sm tracking-wider uppercase shrink-0 ${
                   activeTab === "content"
@@ -365,6 +447,16 @@ export default function AdminPage() {
               {/* --- DASHBOARD TAB --- */}
               {activeTab === "dashboard" && (
                 <div className="space-y-8 animate-fadeIn">
+                  
+                  {/* Quick Actions */}
+                  <div className="flex justify-end mb-4">
+                    <Link
+                      href="/admin/scanner"
+                      className="bg-accent-yellow hover:bg-accent-yellow/90 text-deep-purple font-display px-6 py-3 rounded-xl transition flex items-center justify-center gap-2 uppercase tracking-wide w-full sm:w-auto shadow-[0_4px_16px_rgba(238,167,39,0.3)]"
+                    >
+                      <CheckCircle2 className="h-5 w-5" /> Open Ticket Scanner
+                    </Link>
+                  </div>
                   
                   {/* Dashboard Stats Panel */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -796,6 +888,243 @@ export default function AdminPage() {
                       </table>
                     </div>
                   </div>
+                </div>
+              )}
+
+              {/* --- LOCATIONS TAB --- */}
+              {activeTab === "locations" && (
+                <div className="space-y-6 animate-fadeIn">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="font-display text-lg tracking-wide uppercase">Active Melas & Locations</h3>
+                      <p className="text-xs text-white/50 mt-0.5">Manage event locations and override ride prices for specific melas.</p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        if (!isAdmin) { toast.error("Admin only"); return; }
+                        setShowAddLocationModal(true);
+                      }}
+                      className="bg-accent-yellow hover:bg-accent-yellow/90 text-deep-purple font-display text-xs px-5 py-3 rounded-xl transition flex items-center justify-center gap-1.5"
+                    >
+                      <Plus className="h-4 w-4" /> Add Location
+                    </button>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    {locations.map((loc) => (
+                      <div key={loc.id} className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+                        <div className="flex justify-between items-start mb-6">
+                          <div>
+                            <h4 className="font-display text-xl text-white flex items-center gap-2">
+                              {loc.name}
+                              {loc.isActive ? (
+                                <span className="bg-green-500/10 text-green-400 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">Live</span>
+                              ) : (
+                                <span className="bg-red-500/10 text-red-400 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">Closed</span>
+                              )}
+                            </h4>
+                            <p className="text-xs text-white/50 mt-1">{loc.city} • {loc.address}</p>
+                            <p className="text-[10px] text-white/40 font-mono mt-1">
+                              {new Date(loc.startDate).toLocaleDateString()} - {new Date(loc.endDate).toLocaleDateString()}
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => {
+                                updateLocation(loc.id, { isActive: !loc.isActive });
+                              }}
+                              className="px-3 py-1.5 rounded-lg border border-white/10 text-xs text-white/80 hover:bg-white/5"
+                            >
+                              Toggle Status
+                            </button>
+                            <button
+                              onClick={() => {
+                                if (confirm("Delete this location?")) deleteLocation(loc.id);
+                              }}
+                              className="px-3 py-1.5 rounded-lg border border-red-500/20 text-xs text-red-400 hover:bg-red-500/10"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="border-t border-white/5 pt-4">
+                          <h5 className="font-display text-sm text-white/70 mb-4">Location Specific Ride Pricing</h5>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            {loc.ridePricing.map((rp, i) => {
+                              const rideInfo = rides.find(r => r.slug === rp.rideSlug);
+                              if (!rideInfo) return null;
+                              return (
+                                <div key={rp.rideSlug} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+                                  <div>
+                                    <div className="text-xs font-bold text-white">{rideInfo.name}</div>
+                                    <div className="text-[10px] text-white/40">Base: ₹{rideInfo.pricePaise / 100}</div>
+                                  </div>
+                                  <div className="flex flex-col items-end gap-1">
+                                    <input 
+                                      type="number"
+                                      className="w-20 bg-black/50 border border-white/10 rounded px-2 py-1 text-xs text-accent-yellow font-mono text-right"
+                                      value={rp.pricePaise / 100}
+                                      onChange={(e) => {
+                                        const newPricing = [...loc.ridePricing];
+                                        newPricing[i] = { ...rp, pricePaise: Number(e.target.value) * 100 };
+                                        updateLocation(loc.id, { ridePricing: newPricing });
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {locations.length === 0 && (
+                      <div className="text-center py-10 text-white/40 text-xs border border-dashed border-white/10 rounded-2xl">
+                        No locations added yet. Click 'Add Location' to create your first mela.
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* --- PACKAGE INQUIRIES TAB --- */}
+              {activeTab === "inquiries" && (
+                <div className="space-y-6 animate-fadeIn">
+                  <div className="flex justify-between items-start flex-wrap gap-4">
+                    <div>
+                      <h3 className="font-display text-lg tracking-wide uppercase">Package Inquiries</h3>
+                      <p className="text-xs text-white/50 mt-0.5">Customers who clicked &apos;Select Package&apos; and filled the inquiry form.</p>
+                    </div>
+                    <div className="flex gap-3 items-center">
+                      <div className="flex gap-2 text-xs">
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                          <span className="h-1.5 w-1.5 rounded-full bg-orange-400" />
+                          New: {inquiries.filter(i => i.status === "New").length}
+                        </span>
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                          <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
+                          Contacted: {inquiries.filter(i => i.status === "Contacted").length}
+                        </span>
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 text-white/40 border border-white/10">
+                          <span className="h-1.5 w-1.5 rounded-full bg-white/30" />
+                          Closed: {inquiries.filter(i => i.status === "Closed").length}
+                        </span>
+                      </div>
+                      <button
+                        onClick={fetchInquiries}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-white/10 hover:bg-white/5 text-white/60 text-xs transition"
+                      >
+                        <RefreshCw className="h-3.5 w-3.5" /> Refresh
+                      </button>
+                    </div>
+                  </div>
+
+                  {inquiriesLoading ? (
+                    <div className="flex justify-center py-20">
+                      <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent-yellow border-t-transparent" />
+                    </div>
+                  ) : inquiries.length === 0 ? (
+                    <div className="text-center py-16 border border-dashed border-white/10 rounded-2xl text-white/40 text-sm">
+                      <MessageSquare className="h-10 w-10 mx-auto mb-3 opacity-30" />
+                      Abhi tak koi inquiry nahi aayi. Package section ke buttons ab live hain!
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {inquiries.map((inq) => (
+                        <div
+                          key={inq.id}
+                          className={`rounded-2xl border p-5 transition ${
+                            inq.status === "New"
+                              ? "border-orange-500/20 bg-orange-500/[0.03]"
+                              : inq.status === "Contacted"
+                              ? "border-blue-500/20 bg-blue-500/[0.03]"
+                              : "border-white/5 bg-white/[0.01]"
+                          }`}
+                        >
+                          <div className="flex flex-wrap justify-between gap-4">
+                            {/* Left: Contact Info */}
+                            <div className="space-y-2 min-w-0">
+                              <div className="flex items-center gap-3 flex-wrap">
+                                <h4 className="font-display text-lg text-white">{inq.name}</h4>
+                                <span className={`text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-widest ${
+                                  inq.status === "New"
+                                    ? "bg-orange-500/10 text-orange-400"
+                                    : inq.status === "Contacted"
+                                    ? "bg-blue-500/10 text-blue-400"
+                                    : "bg-white/5 text-white/30"
+                                }`}>
+                                  {inq.status}
+                                </span>
+                                <span className="text-[10px] px-2 py-1 bg-violet-500/10 text-violet-400 rounded-full font-medium">
+                                  {inq.packageName}
+                                </span>
+                              </div>
+
+                              <div className="flex flex-wrap gap-x-5 gap-y-1 text-xs text-white/60">
+                                <a href={`tel:${inq.phone}`} className="flex items-center gap-1.5 hover:text-accent-yellow transition">
+                                  <PhoneCall className="h-3.5 w-3.5" /> {inq.phone}
+                                </a>
+                                <a href={`mailto:${inq.email}`} className="flex items-center gap-1.5 hover:text-accent-yellow transition">
+                                  📧 {inq.email}
+                                </a>
+                                <span className="flex items-center gap-1.5">
+                                  <MapPin className="h-3.5 w-3.5" /> {inq.eventCity}
+                                </span>
+                                <span className="flex items-center gap-1.5">
+                                  <Calendar className="h-3.5 w-3.5" /> {new Date(inq.eventDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                                </span>
+                                <span className="flex items-center gap-1.5 text-white/30">
+                                  <Clock className="h-3 w-3" /> {new Date(inq.createdAt).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                                </span>
+                              </div>
+
+                              {inq.notes && (
+                                <p className="text-xs text-white/40 italic border-l-2 border-white/10 pl-3 mt-1">{inq.notes}</p>
+                              )}
+                            </div>
+
+                            {/* Right: Actions */}
+                            <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center shrink-0">
+                              <a
+                                href={`https://wa.me/${inq.phone.replace(/\D/g, "")}?text=Hello%20${encodeURIComponent(inq.name)},%20Naaz%20Amusement%20ki%20taraf%20se%20aapki%20${encodeURIComponent(inq.packageName)}%20package%20inquiry%20ke%20regarding%20hum%20contact%20kar%20rahe%20hain.`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-green-500/10 hover:bg-green-500/20 text-green-400 text-xs font-medium transition border border-green-500/20"
+                              >
+                                📱 WhatsApp
+                              </a>
+                              {inq.status === "New" && (
+                                <button
+                                  onClick={() => updateInquiryStatus(inq.id, "Contacted")}
+                                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 text-xs font-medium transition border border-blue-500/20"
+                                >
+                                  <PhoneCall className="h-3.5 w-3.5" /> Mark Contacted
+                                </button>
+                              )}
+                              {inq.status === "Contacted" && (
+                                <button
+                                  onClick={() => updateInquiryStatus(inq.id, "Closed")}
+                                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/50 text-xs font-medium transition border border-white/10"
+                                >
+                                  <CheckCircle2 className="h-3.5 w-3.5" /> Close
+                                </button>
+                              )}
+                              {inq.status === "Closed" && (
+                                <button
+                                  onClick={() => updateInquiryStatus(inq.id, "New")}
+                                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 text-xs font-medium transition border border-orange-500/20"
+                                >
+                                  <RefreshCw className="h-3.5 w-3.5" /> Reopen
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -1333,6 +1662,184 @@ export default function AdminPage() {
       </AnimatePresence>
 
       <Footer />
+      {/* --- ADD LOCATION MODAL --- */}
+      <AnimatePresence>
+        {showAddLocationModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="w-full max-w-2xl rounded-2xl border border-white/10 bg-deep-purple p-6 shadow-2xl overflow-y-auto max-h-[90vh]"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="font-display text-2xl text-white">Add New Location</h3>
+                <button
+                  onClick={() => setShowAddLocationModal(false)}
+                  className="text-white/40 hover:text-white"
+                >
+                  <XCircle className="h-6 w-6" />
+                </button>
+              </div>
+
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!locationForm.name || !locationForm.city || !locationForm.address) {
+                    toast.error("Please fill required fields");
+                    return;
+                  }
+                  addLocation({
+                    ...locationForm,
+                    startDate: new Date(locationForm.startDate).toISOString(),
+                    endDate: new Date(locationForm.endDate).toISOString(),
+                    isActive: true,
+                    ridePricing: rides.map(r => ({ rideSlug: r.slug, pricePaise: r.pricePaise, isActive: true }))
+                  });
+                  toast.success("Location added!");
+                  setShowAddLocationModal(false);
+                  setLocationForm({
+                    name: "",
+                    city: "Jaipur",
+                    address: "",
+                    startDate: new Date().toISOString().split("T")[0],
+                    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                    lat: 26.9124,
+                    lng: 75.7873,
+                    gmapsLink: "",
+                    details: "",
+                  });
+                }} 
+                className="space-y-4"
+              >
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs uppercase tracking-widest text-white/50 mb-1">Location Name *</label>
+                    <input
+                      required
+                      type="text"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white"
+                      placeholder="e.g. Jaipur Summer Mela"
+                      value={locationForm.name}
+                      onChange={(e) => setLocationForm({ ...locationForm, name: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-widest text-white/50 mb-1">City *</label>
+                    <input
+                      required
+                      type="text"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white"
+                      placeholder="e.g. Jaipur"
+                      value={locationForm.city}
+                      onChange={(e) => setLocationForm({ ...locationForm, city: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-white/50 mb-1">Venue Address *</label>
+                  <input
+                    required
+                    type="text"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white"
+                    placeholder="e.g. VT Road Ground, Mansarovar"
+                    value={locationForm.address}
+                    onChange={(e) => setLocationForm({ ...locationForm, address: e.target.value })}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs uppercase tracking-widest text-white/50 mb-1">Start Date *</label>
+                    <input
+                      required
+                      type="date"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white [color-scheme:dark]"
+                      value={locationForm.startDate}
+                      onChange={(e) => setLocationForm({ ...locationForm, startDate: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-widest text-white/50 mb-1">End Date *</label>
+                    <input
+                      required
+                      type="date"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white [color-scheme:dark]"
+                      value={locationForm.endDate}
+                      onChange={(e) => setLocationForm({ ...locationForm, endDate: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs uppercase tracking-widest text-white/50 mb-1">Latitude (for map) *</label>
+                    <input
+                      required
+                      type="number"
+                      step="any"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white"
+                      value={locationForm.lat}
+                      onChange={(e) => setLocationForm({ ...locationForm, lat: parseFloat(e.target.value) })}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-widest text-white/50 mb-1">Longitude (for map) *</label>
+                    <input
+                      required
+                      type="number"
+                      step="any"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white"
+                      value={locationForm.lng}
+                      onChange={(e) => setLocationForm({ ...locationForm, lng: parseFloat(e.target.value) })}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-white/50 mb-1">Google Maps Link</label>
+                  <input
+                    type="url"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white"
+                    placeholder="https://maps.google.com/..."
+                    value={locationForm.gmapsLink}
+                    onChange={(e) => setLocationForm({ ...locationForm, gmapsLink: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-white/50 mb-1">Event Details (shown on map)</label>
+                  <textarea
+                    rows={3}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white resize-none"
+                    placeholder="Short description of the mela..."
+                    value={locationForm.details}
+                    onChange={(e) => setLocationForm({ ...locationForm, details: e.target.value })}
+                  />
+                </div>
+
+                <div className="pt-4 border-t border-white/10 flex justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddLocationModal(false)}
+                    className="px-6 py-2 rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition font-display uppercase tracking-widest text-sm"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2 rounded-xl bg-accent-yellow text-deep-purple hover:bg-accent-yellow/90 transition font-display uppercase tracking-widest text-sm font-bold"
+                  >
+                    Add Location
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }

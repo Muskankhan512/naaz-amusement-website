@@ -13,7 +13,6 @@ const navLinks = [
   { label: "HOME", href: "/" },
   { label: "ABOUT US", href: "/about" },
   { label: "ATTRACTIONS", href: "/attractions" },
-  { label: "KHAO GALI", href: "/khao-gali" },
   { label: "TICKET INFO", href: "/ticket-info" },
   { label: "CONTACT US", href: "/contact" },
 ];
@@ -152,7 +151,7 @@ export function Header() {
             </div>
 
             {/* Nav links */}
-            <nav className="flex flex-1 flex-col items-start justify-center gap-2 sm:gap-4 px-6 sm:px-10 md:px-20">
+            <nav className="flex flex-1 flex-col items-start justify-start py-4 sm:justify-center gap-2 sm:gap-4 px-6 sm:px-10 md:px-20 min-h-max">
               {dynamicLinks.map((item, i) => (
                 <motion.div
                   key={item.href}

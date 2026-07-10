@@ -10,17 +10,18 @@ import { useContentStore } from "@/stores/content-store";
 import { Eyebrow } from "@/components/shared/eyebrow";
 import type { ActiveMela, PresetCity } from "@/lib/content";
 
+import { useLocationsStore } from "@/stores/locations-store";
+
 export function ActiveLocations() {
   const { content, fetchContent } = useContentStore();
   const { rides: dynamicRides, fetchRides } = useRidesStore();
+  const { locations: storeLocations, fetchLocations } = useLocationsStore();
+  
   const section = content.activeLocations;
-  const locations = section.locations;
   const presetCities = section.presetCities as PresetCity[];
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"map" | "find">("map");
-  const [selectedMela, setSelectedMela] = useState<ActiveMela | null>(
-    locations[0] ?? null
-  );
+  const [selectedMela, setSelectedMela] = useState<ActiveMela | null>(null);
   
   // Geolocation & calculation state
   const [userLocationName, setUserLocationName] = useState<string>("");
@@ -38,7 +39,41 @@ export function ActiveLocations() {
     setMounted(true);
     fetchRides();
     fetchContent();
-  }, [fetchRides, fetchContent]);
+    fetchLocations();
+  }, [fetchRides, fetchContent, fetchLocations]);
+
+  // Compute dynamic locations from DB
+  const locations = storeLocations
+    .filter((loc) => {
+      if (!loc.isActive) return false;
+      const end = new Date(loc.endDate);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return end >= today; // Keep if it hasn't expired
+    })
+    .map((loc) => {
+      const start = new Date(loc.startDate);
+      const end = new Date(loc.endDate);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const isLive = start <= today && end >= today;
+      const status = isLive ? "LIVE NOW" : "UPCOMING";
+      
+      return {
+        id: loc.id,
+        name: loc.name,
+        city: loc.city,
+        venue: loc.address,
+        status,
+        dates: `${start.toLocaleDateString("en-IN", { month: "short", day: "numeric" })} - ${end.toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}`,
+        details: loc.details || `Join us at ${loc.name} for an incredible experience with the best amusement rides in ${loc.city}.`,
+        lat: loc.lat || 26.9124,
+        lng: loc.lng || 75.7873,
+        installedRides: loc.ridePricing?.filter(rp => rp.isActive).map(rp => rp.rideSlug) || [],
+        gmapsLink: loc.gmapsLink || `https://maps.google.com/?q=${loc.lat || 26.9124},${loc.lng || 75.7873}`,
+      } as ActiveMela;
+    });
 
   useEffect(() => {
     if (locations.length === 0) return;

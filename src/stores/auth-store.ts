@@ -12,10 +12,12 @@ export interface User {
 export interface Booking {
   id: string;
   date: string;
-  eventType: string;
-  guests: number;
-  selectedRides: string[];
-  distanceSlab: "inside" | "medium" | "far";
+  locationId?: string;
+  tickets?: { rideSlug: string; quantity: number; pricePaise: number }[];
+  eventType?: string;
+  guests?: number;
+  selectedRides?: string[];
+  distanceSlab?: "inside" | "medium" | "far";
   totalPrice: number;
   createdAt: string;
   status: "Pending" | "Confirmed";

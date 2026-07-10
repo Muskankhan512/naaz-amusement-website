@@ -120,7 +120,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6 font-display uppercase leading-[0.92] tracking-[0.02em] text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.6)] text-[clamp(2.8rem,11vw,8.5rem)]"
+            className="mt-10 font-display uppercase leading-[0.92] tracking-[0.02em] text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.6)] text-[clamp(2.2rem,11vw,8.5rem)]"
           >
             {site.name.split(" ").map((word, i) => (
               <span key={word} className={i === 1 ? "block text-accent-yellow" : "block"}>
@@ -134,9 +134,9 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
-            className="mt-5 max-w-xl font-body text-[clamp(0.85rem,1.6vw,1.15rem)] leading-relaxed text-white/85"
+            className="mt-6 max-w-2xl font-body text-[clamp(0.9rem,1.8vw,1.2rem)] leading-relaxed text-white drop-shadow-md font-medium"
           >
-            {site.tagline}
+            {hero.body}
           </motion.p>
 
           {/* CTAs */}
@@ -195,7 +195,7 @@ export function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="mx-auto mt-8 sm:mt-12 max-w-4xl text-center font-display text-[clamp(1.2rem,2.5vw,2rem)] leading-[1.38] tracking-[-0.32px] text-white"
+            className="mx-auto mt-8 sm:mt-12 max-w-4xl text-center font-display text-[clamp(1.1rem,2.5vw,2rem)] leading-[1.38] tracking-[-0.32px] text-white"
           >
             {hero.description}
           </motion.h2>
@@ -206,7 +206,7 @@ export function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-10 sm:mt-16 grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4"
+            className="mt-10 sm:mt-16 grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4 bg-white/5 border border-white/10 rounded-[2rem] p-6 sm:p-10 backdrop-blur-md shadow-2xl"
           >
             {stats.map((stat, i) => (
               <div
@@ -217,7 +217,7 @@ export function Hero() {
                   }`}
               >
                 <AnimatedCounter endValue={stat.endValue} suffix={stat.suffix} />
-                <span className="font-display text-[clamp(0.7rem,1.2vw,1rem)] uppercase tracking-wide text-white/80 text-center">
+                <span className="font-display text-[clamp(0.75rem,1.2vw,1rem)] uppercase tracking-widest text-white text-center font-semibold">
                   {stat.label}
                 </span>
               </div>

@@ -34,7 +34,7 @@ export function PlanVisit() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-4 sm:mt-6 max-w-3xl font-display text-[clamp(1.6rem,4.5vw,3rem)] leading-[1.17] tracking-[0.96px] text-white"
+          className="mt-4 sm:mt-6 max-w-3xl font-display text-[clamp(1.4rem,4.5vw,3rem)] leading-[1.17] tracking-[0.96px] text-white"
         >
           {planVisit.heading}
         </motion.h2>
@@ -74,7 +74,7 @@ export function PlanVisit() {
                 <span className={`font-display text-[3rem] leading-none ${step.numColor} opacity-20`}>
                   {step.num}
                 </span>
-                <h3 className="mt-4 font-display text-[clamp(1.3rem,2.5vw,1.625rem)] leading-[1.1] text-white">
+                <h3 className="mt-4 font-display text-[clamp(1.2rem,2.5vw,1.625rem)] leading-[1.1] text-white">
                   {step.title}
                 </h3>
                 <p className="mt-3 sm:mt-4 font-geist text-[0.95rem] sm:text-[1.125rem] font-light leading-[1.5] text-white/80">
