@@ -12,6 +12,9 @@ import { isAdminEmail } from "@/lib/admin";
 const navLinks = [
   { label: "HOME", href: "/" },
   { label: "ABOUT US", href: "/about" },
+  { label: "PACKAGES", href: "/#packages" },
+  { label: "REVIEWS", href: "/#reviews" },
+  { label: "FAQ", href: "/#faq" },
   { label: "ATTRACTIONS", href: "/attractions" },
   { label: "TICKET INFO", href: "/ticket-info" },
   { label: "CONTACT US", href: "/contact" },
@@ -74,13 +77,33 @@ export function Header() {
         )}
       >
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 sm:px-6 md:px-10">
-          {/* Book Tickets — left */}
-          <Link
-            href={site.bookingUrl}
-            className="font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite underline underline-offset-4 transition hover:text-accent-yellow"
-          >
-            BOOK TICKETS
-          </Link>
+          {/* Quick Links — left */}
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link
+              href={site.bookingUrl}
+              className="font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite underline underline-offset-4 transition hover:text-accent-yellow"
+            >
+              BOOK TICKETS
+            </Link>
+            <Link
+              href="/#packages"
+              className="hidden lg:block font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite transition hover:text-accent-yellow uppercase"
+            >
+              Packages
+            </Link>
+            <Link
+              href="/#reviews"
+              className="hidden lg:block font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite transition hover:text-accent-yellow uppercase"
+            >
+              Reviews
+            </Link>
+            <Link
+              href="/#faq"
+              className="hidden lg:block font-display text-[12px] sm:text-[14px] tracking-[-0.14px] text-fk-offwhite transition hover:text-accent-yellow uppercase"
+            >
+              FAQ
+            </Link>
+          </div>
 
           {/* Logo center (visible on scroll) */}
           <Link href="/" className="absolute left-1/2 -translate-x-1/2">

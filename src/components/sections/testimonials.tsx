@@ -25,7 +25,7 @@ export function Testimonials() {
   }, [fetchContent]);
 
   return (
-    <section className="relative isolate overflow-hidden bg-white py-16 sm:py-24 md:py-32">
+    <section id="reviews" className="relative isolate overflow-hidden bg-white py-16 sm:py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-5 md:px-8">
         {/* Header */}
         <motion.p
