@@ -88,7 +88,7 @@ export function Header() {
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }
                 }}
-                className="font-display text-[11px] xl:text-[13px] tracking-wide text-fk-offwhite transition hover:text-accent-yellow uppercase whitespace-nowrap"
+                className="font-display text-[13px] xl:text-[15px] tracking-wide text-fk-offwhite transition hover:text-accent-yellow uppercase whitespace-nowrap"
               >
                 {link.label}
               </Link>
@@ -123,7 +123,7 @@ export function Header() {
             {hasHydrated && (
               <Link
                 href={loggedIn ? "/profile" : "/login"}
-                className="font-display text-[11px] xl:text-[13px] tracking-wide text-fk-offwhite hover:text-accent-yellow transition uppercase whitespace-nowrap"
+                className="font-display text-[13px] xl:text-[15px] tracking-wide text-fk-offwhite hover:text-accent-yellow transition uppercase whitespace-nowrap"
               >
                 {loggedIn ? `HI, ${user.name.split(" ")[0]}` : "SIGN IN"}
               </Link>
@@ -132,7 +132,7 @@ export function Header() {
             {isAdmin && (
               <Link
                 href="/admin"
-                className="hidden xl:inline-flex items-center gap-2 rounded-full border border-accent-yellow/40 bg-white/5 px-3 py-1.5 font-display text-[11px] uppercase tracking-widest text-accent-yellow transition hover:border-accent-yellow hover:bg-accent-yellow hover:text-deep-purple"
+                className="hidden xl:inline-flex items-center gap-2 rounded-full border border-accent-yellow/40 bg-white/5 px-3 py-1.5 font-display text-[12px] xl:text-[13px] uppercase tracking-widest text-accent-yellow transition hover:border-accent-yellow hover:bg-accent-yellow hover:text-deep-purple"
               >
                 <Settings className="h-3.5 w-3.5" />
                 Admin Panel
