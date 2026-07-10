@@ -129,15 +129,7 @@ export function Hero() {
             ))}
           </motion.h1>
 
-          {/* Tagline */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.7 }}
-            className="mt-6 max-w-2xl font-body text-[clamp(0.9rem,1.8vw,1.2rem)] leading-relaxed text-white drop-shadow-md font-medium"
-          >
-            {hero.body}
-          </motion.p>
+
 
           {/* CTAs */}
           <motion.div
