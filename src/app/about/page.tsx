@@ -156,7 +156,7 @@ export default function AboutPage() {
                 Jahan Khushiyon Ki Koi Seema Nahi
               </h2>
               <p className="text-sm leading-relaxed text-white/60">
-                Hamara manna hai ki entertainment logon ko jodta hai. Hamara mission safe, engaging aur shandaar mela setup taiyar karna hai, jahan parivaar ek saath khelein, dost ek saath hasein, aur har visitor zindagi bhar yaad rehne wali yaadein banaye.
+                Hum maante hain ki entertainment logon ko jodne ka ek zariya hai. Hamara mission hai safe aur yaadgaar pal banana — jahan families saath jhool sakein, dost saath hass sakein, aur har visitor ek accha experience leke jaaye.
               </p>
               <div className="rounded-xl border border-white/5 bg-white/[0.01] p-6 flex gap-4 items-start">
                 <MapPin className="h-6 w-6 text-accent-yellow shrink-0 mt-1" />
