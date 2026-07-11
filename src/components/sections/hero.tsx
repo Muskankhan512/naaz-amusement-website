@@ -343,14 +343,14 @@ export function Hero() {
         <StarField />
 
         {/* Center wordmark + CTAs */}
-        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center">
+        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center pt-[120px] sm:pt-[100px] md:pt-[90px]">
 
           {/* Wordmark */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 font-display uppercase leading-[0.92] tracking-[0.02em] text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.6)] text-[clamp(2.2rem,11vw,8.5rem)]"
+            className="font-display uppercase leading-[1.0] tracking-[0.02em] text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.6)] text-[clamp(2.2rem,11vw,8.5rem)]"
           >
             {site.name.split(" ").map((word, i) => (
               <span key={word} className={i === 1 ? "block text-accent-yellow" : "block"}>
