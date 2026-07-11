@@ -6,7 +6,6 @@ import { Rides } from "@/components/sections/rides";
 import { EventPackages } from "@/components/sections/event-packages";
 import { ActiveLocations } from "@/components/sections/active-locations";
 
-import { Tour } from "@/components/sections/tour";
 import { Gallery } from "@/components/sections/gallery";
 import { Chronicles } from "@/components/sections/chronicles";
 import { CtaStrip } from "@/components/sections/cta-strip";
@@ -27,8 +26,6 @@ export default function Home() {
         {/* 4. Active Locations & Fair Finder */}
         <ActiveLocations />
 
-        {/* 6. Brand Marquee — NAAZ AMUSEMENT text scroll */}
-        <Tour />
         {/* 7. Gallery — polaroid marquee rows */}
         <Gallery />
         {/* 8. Blog / Naaz Amusement Chronicles */}
