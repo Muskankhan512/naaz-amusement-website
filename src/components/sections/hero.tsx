@@ -78,7 +78,7 @@ export function Hero() {
         {/* Background photo */}
         <div className="absolute inset-0">
           <Image
-            src="/hero-mela-new.png"
+            src="/hero-mela-v3.png"
             alt="Naaz Amusement park at night with rides, lights, and crowds"
             fill
             priority

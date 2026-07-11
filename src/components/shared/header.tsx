@@ -77,7 +77,7 @@ export function Header() {
             {hasHydrated && (
               <Link
                 href={loggedIn ? "/profile" : "/login"}
-                className="font-display text-[13px] tracking-wide text-fk-offwhite hover:text-accent-yellow transition uppercase whitespace-nowrap"
+                className="font-display text-[14px] tracking-wide text-fk-offwhite hover:text-accent-yellow transition uppercase whitespace-nowrap"
               >
                 {loggedIn ? `HI, ${user.name.split(" ")[0]}` : "SIGN IN"}
               </Link>
@@ -104,7 +104,7 @@ export function Header() {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }
               }}
-              className="font-display text-[13px] xl:text-[15px] tracking-wide text-fk-offwhite transition hover:text-accent-yellow uppercase"
+              className="font-display text-[15px] xl:text-[17px] tracking-wide text-fk-offwhite transition hover:text-accent-yellow uppercase"
             >
               {link.label}
             </Link>
@@ -130,7 +130,7 @@ export function Header() {
           {hasHydrated && (
             <Link
               href={loggedIn ? "/profile" : "/login"}
-              className="font-display text-[13px] xl:text-[15px] tracking-wide text-fk-offwhite hover:text-accent-yellow transition uppercase whitespace-nowrap"
+              className="font-display text-[15px] xl:text-[17px] tracking-wide text-fk-offwhite hover:text-accent-yellow transition uppercase whitespace-nowrap"
             >
               {loggedIn ? `HI, ${user.name.split(" ")[0]}` : "SIGN IN"}
             </Link>
