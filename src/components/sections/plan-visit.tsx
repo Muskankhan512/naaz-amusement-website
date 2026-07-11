@@ -54,11 +54,17 @@ export function PlanVisit() {
             >
               {/* Image */}
               <div className={`relative overflow-hidden rounded-xl ${i % 2 === 1 ? "lg:order-2" : ""}`}>
-                <div className="relative aspect-[16/10] sm:aspect-[4/3] w-full">
+                <div 
+                  className={`relative w-full ${
+                    step.num === "05" ? "aspect-square sm:aspect-[4/5]" : "aspect-[16/10] sm:aspect-[4/3]"
+                  }`}
+                >
                   <img
                     src={step.image}
                     alt={step.title}
-                    className="h-full w-full object-cover"
+                    className={`h-full w-full object-cover ${
+                      step.num === "05" ? "object-center sm:object-top" : "object-center"
+                    }`}
                   />
                   {/* Corner badge */}
                   <div className="absolute right-4 top-4 flex h-16 w-16 items-center justify-center rounded-lg bg-white shadow-lg">
