@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Settings, Menu, X } from "lucide-react";
 import { useAuthStore } from "@/stores/auth-store";
 import { isAdminEmail } from "@/lib/admin";
@@ -23,6 +24,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user } = useAuthStore();
   const [hasHydrated, setHasHydrated] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -50,8 +52,8 @@ export function Header() {
       className={cn(
         "fixed top-0 left-0 z-50 w-full transition-all duration-300",
         scrolled
-          ? "bg-deep-purple/95 backdrop-blur-md py-2 sm:py-3 shadow-lg"
-          : "bg-gradient-to-b from-black/80 to-transparent py-3 sm:py-5"
+          ? "bg-[#0A0514]/60 backdrop-blur-2xl py-3 border-b border-white/10 shadow-2xl"
+          : "bg-transparent py-5"
       )}
     >
       <div className="mx-auto flex max-w-[1400px] flex-col lg:flex-row items-center justify-between px-4 sm:px-6 md:px-10 gap-3 lg:gap-0">
@@ -93,22 +95,39 @@ export function Header() {
         </div>
 
         {/* Desktop Nav Links */}
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={(e) => {
-                if (link.href === "/" && window.location.pathname === "/") {
-                  e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }
-              }}
-              className="font-display text-[15px] xl:text-[17px] tracking-wide text-fk-offwhite transition hover:text-accent-yellow uppercase"
-            >
-              {link.label}
-            </Link>
-          ))}
+        <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href || (pathname === '/' && link.href === '/');
+            return (
+              <div key={link.href} className="relative group py-2">
+                <Link
+                  href={link.href}
+                  onClick={(e) => {
+                    if (link.href === "/" && window.location.pathname === "/") {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }}
+                  className={cn(
+                    "relative font-display text-[14px] xl:text-[16px] tracking-widest uppercase transition-all duration-300",
+                    isActive
+                      ? "text-accent-yellow drop-shadow-[0_0_8px_rgba(238,167,39,0.5)]"
+                      : "text-white/80 hover:text-accent-yellow hover:drop-shadow-[0_0_8px_rgba(238,167,39,0.8)]"
+                  )}
+                >
+                  {link.label}
+                </Link>
+                {isActive && (
+                  <motion.div
+                    layoutId="navbar-underline"
+                    className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-accent-yellow shadow-[0_0_10px_rgba(238,167,39,0.8)]"
+                    initial={false}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {/* Desktop Logo (Center Absolute) */}
@@ -159,22 +178,30 @@ export function Header() {
             className="absolute left-0 top-full w-full overflow-hidden bg-white shadow-2xl lg:hidden border-t border-gray-100"
           >
             <div className="flex flex-col items-center gap-6 py-10">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => {
-                    setMobileMenuOpen(false);
-                    if (link.href === "/" && window.location.pathname === "/") {
-                      e.preventDefault();
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }
-                  }}
-                  className="font-display text-[18px] tracking-wide text-deep-purple transition hover:text-accent-yellow uppercase"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href || (pathname === '/' && link.href === '/');
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => {
+                      setMobileMenuOpen(false);
+                      if (link.href === "/" && window.location.pathname === "/") {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }}
+                    className={cn(
+                      "font-display text-[18px] tracking-widest uppercase transition-all duration-300",
+                      isActive
+                        ? "text-accent-yellow drop-shadow-[0_0_8px_rgba(238,167,39,0.4)]"
+                        : "text-deep-purple hover:text-accent-yellow hover:drop-shadow-[0_0_8px_rgba(238,167,39,0.4)]"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
             </div>
           </motion.div>
         )}
