@@ -1,21 +1,82 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
-import { ArrowDown, ArrowRight, Ticket, FerrisWheel } from "lucide-react";
+import { ArrowRight, Ticket, FerrisWheel } from "lucide-react";
 import { site } from "@/lib/site";
 import { useContentStore } from "@/stores/content-store";
 import { useLocationsStore } from "@/stores/locations-store";
+import { useRidesStore } from "@/stores/rides-store";
 
-type Stat = {
-  endValue?: number;
-  textValue?: string;
-  suffix: string;
-  label: string;
+/* ─── Ride Preview Card ────────────────────────────────────────────────── */
+const RIDE_ICONS: Record<string, string> = {
+  default: "🎡",
+  "wheel": "🎡",
+  "roller": "🎢",
+  "coaster": "🎢",
+  "boat": "🚤",
+  "car": "🏎️",
+  "swing": "🎠",
+  "drop": "⬇️",
+  "train": "🚂",
+  "bumper": "💥",
+  "slide": "🎿",
+  "tower": "🗼",
 };
 
+function getRideIcon(name: string): string {
+  const lower = name.toLowerCase();
+  for (const [key, icon] of Object.entries(RIDE_ICONS)) {
+    if (key !== "default" && lower.includes(key)) return icon;
+  }
+  return RIDE_ICONS.default;
+}
+
+function RidePreviewCards() {
+  const { rides, fetchRides } = useRidesStore();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    if (rides.length === 0) fetchRides();
+  }, [rides.length, fetchRides]);
+
+  const previewRides = mounted && rides.length > 0
+    ? rides.slice(0, 3)
+    : [
+        { name: "Giant Wheel", slug: "giant-wheel" },
+        { name: "Roller Coaster", slug: "roller-coaster" },
+        { name: "Bumper Cars", slug: "bumper-cars" },
+      ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.85, duration: 0.6 }}
+      className="mt-8 flex flex-wrap gap-3 justify-center"
+    >
+      {previewRides.map((ride, i) => (
+        <motion.div
+          key={ride.slug}
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.9 + i * 0.1, type: "spring", bounce: 0.3 }}
+          className="flex items-center gap-2 rounded-full bg-white/8 border border-white/15 backdrop-blur-xl px-4 py-2 shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:bg-white/15 hover:border-accent-yellow/50 hover:shadow-[0_0_16px_rgba(238,167,39,0.25)] transition-all duration-300 cursor-default"
+        >
+          <span className="text-lg leading-none">{getRideIcon(ride.name)}</span>
+          <span className="font-display text-xs sm:text-sm uppercase tracking-widest text-white/90 whitespace-nowrap">
+            {ride.name}
+          </span>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+}
+
+/* ─── Countdown Timer ───────────────────────────────────────────────────── */
 function CountdownTimer() {
   const { locations, fetchLocations } = useLocationsStore();
   const [timeLeft, setTimeLeft] = useState<{ d: number; h: number; m: number; s: number } | null>(null);
@@ -37,7 +98,7 @@ function CountdownTimer() {
       const difference = start - now;
 
       if (difference <= 0) {
-        setTimeLeft(null); // Indicates Mela is live
+        setTimeLeft(null);
         clearInterval(timer);
       } else {
         setTimeLeft({
@@ -64,7 +125,7 @@ function CountdownTimer() {
       <h3 className="font-display text-lg sm:text-xl text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-4 uppercase tracking-widest">
         🎉 {featuredMela.name} Starts In
       </h3>
-      
+
       {!timeLeft ? (
         <div className="bg-accent-yellow/20 border border-accent-yellow backdrop-blur-md px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(238,167,39,0.5)]">
           <span className="font-display text-2xl text-accent-yellow uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Mela Live Now!</span>
@@ -76,7 +137,7 @@ function CountdownTimer() {
             { label: "Hours", value: timeLeft.h },
             { label: "Minutes", value: timeLeft.m },
             { label: "Seconds", value: timeLeft.s }
-          ].map((time, i) => (
+          ].map((time) => (
             <div key={time.label} className="flex flex-col items-center">
               <div className="relative w-14 h-16 sm:w-16 sm:h-20 bg-black/50 border border-white/20 backdrop-blur-md rounded-xl flex items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.6)] overflow-hidden">
                 <AnimatePresence mode="popLayout">
@@ -101,6 +162,38 @@ function CountdownTimer() {
   );
 }
 
+/* ─── Twinkling Stars (CSS-only, desktop only) ─────────────────────────── */
+function StarField() {
+  const stars = Array.from({ length: 40 }, (_, i) => ({
+    id: i,
+    top: `${Math.random() * 85}%`,
+    left: `${Math.random() * 100}%`,
+    size: Math.random() > 0.7 ? 2.5 : 1.5,
+    delay: `${(Math.random() * 4).toFixed(2)}s`,
+    duration: `${(2.5 + Math.random() * 2.5).toFixed(2)}s`,
+  }));
+
+  return (
+    <div className="absolute inset-0 z-[2] pointer-events-none hidden md:block" aria-hidden>
+      {stars.map((star) => (
+        <div
+          key={star.id}
+          className="absolute rounded-full bg-white animate-twinkle"
+          style={{
+            top: star.top,
+            left: star.left,
+            width: star.size,
+            height: star.size,
+            animationDelay: star.delay,
+            animationDuration: star.duration,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ─── AnimatedCounter ───────────────────────────────────────────────────── */
 function AnimatedCounter({ endValue, suffix }: { endValue: number; suffix: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
@@ -138,50 +231,116 @@ function AnimatedCounter({ endValue, suffix }: { endValue: number; suffix: strin
   );
 }
 
+/* ─── Hero Wave SVG ─────────────────────────────────────────────────────── */
+function HeroWave() {
+  return (
+    <div className="absolute bottom-0 left-0 right-0 z-10 leading-[0] pointer-events-none">
+      <svg
+        viewBox="0 0 1440 80"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full h-[50px] sm:h-[70px] md:h-[80px] block"
+        aria-hidden
+      >
+        <defs>
+          <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#210C6D" />
+            <stop offset="50%" stopColor="#2D1A7A" />
+            <stop offset="100%" stopColor="#210C6D" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0,40 C180,80 360,0 540,40 C720,80 900,10 1080,45 C1260,80 1350,20 1440,40 L1440,80 L0,80 Z"
+          fill="url(#waveGrad)"
+        />
+        {/* Glow line along the wave */}
+        <path
+          d="M0,40 C180,80 360,0 540,40 C720,80 900,10 1080,45 C1260,80 1350,20 1440,40"
+          fill="none"
+          stroke="rgba(238,167,39,0.15)"
+          strokeWidth="1.5"
+        />
+      </svg>
+    </div>
+  );
+}
+
+/* ─── Main Hero Export ──────────────────────────────────────────────────── */
 export function Hero() {
   const { content, fetchContent } = useContentStore();
   const hero = content.hero;
-  const stats = hero.stats as Stat[];
-  const ref = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
-    target: ref,
+    target: sectionRef,
     offset: ["start start", "end start"],
   });
 
   const scrollOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
+  // Mouse parallax state
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const isTouchDevice = useRef(false);
+
+  useEffect(() => {
+    isTouchDevice.current = window.matchMedia("(hover: none)").matches;
+  }, []);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (isTouchDevice.current) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2; // -1 to 1
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2; // -1 to 1
+    setMousePos({ x, y });
+  }, []);
+
   useEffect(() => {
     fetchContent();
   }, [fetchContent]);
 
+  const bgTranslateX = mousePos.x * -8;
+  const bgTranslateY = mousePos.y * -8;
+
   return (
     <section
-      ref={ref}
+      ref={sectionRef}
       className="relative w-full bg-deep-purple"
     >
       {/* HERO TOP — Photo + wordmark + offer */}
-      <div className="relative min-h-[100svh] w-full overflow-hidden">
-        {/* Background photo */}
-        <div className="absolute inset-0">
-          <Image
-            src="/hero-mela-v3.png"
-            alt="Naaz Amusement park at night with rides, lights, and crowds"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-          {/* Gradient overlays to blend into purple + ensure text legibility */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-deep-purple/70 to-accent-yellow/30" />
+      <div
+        className="relative min-h-[100svh] w-full overflow-hidden"
+        onMouseMove={handleMouseMove}
+      >
+        {/* Background photo with parallax */}
+        <div className="absolute inset-0 scale-[1.06]">
+          <div
+            ref={bgRef}
+            className="absolute inset-0 transition-transform duration-100 ease-linear"
+            style={{ transform: `translate(${bgTranslateX}px, ${bgTranslateY}px)` }}
+          >
+            <Image
+              src="/hero-mela-v3.png"
+              alt="Naaz Amusement park at night with rides, lights, and crowds"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center"
+            />
+          </div>
+          {/* Gradient overlays */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-deep-purple/70 to-accent-yellow/30 z-[1]" />
           <div
             aria-hidden
-            className="absolute inset-0"
+            className="absolute inset-0 z-[1]"
             style={{
               backgroundImage:
                 "radial-gradient(ellipse at center, transparent 30%, rgba(33,12,109,0.5) 100%)",
             }}
           />
         </div>
+
+        {/* Twinkling stars */}
+        <StarField />
 
         {/* Center wordmark + CTAs */}
         <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center">
@@ -205,7 +364,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
-            className="mt-6 font-display text-[clamp(1rem,3vw,1.5rem)] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] max-w-2xl"
+            className="mt-6 font-body text-[clamp(0.95rem,2.5vw,1.3rem)] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] max-w-2xl font-medium"
           >
             North India ke Sabse Bade Mele Aur Rides Ka Anubhav Kijiye
           </motion.p>
@@ -235,27 +394,32 @@ export function Hero() {
             transition={{ delay: 0.6, duration: 0.7 }}
             className="mt-10 flex w-full max-w-md flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5"
           >
-            <Link 
-              href={site.bookingUrl} 
+            <Link
+              href={site.bookingUrl}
               className="group flex h-[3.25rem] w-full sm:w-auto items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-accent-yellow to-[#FDE047] px-8 font-display text-sm font-semibold uppercase tracking-widest text-[#0A0514] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(238,167,39,0.5)]"
             >
               <Ticket className="h-4 w-4" />
               Book Tickets
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
-            <Link 
-              href="/attractions" 
-              className="group flex h-[3.25rem] w-full sm:w-auto items-center justify-center gap-2.5 rounded-full border-2 border-white/80 bg-transparent px-8 font-display text-sm font-semibold uppercase tracking-widest text-white transition-all duration-300 hover:-translate-y-1 hover:border-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+            <Link
+              href="/attractions"
+              className="group flex h-[3.25rem] w-full sm:w-auto items-center justify-center gap-2.5 rounded-full border-2 border-white/80 bg-white/5 backdrop-blur-[18px] px-8 font-display text-sm font-semibold uppercase tracking-widest text-white transition-all duration-300 hover:-translate-y-1 hover:border-white hover:bg-white/15 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]"
             >
               <FerrisWheel className="h-4 w-4" />
               Explore Rides
             </Link>
           </motion.div>
 
+          {/* Ride preview cards */}
+          <RidePreviewCards />
+
+          {/* Countdown */}
           <CountdownTimer />
         </div>
 
-
+        {/* Wave at bottom of hero */}
+        <HeroWave />
       </div>
 
       {/* HERO BOTTOM — Purple section with copy + stats */}
@@ -263,9 +427,9 @@ export function Hero() {
         <div className="mx-auto max-w-5xl">
           {/* Body copy */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7 }}
             className="text-center font-body text-[clamp(0.9rem,1.3vw,1.125rem)] leading-relaxed text-white/90"
           >
@@ -274,9 +438,9 @@ export function Hero() {
 
           {/* Description */}
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, delay: 0.15 }}
             className="mx-auto mt-8 sm:mt-12 max-w-4xl text-center font-display text-[clamp(1.1rem,2.5vw,2rem)] leading-[1.38] tracking-[-0.32px] text-white"
           >
@@ -285,9 +449,9 @@ export function Hero() {
 
           {/* Stats row - Glass Cards */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, delay: 0.3 }}
             className="mt-10 sm:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
           >
@@ -296,10 +460,10 @@ export function Hero() {
               { icon: "🎟️", value: "40K+", label: "VISITORS" },
               { icon: "🎊", value: "25+", label: "EVENTS" },
               { icon: "⭐", value: "4.9", label: "RATING" }
-            ].map((stat, i) => (
+            ].map((stat) => (
               <div
                 key={stat.label}
-                className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-6 shadow-2xl transition hover:bg-white/10 hover:border-accent-yellow/40 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(238,167,39,0.15)] group"
+                className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-[18px] p-6 shadow-2xl transition hover:bg-white/10 hover:border-accent-yellow/40 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(238,167,39,0.15)] group"
               >
                 <span className="text-3xl sm:text-4xl mb-1 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_10px_rgba(238,167,39,0.5)]">{stat.icon}</span>
                 <span className="font-display text-2xl sm:text-3xl lg:text-4xl leading-none text-accent-yellow tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">

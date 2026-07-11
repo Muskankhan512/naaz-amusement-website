@@ -1750,6 +1750,7 @@ export default function AdminPage() {
                       lng: 75.7873,
                       gmapsLink: "",
                       details: "",
+                      isFeaturedCountdown: false,
                     });
                   } else {
                     toast.error("Failed to add location. Database connection might be offline.");
