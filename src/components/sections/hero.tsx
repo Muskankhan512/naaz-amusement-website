@@ -124,11 +124,9 @@ function ScrollIndicator() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       transition={{ delay: 1.2, duration: 0.6 }}
-      className="flex flex-col items-center gap-1 mt-8 mb-4 animate-bounce-slow">
-      <div className="flex flex-col items-center justify-center gap-1 rounded-full bg-black/40 border border-white/15 backdrop-blur-md px-4 py-2 text-white">
-        <span className="font-body text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase">Scroll</span>
-        <ChevronDown className="h-4 w-4" />
-      </div>
+      className="flex flex-col items-center gap-1 mt-8 mb-4 text-white/60 animate-bounce-slow">
+      <span className="font-body text-[10px] font-medium tracking-[0.2em] uppercase">Scroll</span>
+      <ChevronDown className="h-4 w-4" />
     </motion.div>
   );
 }
@@ -200,26 +198,26 @@ export function Hero() {
           {/* Title */}
           <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display uppercase leading-[0.88] tracking-[0.02em] text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.7)] text-[clamp(2.2rem,11vw,8.5rem)] mb-5">
+            className="font-display uppercase leading-[0.88] tracking-[0.03em] text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.7)] text-[clamp(2.2rem,11vw,8.5rem)] mb-5">
             {site.name.split(" ").map((word, i) => (
-              <span key={word} className={i === 1 ? "block text-accent-yellow" : "block"}>{word}</span>
+              <span key={word} className={i === 1 ? "block text-accent-yellow drop-shadow-[0_0_20px_rgba(238,167,39,0.3)]" : "block"}>{word}</span>
             ))}
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
-            className="font-body text-[clamp(0.85rem,2vw,1.1rem)] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] max-w-2xl font-medium mb-5">
+            className="font-body text-[clamp(0.85rem,2vw,1.1rem)] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] w-full max-w-[90vw] md:max-w-2xl px-2 font-medium mb-5 text-balance">
             Thrilling Rides & Unforgettable Family Fun &mdash;{" "}
-            <span className="text-accent-yellow">Sirf Naaz Amusement Mein</span>
+            <span className="text-accent-yellow whitespace-nowrap">Sirf Naaz Amusement Mein</span>
           </motion.p>
 
           {/* Badges */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.52, duration: 0.7 }}
-            className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] font-body font-semibold tracking-wide text-white/85 mb-7">
-            {["🎡 20+ Thrilling Rides", "🎟 Online Booking"].map(item => (
-              <span key={item} className="flex items-center gap-1.5 rounded-full bg-black/40 border border-white/10 px-3 py-1.5 sm:px-4 backdrop-blur-md">
+            className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[10px] sm:text-[12px] font-body font-semibold tracking-wide text-white/85 mb-8">
+            {["⭐ Family Friendly", "🎟️ Secure Booking", "🛡️ Safe Rides", "📍 North India's Trusted Operator"].map(item => (
+              <span key={item} className="flex items-center gap-1.5 rounded-full bg-black/40 border border-white/10 px-3 py-1.5 backdrop-blur-md">
                 {item}
               </span>
             ))}
