@@ -116,7 +116,7 @@ export const useRidesStore = create<RidesState>()(
       },
     }),
     {
-      name: "naaz-rides-storage",
+      name: "naaz-rides-storage-v2",
     }
   )
 );
