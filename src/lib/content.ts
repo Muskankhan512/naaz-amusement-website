@@ -416,6 +416,8 @@ export const defaultHomeContent: HomeContent = {
         { src: "/dragon-train.jpg", alt: "Dragon Train Ride" },
         { src: "/jumping.jpg", alt: "Jumping Ride" },
         { src: "/mini-train.jpg", alt: "Mini Train Ride" },
+        { src: "/honey-beer.jpg", alt: "Honey Beer Ride" },
+        { src: "/chakri.jpg", alt: "Chakri Ride" },
       ],
       [
         { src: "/naav-ride.jpg", alt: "Naav Ride" },
@@ -423,6 +425,7 @@ export const defaultHomeContent: HomeContent = {
         { src: "/tora-tora.jpg", alt: "Tora Tora Ride" },
         { src: "/tower.jpg", alt: "Tower Ride" },
         { src: "/zero-gravity.jpg", alt: "Zero Gravity Ride" },
+        { src: "/water-tup.jpg", alt: "Water Tup Ride" },
       ],
     ],
   },
