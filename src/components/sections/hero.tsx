@@ -108,22 +108,36 @@ function CountdownTimer() {
 }
 
 /* ─── Enhanced Star Field ───────────────────────────────────────────────── */
+type Star = { id: number; top: string; left: string; size: number; opacity: number; delay: string; duration: string };
+
 function StarField() {
-  const stars = Array.from({ length: 50 }, (_, i) => {
-    const tier = i % 3; // 0=small, 1=medium, 2=large
-    return {
-      id: i, top: `${5 + Math.random() * 80}%`, left: `${Math.random() * 100}%`,
-      size: tier === 0 ? 1 : tier === 1 ? 2 : 3,
-      opacity: (0.3 + Math.random() * 0.5).toFixed(2),
-      delay: `${(Math.random() * 5).toFixed(2)}s`,
-      duration: `${(2 + Math.random() * 4).toFixed(2)}s`,
-    };
-  });
+  const [stars, setStars] = useState<Star[]>([]);
+
+  useEffect(() => {
+    // Generate random positions client-side only to avoid hydration mismatch
+    setStars(
+      Array.from({ length: 50 }, (_, i) => {
+        const tier = i % 3;
+        return {
+          id: i,
+          top: `${5 + Math.random() * 80}%`,
+          left: `${Math.random() * 100}%`,
+          size: tier === 0 ? 1 : tier === 1 ? 2 : 3,
+          opacity: parseFloat((0.3 + Math.random() * 0.5).toFixed(2)),
+          delay: `${(Math.random() * 5).toFixed(2)}s`,
+          duration: `${(2 + Math.random() * 4).toFixed(2)}s`,
+        };
+      })
+    );
+  }, []);
+
+  if (stars.length === 0) return null;
+
   return (
     <div className="absolute inset-0 z-[2] pointer-events-none hidden md:block" aria-hidden>
       {stars.map((s) => (
         <div key={s.id} className="absolute rounded-full bg-white animate-twinkle"
-          style={{ top: s.top, left: s.left, width: s.size, height: s.size, opacity: Number(s.opacity), animationDelay: s.delay, animationDuration: s.duration }} />
+          style={{ top: s.top, left: s.left, width: s.size, height: s.size, opacity: s.opacity, animationDelay: s.delay, animationDuration: s.duration }} />
       ))}
     </div>
   );
