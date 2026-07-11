@@ -242,10 +242,10 @@ export const defaultHomeContent: HomeContent = {
       },
       {
         num: "03",
-        title: "Review and Book Your Tickets",
+        title: "NAAV RIDE",
         body:
-          "Secure your visit today with our seamless booking experience. Simply enter your details and proceed to checkout for instant confirmation.",
-        image: "/5.jpg",
+          "Sawaar ho jaiye humari shaandar Naav pe aur mehsoos kijiye udaan ka rोमांच! Ye jhoola dono taraf zor se jhoolta hai, jab aap sabse upar pahunchte hain toh dil dhak-dhak karne lagta hai. Raat ki lights ke saath ye ride aur bhi dramatic lagta hai. Thrill-lovers ke liye ek must-try experience — apne dosto aur family ke saath scream aur enjoy dono ek saath kijiye!",
+        image: "/naav-ride.jpg",
         numColor: "text-accent-yellow",
       },
       {
