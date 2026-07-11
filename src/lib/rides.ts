@@ -17,9 +17,9 @@ export type Ride = {
 
 export const rides: Ride[] = [
   {
-    slug: "striker",
-    name: "Striker",
-    nameHi: "स्ट्राइकर",
+    slug: "tower",
+    name: "Tower",
+    nameHi: "टावर",
     thrill: "Extreme",
     minAge: 12,
     capacity: 24,
@@ -28,13 +28,13 @@ export const rides: Ride[] = [
     tagline: "Where gravity is just a suggestion.",
     description:
       "Naaz Amusement's signature thrill ride — a towering experience that sends you spinning, twisting, and screaming through the Jaipur sky.",
-    image: "/generic-bouncy.png",
+    image: "/tower.jpg",
     tint: "#210C6D",
   },
   {
-    slug: "sky-scrambler",
-    name: "Sky Scrambler",
-    nameHi: "स्काई स्क्रैम्बलर",
+    slug: "sunami",
+    name: "Sunami",
+    nameHi: "सुनामी",
     thrill: "Extreme",
     minAge: 14,
     capacity: 16,
@@ -43,13 +43,13 @@ export const rides: Ride[] = [
     tagline: "Scramble your senses at 100 feet.",
     description:
       "A towering ride that spins you in multiple axes at once. Not for the faint-hearted — but absolutely unforgettable.",
-    image: "/11.jpeg",
+    image: "/sunami.jpg",
     tint: "#EEA727",
   },
   {
-    slug: "wave-pool",
-    name: "Wave Pool",
-    nameHi: "वेव पूल",
+    slug: "mini-train",
+    name: "Mini Train",
+    nameHi: "मिनी ट्रेन",
     thrill: "Family",
     minAge: 4,
     capacity: 200,
@@ -58,13 +58,13 @@ export const rides: Ride[] = [
     tagline: "A tropical escape without the airfare.",
     description:
       "Beat the Jaipur heat with our massive wave pool. Gentle waves for families, bigger ones for thrill-seekers.",
-    image: "/3.jpg",
+    image: "/mini-train.jpg",
     tint: "#172F2E",
   },
   {
-    slug: "roller-coaster",
-    name: "Roller Coaster",
-    nameHi: "रोलर कोस्टर",
+    slug: "jumping",
+    name: "Jumping",
+    nameHi: "जंपिंग",
     thrill: "Wild",
     minAge: 10,
     capacity: 24,
@@ -73,13 +73,13 @@ export const rides: Ride[] = [
     tagline: "Loops, drops, and pure adrenaline.",
     description:
       "Naaz Amusement's signature coaster with multiple loops, sudden drops, and speeds that will leave you breathless.",
-    image: "/4.jpeg",
+    image: "/jumping.jpg",
     tint: "#8F0177",
   },
   {
-    slug: "bumper-cars",
-    name: "Bumper Cars",
-    nameHi: "बम्पर कार",
+    slug: "chand-tara",
+    name: "Chand Tara",
+    nameHi: "चाँद तारा",
     thrill: "Family",
     minAge: 6,
     capacity: 20,
@@ -88,7 +88,7 @@ export const rides: Ride[] = [
     tagline: "Bump, dodge, repeat.",
     description:
       "Electric bumper cars on a polished floor. The only ride where crashing into your friends is encouraged.",
-    image: "/5.jpg",
+    image: "/chand-tara.jpg",
     tint: "#210C6D",
   },
   {
