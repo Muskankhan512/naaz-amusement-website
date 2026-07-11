@@ -10,53 +10,6 @@ import { useContentStore } from "@/stores/content-store";
 import { useLocationsStore } from "@/stores/locations-store";
 import { useRidesStore } from "@/stores/rides-store";
 
-/* ─── Ride Icons ─────────────────────────────────────────────────────────── */
-const RIDE_ICONS: Record<string, string> = {
-  default: "🎡", wheel: "🎡", roller: "🎢", coaster: "🎢",
-  boat: "🚤", car: "🏎️", swing: "🎠", drop: "⬇️",
-  train: "🚂", bumper: "💥", slide: "🎿", tower: "🗼",
-};
-function getRideIcon(name: string): string {
-  const lower = name.toLowerCase();
-  for (const [key, icon] of Object.entries(RIDE_ICONS)) {
-    if (key !== "default" && lower.includes(key)) return icon;
-  }
-  return RIDE_ICONS.default;
-}
-
-/* ─── Ride Preview Chips ─────────────────────────────────────────────────── */
-function RidePreviewCards() {
-  const { rides, fetchRides } = useRidesStore();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); if (rides.length === 0) fetchRides(); }, [rides.length, fetchRides]);
-
-  const previewRides = mounted && rides.length > 0 ? rides.slice(0, 3) : [
-    { name: "Giant Wheel", slug: "giant-wheel" },
-    { name: "Roller Coaster", slug: "roller-coaster" },
-    { name: "Bumper Cars", slug: "bumper-cars" },
-  ];
-
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.85, duration: 0.6 }}
-      className="mt-5 flex flex-wrap gap-3 justify-center">
-      {previewRides.map((ride, i) => (
-        <motion.div key={ride.slug}
-          initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.9 + i * 0.1, type: "spring", bounce: 0.3 }}
-          className="group flex items-center gap-2 rounded-full bg-white/8 border border-white/15 backdrop-blur-xl px-4 py-2 shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:bg-white/15 hover:border-accent-yellow/50 hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(255,165,0,0.3)] transition-all duration-300 cursor-default">
-          <span className="text-lg leading-none transition-transform duration-300 group-hover:rotate-12">
-            {getRideIcon(ride.name)}
-          </span>
-          <span className="font-display text-xs sm:text-sm uppercase tracking-widest text-white/90 whitespace-nowrap">
-            {ride.name}
-          </span>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-}
-
 /* ─── Countdown Timer ───────────────────────────────────────────────────── */
 function CountdownTimer() {
   const { locations, fetchLocations } = useLocationsStore();
@@ -160,7 +113,6 @@ function AmbienceOrbs() {
   );
 }
 
-/* ─── Scroll Indicator ───────────────────────────────────────────────────── */
 function ScrollIndicator() {
   const [visible, setVisible] = useState(true);
   useEffect(() => {
@@ -172,9 +124,11 @@ function ScrollIndicator() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       transition={{ delay: 1.2, duration: 0.6 }}
-      className="flex flex-col items-center gap-1 text-white/50 mt-8 animate-bounce-slow">
-      <span className="font-body text-[11px] tracking-[0.2em] uppercase">Scroll</span>
-      <ChevronDown className="h-4 w-4" />
+      className="flex flex-col items-center gap-1 mt-8 mb-4 animate-bounce-slow">
+      <div className="flex flex-col items-center justify-center gap-1 rounded-full bg-black/40 border border-white/15 backdrop-blur-md px-4 py-2 text-white">
+        <span className="font-body text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase">Scroll</span>
+        <ChevronDown className="h-4 w-4" />
+      </div>
     </motion.div>
   );
 }
@@ -271,7 +225,7 @@ export function Hero() {
         <AmbienceOrbs />
 
         {/* Center content — padded for navbar top, wave bottom */}
-        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center" style={{ paddingTop: '72px', paddingBottom: '80px' }}>
+        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center pt-[100px] pb-[80px]">
 
           {/* Title */}
           <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
