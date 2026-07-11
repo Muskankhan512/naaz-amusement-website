@@ -234,10 +234,10 @@ export const defaultHomeContent: HomeContent = {
       },
       {
         num: "02",
-        title: "Grab Your Discount Ticket",
+        title: "BREAK DANCE RIDE",
         body:
-          "Save more on your tickets with our exclusive discount coupons! Apply a valid coupon code at checkout to enjoy special discounts on your bookings. Hurry, offers are limited!",
-        image: "/4.jpeg",
+          "Taiyar ho jaiye jhoomti, ghoomti aur nachti Break Dance ride ke liye! Ye high-energy ride aapki car ko har direction mein spin karati hai, lights aur music ke sath — bilkul ek dance floor jaisa feel! Thrill-seekers ke liye ekdum perfect, jo apne dosto ya family ke sath kuch alag aur exciting try karna chahte hain. Ek baar baithiye, aur khud feel kijiye ki asli maza kya hota hai!",
+        image: "/break-dance.jpg",
         numColor: "text-orange-500",
       },
       {
