@@ -156,7 +156,7 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 top-full w-full overflow-hidden bg-deep-purple/95 backdrop-blur-xl shadow-2xl lg:hidden border-t border-white/10"
+            className="absolute left-0 top-full w-full overflow-hidden bg-white shadow-2xl lg:hidden border-t border-gray-100"
           >
             <div className="flex flex-col items-center gap-6 py-10">
               {navLinks.map((link) => (
@@ -170,7 +170,7 @@ export function Header() {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }
                   }}
-                  className="font-display text-[18px] tracking-wide text-fk-offwhite transition hover:text-accent-yellow uppercase"
+                  className="font-display text-[18px] tracking-wide text-deep-purple transition hover:text-accent-yellow uppercase"
                 >
                   {link.label}
                 </Link>
