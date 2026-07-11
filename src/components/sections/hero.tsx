@@ -207,9 +207,9 @@ export function Hero() {
           {/* Subtitle */}
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
-            className="font-body text-[clamp(0.85rem,2vw,1.1rem)] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] w-full max-w-[90vw] md:max-w-2xl px-2 font-medium mb-5 text-balance">
+            className="font-body text-[clamp(0.9rem,2.2vw,1.15rem)] text-white drop-shadow-[0_4px_15px_rgba(0,0,0,1)] w-full max-w-3xl px-4 font-semibold mb-6 text-balance tracking-wide">
             Thrilling Rides & Unforgettable Family Fun &mdash;{" "}
-            <span className="text-accent-yellow whitespace-nowrap">Sirf Naaz Amusement Mein</span>
+            <span className="text-accent-yellow drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] block sm:inline mt-1 sm:mt-0">Sirf Naaz Amusement Mein</span>
           </motion.p>
 
           {/* Badges */}
