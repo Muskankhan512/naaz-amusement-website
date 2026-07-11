@@ -115,6 +115,7 @@ export function ActiveLocations() {
       const map = L.map(mapContainerRef.current, {
         zoomControl: false,
         attributionControl: false,
+        scrollWheelZoom: false,
       }).setView([26.2, 74.8], 7);
 
       mapInstanceRef.current = map;
