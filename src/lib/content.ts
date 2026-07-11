@@ -1,5 +1,6 @@
 export type HeroStat = {
-  endValue: number;
+  endValue?: number;
+  textValue?: string;
   suffix: string;
   label: string;
 };
@@ -184,7 +185,7 @@ export const defaultHomeContent: HomeContent = {
       { endValue: 40, suffix: "+", label: "Years of Legacy" },
       { endValue: 20, suffix: "+", label: "Rides & Attractions" },
       { endValue: 3, suffix: "", label: "States Covered (RJ, DL, UP)" },
-      { endValue: 6, suffix: "K+", label: "Google Reviews" },
+      { textValue: "1986", suffix: "", label: "Trusted Since" },
     ],
   },
   portfolio: {

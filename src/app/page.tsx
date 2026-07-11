@@ -5,7 +5,7 @@ import { PlanVisit } from "@/components/sections/plan-visit";
 import { Rides } from "@/components/sections/rides";
 import { EventPackages } from "@/components/sections/event-packages";
 import { ActiveLocations } from "@/components/sections/active-locations";
-import { Testimonials } from "@/components/sections/testimonials";
+
 import { Tour } from "@/components/sections/tour";
 import { Gallery } from "@/components/sections/gallery";
 import { Chronicles } from "@/components/sections/chronicles";
@@ -26,8 +26,7 @@ export default function Home() {
         <Rides />
         {/* 4. Active Locations & Fair Finder */}
         <ActiveLocations />
-        {/* 5. Testimonials — white bg, 2-col reviews */}
-        <Testimonials />
+
         {/* 6. Brand Marquee — NAAZ AMUSEMENT text scroll */}
         <Tour />
         {/* 7. Gallery — polaroid marquee rows */}

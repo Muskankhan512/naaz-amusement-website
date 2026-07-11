@@ -5,7 +5,7 @@ export const site = {
     "For four decades, Naaz Amusement has been part of the biggest celebrations across North India. From Dussehra melas in Delhi to city carnivals across Rajasthan and Uttar Pradesh, our rides have created memories for generations of families — one mela at a time.",
   legacyYears: 40,
   ridesCount: "20+",
-  googleReviews: "6K+",
+  trustedSince: "1986",
   bookingUrl: "/book",
   whatsapp: "+919026752751",
   instagram: "naazamusementjaipur",

@@ -11,7 +11,7 @@ import Link from "next/link";
 const stats = [
   { label: "Years of Legacy", value: `40+` },
   { label: "Rides & Attractions", value: site.ridesCount },
-  { label: "Google Reviews", value: site.googleReviews },
+  { label: "Trusted Since", value: site.trustedSince },
   { label: "States Covered", value: "3" },
 ];
 

@@ -13,7 +13,7 @@ const navLinks = [
   { label: "ABOUT", href: "/about" },
   { label: "PACKAGES", href: "/#packages" },
   { label: "RIDES", href: "/attractions" },
-  { label: "REVIEWS", href: "/#reviews" },
+
   { label: "FAQ", href: "/#faq" },
   { label: "CONTACT", href: "/contact" },
 ];

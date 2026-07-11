@@ -9,7 +9,8 @@ import { site } from "@/lib/site";
 import { useContentStore } from "@/stores/content-store";
 
 type Stat = {
-  endValue: number;
+  endValue?: number;
+  textValue?: string;
   suffix: string;
   label: string;
 };
@@ -176,7 +177,13 @@ export function Hero() {
                   : ""
                   }`}
               >
-                <AnimatedCounter endValue={stat.endValue} suffix={stat.suffix} />
+                {stat.textValue ? (
+                  <span className="font-display text-[clamp(2.5rem,5vw,4rem)] leading-none text-white tracking-tight">
+                    {stat.textValue}
+                  </span>
+                ) : (
+                  <AnimatedCounter endValue={stat.endValue || 0} suffix={stat.suffix} />
+                )}
                 <span className="font-display text-[clamp(0.75rem,1.2vw,1rem)] uppercase tracking-widest text-white text-center font-semibold">
                   {stat.label}
                 </span>
