@@ -270,30 +270,30 @@ export function Hero() {
         <StarField />
         <AmbienceOrbs />
 
-        {/* Center content */}
-        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center pt-[80px] sm:pt-[70px]">
+        {/* Center content — padded for navbar top, wave bottom */}
+        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center" style={{ paddingTop: '72px', paddingBottom: '80px' }}>
 
-          {/* Title — point 2 */}
+          {/* Title */}
           <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display uppercase leading-[0.88] tracking-[0.02em] text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.7)] text-[clamp(2.2rem,11vw,8.5rem)] mb-8">
+            className="font-display uppercase leading-[0.88] tracking-[0.02em] text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.7)] text-[clamp(2.2rem,11vw,8.5rem)] mb-5">
             {site.name.split(" ").map((word, i) => (
               <span key={word} className={i === 1 ? "block text-accent-yellow" : "block"}>{word}</span>
             ))}
           </motion.h1>
 
-          {/* Subtitle — point 8 */}
+          {/* Subtitle */}
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
-            className="font-body text-[clamp(0.9rem,2.2vw,1.2rem)] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] max-w-2xl font-medium mb-6">
-            Thrilling Rides & Unforgettable Family Fun —{" "}
+            className="font-body text-[clamp(0.85rem,2vw,1.1rem)] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] max-w-2xl font-medium mb-5">
+            Thrilling Rides & Unforgettable Family Fun &mdash;{" "}
             <span className="text-accent-yellow">Sirf Naaz Amusement Mein</span>
           </motion.p>
 
-          {/* Feature highlights — only verified facts */}
+          {/* Badges */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.52, duration: 0.7 }}
-            className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] font-body font-semibold tracking-wide text-white/85 mb-8">
+            className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] font-body font-semibold tracking-wide text-white/85 mb-7">
             {["🎡 20+ Thrilling Rides", "🎟 Online Booking"].map(item => (
               <span key={item} className="flex items-center gap-1.5 rounded-full bg-black/40 border border-white/10 px-3 py-1.5 sm:px-4 backdrop-blur-md">
                 {item}
@@ -301,10 +301,10 @@ export function Hero() {
             ))}
           </motion.div>
 
-          {/* CTA Buttons — point 7 */}
+          {/* CTA Buttons */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.7 }}
-            className="flex w-full max-w-md flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5 mb-10">
+            className="flex w-full max-w-md flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5">
             <Link href={site.bookingUrl}
               className="group flex h-[3.25rem] w-full sm:w-auto items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-accent-yellow to-[#FDE047] px-8 font-display text-sm font-semibold uppercase tracking-widest text-[#0A0514] transition-all duration-300 hover:-translate-y-[5px] hover:shadow-[0_10px_25px_rgba(238,167,39,0.5)]">
               <Ticket className="h-4 w-4" />
@@ -318,13 +318,10 @@ export function Hero() {
             </Link>
           </motion.div>
 
-          {/* Ride chips — point 4 */}
-          <RidePreviewCards />
-
           {/* Countdown */}
           <CountdownTimer />
 
-          {/* Scroll indicator — point 13 */}
+          {/* Scroll indicator */}
           <ScrollIndicator />
         </div>
 
