@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowRight, Ticket, FerrisWheel } from "lucide-react";
 import { site } from "@/lib/site";
 import { useContentStore } from "@/stores/content-store";
 
@@ -147,13 +147,21 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.7 }}
-            className="mt-8 flex w-full max-w-md flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4"
+            className="mt-10 flex w-full max-w-md flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5"
           >
-            <Link href={site.bookingUrl} className="btn-primary w-full sm:w-auto">
+            <Link 
+              href={site.bookingUrl} 
+              className="group flex h-[3.25rem] w-full sm:w-auto items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-accent-yellow to-[#FDE047] px-8 font-display text-sm font-semibold uppercase tracking-widest text-[#0A0514] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(238,167,39,0.5)]"
+            >
+              <Ticket className="h-4 w-4" />
               Book Tickets
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
-            <Link href="/attractions" className="btn-glass w-full sm:w-auto">
+            <Link 
+              href="/attractions" 
+              className="group flex h-[3.25rem] w-full sm:w-auto items-center justify-center gap-2.5 rounded-full border-2 border-white/80 bg-transparent px-8 font-display text-sm font-semibold uppercase tracking-widest text-white transition-all duration-300 hover:-translate-y-1 hover:border-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+            >
+              <FerrisWheel className="h-4 w-4" />
               Explore Rides
             </Link>
           </motion.div>
