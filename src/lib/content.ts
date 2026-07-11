@@ -268,11 +268,11 @@ export const defaultHomeContent: HomeContent = {
   },
   rides: {
     eyebrow: "Our Rides & Attractions",
-    headingLead: "20+ rides.",
-    headingAccent: "Decades of",
-    headingTrail: "memories made with Naaz.",
+    headingLead: "HAMARI RIDES,",
+    headingAccent: "AAPKI",
+    headingTrail: "KHUSHIYAAN.",
     subtext:
-      "From thrilling rides to family favourites, every attraction at Naaz Amusement is designed for fun, maintained to the highest safety standards, and operated by our trained team to ensure a safe and enjoyable experience for everyone",
+      "Thrilling rides se lekar family ke pasandida jhoolon tak, Naaz Amusement ka har attraction maze aur khushi ke liye banaya gaya hai. Hamari saari rides highest safety standards ke sath maintain ki jaati hain, aur trained team dwara operate hoti hain — taaki har visitor ko ek safe aur yaadgaar anubhav mile.",
   },
   activeLocations: {
     eyebrow: "Live Installations & Melas",
