@@ -273,7 +273,7 @@ export function Hero() {
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
             className="font-body text-[clamp(0.9rem,2.2vw,1.2rem)] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] max-w-2xl font-medium mb-6">
-            Thrilling Rides, Delicious Food & Unforgettable Family Fun —{" "}
+            Thrilling Rides & Unforgettable Family Fun —{" "}
             <span className="text-accent-yellow">Sirf Naaz Amusement Mein</span>
           </motion.p>
 

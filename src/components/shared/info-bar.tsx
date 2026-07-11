@@ -20,7 +20,7 @@ export function InfoBar() {
   const featured = locations.find(loc => loc.isFeaturedCountdown && loc.isActive);
   const active = featured ?? locations.find(loc => loc.isActive);
 
-  const locationText = active ? `${active.name}, ${active.city}` : FALLBACK_LOCATION;
+  const locationText = active?.name ?? null;
 
   return (
     <motion.div
@@ -31,11 +31,15 @@ export function InfoBar() {
       aria-label="Quick info bar"
     >
       <div className="mx-auto max-w-[1400px] flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
-        <span className="flex items-center gap-1.5 text-[11px] sm:text-[12px] text-white/70 font-body">
-          <MapPin className="h-3 w-3 text-accent-yellow shrink-0" />
-          <span className="text-white/90 font-medium">{locationText}</span>
-        </span>
-        <span className="text-white/20 hidden sm:inline">|</span>
+        {locationText && (
+          <>
+            <span className="flex items-center gap-1.5 text-[11px] sm:text-[12px] text-white/70 font-body">
+              <MapPin className="h-3 w-3 text-accent-yellow shrink-0" />
+              <span className="text-white/90 font-medium">{locationText}</span>
+            </span>
+            <span className="text-white/20 hidden sm:inline">|</span>
+          </>
+        )}
         <span className="flex items-center gap-1.5 text-[11px] sm:text-[12px] text-white/70 font-body">
           <Clock className="h-3 w-3 text-accent-yellow shrink-0" />
           <span className="text-white/90 font-medium">{FALLBACK_TIMINGS}</span>
