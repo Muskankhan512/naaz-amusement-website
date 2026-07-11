@@ -256,6 +256,14 @@ export const defaultHomeContent: HomeContent = {
         image: "/tora-tora.jpg",
         numColor: "text-orange-500",
       },
+      {
+        num: "05",
+        title: "ZERO GRAVITY RIDE",
+        body:
+          "Anubhav kijiye kuchh bilkul naya — Zero Gravity ride mein! Chamakti neon lights aur unique design ke saath, ye ride visitors ko ek alag hi duniya mein le jaati hai. Chahe aap thrill dhoondh rahe ho ya kuch photo-worthy pal capture karna chahte ho, Zero Gravity Naaz Amusement ke sabse khaas attractions mein se ek hai. Ek baar dekhenge, toh baar baar aana chahenge!",
+        image: "/zero-gravity.jpg",
+        numColor: "text-accent-yellow",
+      },
     ],
   },
   rides: {
