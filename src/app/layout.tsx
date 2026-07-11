@@ -4,7 +4,6 @@ import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WhatsAppFloat } from "@/components/shared/whatsapp-float";
 import { MobileFab } from "@/components/shared/mobile-fab";
-import { InfoBar } from "@/components/shared/info-bar";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -89,7 +88,6 @@ export default function RootLayout({
       <body className="min-h-full bg-deep-purple text-white pb-24 sm:pb-0">
         <TooltipProvider delay={150}>
           {children}
-          <InfoBar />
           <WhatsAppFloat />
           <MobileFab />
           <Toaster

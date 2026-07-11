@@ -4,7 +4,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, AnimatePresence } from "motion/react";
-import { ArrowRight, Ticket, FerrisWheel, ChevronDown, MapPin, Clock } from "lucide-react";
+import { ArrowRight, Ticket, FerrisWheel, ChevronDown } from "lucide-react";
 import { site } from "@/lib/site";
 import { useContentStore } from "@/stores/content-store";
 import { useLocationsStore } from "@/stores/locations-store";
@@ -269,10 +269,9 @@ export function Hero() {
 
         <StarField />
         <AmbienceOrbs />
-        <HeroInfoCard />
 
         {/* Center content */}
-        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center pt-[120px] sm:pt-[100px] md:pt-[90px]">
+        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 text-center pt-[80px] sm:pt-[70px]">
 
           {/* Title — point 2 */}
           <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
