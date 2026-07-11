@@ -250,10 +250,10 @@ export const defaultHomeContent: HomeContent = {
       },
       {
         num: "04",
-        title: "Arrive and Create Memories",
+        title: "TORA TORA RIDE",
         body:
-          "Ride everything, photograph everything, eat everything. Then come back next weekend because you missed that one ride your friend won't shut up about.",
-        image: "/6.jpg",
+          "Taiyar ho jaiye Tora Tora ki jhoolti, ghoomti duniya ke liye! Ye ride aapko ek taraf se doosri taraf zor se jhulati hai, jab boat upar-neeche hoti hai toh saans thham jaati hai. Raat ki neon lights aur high-speed spinning motion isse aur bhi thrilling banate hain. Josh aur excitement se bhare is ride ko try kiye bina mela adhoora hai!",
+        image: "/tora-tora.jpg",
         numColor: "text-orange-500",
       },
     ],
