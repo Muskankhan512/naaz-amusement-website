@@ -24,7 +24,7 @@ const pillars = [
   {
     icon: Star,
     title: "Absolute Adrenaline",
-    description: "From massive 100ft spinners to high-speed looping coasters, we deliver top-tier thrills.",
+    description: "From thrilling high-speed rides to family favourites, we deliver top-tier fun for every kind of adventurer.",
   },
   {
     icon: Users,
@@ -34,7 +34,7 @@ const pillars = [
   {
     icon: Landmark,
     title: "Cultural Pride",
-    description: "Celebrating Rajasthan's rich culture with locally curated food, crafts, and festive theme décors.",
+    description: "Celebrating Rajasthan's rich culture with festive lights, vibrant themes, and the true spirit of mela traditions.",
   },
 ];
 
