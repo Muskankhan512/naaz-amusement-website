@@ -607,7 +607,7 @@ export function ActiveLocations() {
             {/* Map Container */}
             <div 
               ref={mapContainerRef} 
-              className="w-full flex-1 rounded-[20px] overflow-hidden border border-white/5 shadow-2xl relative z-10"
+              className="w-full flex-1 rounded-[20px] overflow-hidden border border-white/5 shadow-2xl relative z-10 max-md:pointer-events-none"
               style={{ minHeight: "360px" }}
             />
 
