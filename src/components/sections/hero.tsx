@@ -4,7 +4,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, AnimatePresence } from "motion/react";
-import { ArrowRight, Ticket, FerrisWheel, ChevronDown } from "lucide-react";
+import { ArrowRight, Ticket, FerrisWheel } from "lucide-react";
 import { site } from "@/lib/site";
 import { useContentStore } from "@/stores/content-store";
 import { useLocationsStore } from "@/stores/locations-store";
@@ -113,24 +113,6 @@ function AmbienceOrbs() {
   );
 }
 
-function ScrollIndicator() {
-  const [visible, setVisible] = useState(true);
-  useEffect(() => {
-    const handler = () => setVisible(window.scrollY < 80);
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
-  if (!visible) return null;
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      transition={{ delay: 1.2, duration: 0.6 }}
-      className="flex flex-col items-center gap-1 mt-8 mb-4 text-white/60 animate-bounce-slow">
-      <span className="font-body text-[10px] font-medium tracking-[0.2em] uppercase">Scroll</span>
-      <ChevronDown className="h-4 w-4" />
-    </motion.div>
-  );
-}
-
 /* ─── Hero Wave ──────────────────────────────────────────────────────────── */
 function HeroWave() {
   return (
@@ -215,9 +197,9 @@ export function Hero() {
           {/* Badges */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.52, duration: 0.7 }}
-            className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[10px] sm:text-[12px] font-body font-semibold tracking-wide text-white/85 mb-8">
+            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[11px] sm:text-[13px] font-body font-semibold tracking-wide text-white/85 mb-10 max-w-4xl mx-auto">
             {["⭐ Family Friendly", "🎟️ Secure Booking", "🛡️ Safe Rides", "📍 North India's Trusted Operator"].map(item => (
-              <span key={item} className="flex items-center gap-1.5 rounded-full bg-black/40 border border-white/10 px-3 py-1.5 backdrop-blur-md">
+              <span key={item} className="flex items-center gap-2 rounded-full bg-black/40 border border-white/10 px-4 py-2 backdrop-blur-md">
                 {item}
               </span>
             ))}
@@ -242,9 +224,6 @@ export function Hero() {
 
           {/* Countdown */}
           <CountdownTimer />
-
-          {/* Scroll indicator */}
-          <ScrollIndicator />
         </div>
 
         {/* Wave — point 6 */}
