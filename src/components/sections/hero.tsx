@@ -172,13 +172,13 @@ export function Hero() {
             className="object-cover object-center"
           />
           {/* Gradient overlays to blend into purple + ensure text legibility */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/25 to-deep-purple" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-deep-purple/70 to-accent-yellow/30" />
           <div
             aria-hidden
             className="absolute inset-0"
             style={{
               backgroundImage:
-                "radial-gradient(ellipse at center, transparent 30%, rgba(33,12,109,0.55) 100%)",
+                "radial-gradient(ellipse at center, transparent 30%, rgba(33,12,109,0.5) 100%)",
             }}
           />
         </div>

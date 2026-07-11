@@ -1,20 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Staatliches, Host_Grotesk, Geist, IBM_Plex_Mono } from "next/font/google";
+import { Bebas_Neue, Poppins, Geist, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WhatsAppFloat } from "@/components/shared/whatsapp-float";
 import { MobileFab } from "@/components/shared/mobile-fab";
 import "./globals.css";
 
-const staatliches = Staatliches({
+const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-display",
   display: "swap",
 });
 
-const hostGrotesk = Host_Grotesk({
+const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-body",
   display: "swap",
 });
@@ -81,7 +82,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${staatliches.variable} ${hostGrotesk.variable} ${geist.variable} ${ibmPlexMono.variable} h-full antialiased`}
+      className={`${bebasNeue.variable} ${poppins.variable} ${geist.variable} ${ibmPlexMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full bg-deep-purple text-white pb-24 sm:pb-0">
