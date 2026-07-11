@@ -103,7 +103,7 @@ export const rides: Ride[] = [
     tagline: "Spin, twirl, and laugh.",
     description:
       "Sit inside our giant teacups and spin as fast or as slow as you want. A classic family favorite that guarantees giggles.",
-    image: "/honey-beer.jpg",
+    image: "/honey-beer-v2.jpg",
     tint: "#EEA727",
   },
   {
@@ -118,7 +118,7 @@ export const rides: Ride[] = [
     tagline: "Splash and paddle.",
     description:
       "A colorful, shallow pool where kids can captain their own little paddle boats. Safe, fun, and perfect for cooling off.",
-    image: "/water-tup.jpg",
+    image: "/water-tup-v2.jpg",
     tint: "#172F2E",
   },
   {
