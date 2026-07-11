@@ -61,7 +61,7 @@ export function MobileFab() {
 
               {/* WhatsApp */}
               <a
-                href={waLink("Hi! I'd like to know more about Naaz Amusement Jaipur.")}
+                href={waLink("Hi! I'd like to know more about Naaz Amusement.")}
                 target="_blank"
                 rel="noreferrer noopener"
                 className="flex items-center gap-3 rounded-full bg-white px-5 py-3 shadow-xl"

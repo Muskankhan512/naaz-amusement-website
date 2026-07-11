@@ -13,13 +13,13 @@ const pricingOptions = [
     name: "General Admission (Adult)",
     price: "₹799",
     description: "Full access to all 80+ standard mechanical swings, water pool zones, and show displays.",
-    features: ["Access to all rides", "Water Park entry", "Free parking"],
+    features: ["Access to all rides", "Special attraction entry", "Event parking"],
   },
   {
     name: "Child Pass (Under 4ft)",
     price: "₹499",
     description: "Special discounted entry for children. Access to all family and kid-appropriate rides.",
-    features: ["Access to 40+ kids rides", "Water pool entry", "Complimentary juice box", "Free parking"],
+    features: ["Access to 40+ kids rides", "Special attraction entry", "Complimentary juice box", "Event parking"],
   },
   {
     name: "Express VIP Ticket",
@@ -31,7 +31,7 @@ const pricingOptions = [
     name: "Family Combo (2 Adult + 2 Child)",
     price: "₹2,199",
     description: "Exclusive family bundle offer. Perfect package for weekend family picnics.",
-    features: ["Access to all rides", "Water Park entry", "₹200 food court coupon", "Free parking"],
+    features: ["Access to all rides", "Special attraction entry", "₹200 food stall coupon", "Event parking"],
   },
 ];
 
@@ -48,15 +48,15 @@ const timingDetails = [
 const faqs = [
   {
     q: "Can I cancel or postpone my ticket bookings?",
-    a: "Online admission tickets cannot be cancelled, refunded, or transferred to another date under ordinary circumstances. However, in the event of park closure due to weather conditions, rescheduling options will be provided.",
+    a: "Online admission tickets cannot be cancelled, refunded, or transferred to another date under ordinary circumstances. However, in the event of carnival closure due to weather conditions, rescheduling options will be provided.",
   },
   {
     q: "Are group booking discounts available for schools?",
     a: "Yes! We offer exclusive pricing packages for school picnics and corporate outings (20+ guests). Go to our customized Event Setup Booking tool (/book) or dial our helpdesk to formulate a quote.",
   },
   {
-    q: "Is parking free at the park?",
-    a: "Standard parking is free for all ticketed visitors. VIP Express Ticket holders receive premium reserved parking close to the main ticketing gates.",
+    q: "Is parking available at the event?",
+    a: "Standard event parking is available for all visitors. VIP Express Ticket holders receive premium reserved parking close to the main ticketing gates.",
   },
 ];
 
@@ -87,7 +87,7 @@ export default function TicketInfoPage() {
               <span className="text-accent-yellow">Operating Hours</span>
             </h1>
             <p className="mt-6 text-base leading-relaxed text-white/70">
-              Find complete ticket prices, group discounts, operational hours, and general park rules. We advise buying tickets online to skip ticket counter lines.
+              Find complete ticket prices, group discounts, operational hours, and general mela rules. We advise buying tickets online to skip ticket counter lines.
             </p>
           </div>
 
@@ -170,7 +170,7 @@ export default function TicketInfoPage() {
               </div>
             </motion.div>
 
-            {/* Park Guidelines / Safety Rules */}
+            {/* Event Guidelines / Safety Rules */}
             <motion.div
               initial={{ opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -181,18 +181,18 @@ export default function TicketInfoPage() {
               <div className="flex items-center gap-2 mb-6">
                 <ShieldAlert className="h-6 w-6 text-accent-yellow" />
                 <h2 className="font-display text-2xl tracking-wide text-white">
-                  Park Rules & Guidelines
+                  Event Rules & Guidelines
                 </h2>
               </div>
 
               <div className="space-y-4 text-xs text-white/60 leading-relaxed">
                 <div className="border-l-2 border-accent-yellow pl-4">
                   <h4 className="font-bold text-white mb-1">Dress Code Policy</h4>
-                  <p>Appropriate sportswear or nylon clothing is required for water park zones. Loosely hanging garments are prohibited on high-speed thrill swings.</p>
+                  <p>Appropriate sportswear or nylon clothing is required for water attraction zones. Loosely hanging garments are prohibited on high-speed thrill swings.</p>
                 </div>
                 <div className="border-l-2 border-accent-yellow pl-4">
                   <h4 className="font-bold text-white mb-1">Food & Beverage Policy</h4>
-                  <p>Outside food and alcoholic beverages are strictly prohibited inside the park. Our food court offers a wide range of vegetarian food and filtered water.</p>
+                  <p>Outside food and alcoholic beverages are strictly prohibited inside the carnival. Our food stalls offer a wide range of vegetarian food and filtered water.</p>
                 </div>
                 <div className="border-l-2 border-accent-yellow pl-4">
                   <h4 className="font-bold text-white mb-1">Re-entry Rules</h4>

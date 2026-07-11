@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Safety Guidelines",
-  description: `Safety guidelines and ride rules for visitors at ${site.name}, Jaipur.`,
+  description: `Safety guidelines and ride rules for visitors at ${site.name} events.`,
 };
 
 export default function SafetyPage() {
@@ -45,8 +45,8 @@ export default function SafetyPage() {
         {
           heading: "General Conduct",
           body: [
-            "Outside food, alcohol, sharp objects, and hazardous items are not allowed inside the park.",
-            "Please keep the park clean, use dustbins, and report any safety concern to our staff right away.",
+            "Outside food, alcohol, sharp objects, and hazardous items are not allowed inside the event grounds.",
+            "Please keep the event grounds clean, use dustbins, and report any safety concern to our staff right away.",
           ],
         },
         {

@@ -35,28 +35,28 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://naazamusementjaipur.com"),
   title: {
-    default: "Naaz Amusement — Rajasthan's Premier Amusement Park",
-    template: "%s · Naaz Amusement Jaipur",
+    default: "Naaz Amusement — North India's Premier Traveling Carnival",
+    template: "%s · Naaz Amusement",
   },
   description:
-    "Naaz Amusement is Rajasthan's premier themed entertainment destination. A world-class amusement park spread across 18 acres of adrenaline, laughter, and wonder.",
+    "Naaz Amusement is a premier traveling carnival and mela setup. Bringing world-class rides, adrenaline, laughter, and wonder to your city.",
   keywords: [
     "Naaz Amusement",
-    "amusement park",
-    "Jaipur",
-    "Rajasthan",
-    "theme park",
+    "traveling carnival",
+    "mela",
+    "mela setup",
+    "event organizer",
     "rides",
     "attractions",
-    "water park",
+    "carnival rides",
     "family entertainment",
   ],
   openGraph: {
     type: "website",
-    siteName: "Naaz Amusement Jaipur",
-    title: "Naaz Amusement — Rajasthan's Premier Amusement Park",
+    siteName: "Naaz Amusement",
+    title: "Naaz Amusement — North India's Premier Traveling Carnival",
     description:
-      "80+ rides & attractions across 18 acres. Amusement Park, Water Park & more.",
+      "80+ rides & attractions for your mela and events. Book the best carnival rides today.",
     locale: "en_IN",
   },
   twitter: {

@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
-  description: `Terms and conditions for visiting and booking tickets at ${site.name}, Jaipur.`,
+  description: `Terms and conditions for visiting and booking tickets at ${site.name} events.`,
 };
 
 export default function TermsPage() {
@@ -13,19 +13,19 @@ export default function TermsPage() {
       eyebrow="Terms & Conditions"
       title="Terms & Conditions"
       updated="30 May 2026"
-      intro={`Welcome to ${site.name}. By accessing our website, booking tickets, or entering the park premises, you agree to the following terms and conditions. Please read them carefully before your visit.`}
+      intro={`Welcome to ${site.name}. By accessing our website, booking tickets, or entering the event premises, you agree to the following terms and conditions. Please read them carefully before your visit.`}
       sections={[
         {
-          heading: "Park Admission",
+          heading: "Event Admission",
           body: [
             "All visitors must hold a valid ticket for entry. Tickets are non-transferable and valid only for the date and category for which they are purchased.",
-            "Management reserves the right to refuse entry or remove any guest behaving in a manner that endangers themselves, other guests, or park property.",
+            "Management reserves the right to refuse entry or remove any guest behaving in a manner that endangers themselves, other guests, or event property.",
           ],
         },
         {
           heading: "Tickets & Bookings",
           body: [
-            "Online and on-site ticket prices, ride availability, and park timings may change without prior notice, especially during peak seasons and public holidays.",
+            "Online and on-site ticket prices, ride availability, and event timings may change without prior notice, especially during peak seasons and public holidays.",
             "Children's pricing is based on height/age criteria displayed at the ticket counter. Proof of age may be requested.",
           ],
         },
@@ -45,8 +45,8 @@ export default function TermsPage() {
         {
           heading: "Conduct & Liability",
           body: [
-            "Guests enter and use the park facilities at their own risk. The park follows strict safety protocols, but visitors are expected to act responsibly.",
-            "Outside food, alcohol, sharp objects, and hazardous materials are strictly prohibited inside the park.",
+            "Guests enter and use the event facilities at their own risk. Our events follow strict safety protocols, but visitors are expected to act responsibly.",
+            "Outside food, alcohol, sharp objects, and hazardous materials are strictly prohibited inside the event grounds.",
           ],
         },
         {

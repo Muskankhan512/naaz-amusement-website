@@ -79,7 +79,7 @@ export default function ContactPage() {
               <span className="text-accent-yellow">With Our Team</span>
             </h1>
             <p className="mt-6 text-base leading-relaxed text-white/70">
-              Have questions about park timings, custom ride installations, group rates, or marketing collaborations? Send us a message and our support team will reply within 24 hours.
+              Have questions about event timings, custom ride installations, group rates, or marketing collaborations? Send us a message and our support team will reply within 24 hours.
             </p>
           </div>
 
@@ -122,7 +122,7 @@ export default function ContactPage() {
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="block text-[10px] text-white/40 uppercase tracking-widest font-display">Park Address</span>
+                    <span className="block text-[10px] text-white/40 uppercase tracking-widest font-display">Service Area</span>
                     <span className="text-xs text-white/80 leading-relaxed block">
                       {site.address}
                     </span>
@@ -133,19 +133,19 @@ export default function ContactPage() {
               {/* Action Box: Directions */}
               <div className="rounded-[1.8rem] border border-white/10 bg-white/[0.02] p-8 flex flex-col justify-between h-full relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-tr from-accent-magenta/5 to-transparent" />
-                <h4 className="font-display text-xl text-white">Find Us on Google Maps</h4>
+                <h4 className="font-display text-xl text-white">Find Our Next Event</h4>
                 <p className="mt-3 text-xs leading-relaxed text-white/40">
-                  Ready to visit the park? Plan your road trip route directly on Google Maps. We are located near the Bagru toll plaza.
+                  Ready to visit our latest setup? Check our Instagram for live locations or message us to find out which city we are lighting up currently!
                 </p>
                 <div className="mt-8">
                   <a
-                    href="https://www.google.com/maps/search/?api=1&query=Ajmer+Road+Near+Bagru+Toll+Jaipur+Rajasthan"
+                    href={`https://wa.me/${site.whatsapp.replace(/\D/g, "")}?text=Hi,%20where%20is%20the%20carnival%20currently%20located?`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-full bg-accent-yellow px-6 py-3 text-xs font-display tracking-widest text-deep-purple transition hover:scale-[1.02] font-semibold shadow-md"
                   >
                     <Navigation className="h-4 w-4" />
-                    GET DIRECTIONS
+                    GET LOCATIONS
                   </a>
                 </div>
               </div>

@@ -74,7 +74,7 @@ async function sendConfirmationEmail(booking: {
       <div class="container">
         <div class="header">
           <div class="logo">🎢 NAAZ AMUSEMENT</div>
-          <p style="color:rgba(255,255,255,0.5); font-size:13px; margin:6px 0 0;">Jaipur's Premier Amusement & Event Setup</p>
+          <p style="color:rgba(255,255,255,0.5); font-size:13px; margin:6px 0 0;">North India's Premier Carnival & Event Setup</p>
           <span class="badge">✅ Booking Confirmed!</span>
         </div>
 
@@ -120,8 +120,8 @@ async function sendConfirmationEmail(booking: {
         </div>
 
         <div class="footer">
-          <p>Naaz Amusement • Jaipur, Rajasthan</p>
-          <p>naazamusementjaipur.com</p>
+          <p>Naaz Amusement • Pan North India</p>
+          <p>naazamusement.com</p>
           <p style="margin-top:10px; font-size:10px; color:rgba(255,255,255,0.2);">This is an automated confirmation. Please do not reply to this email.</p>
         </div>
       </div>

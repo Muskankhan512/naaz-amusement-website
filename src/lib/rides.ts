@@ -27,7 +27,7 @@ export const rides: Ride[] = [
     duration: "4 min",
     tagline: "Where gravity is just a suggestion.",
     description:
-      "Naaz Amusement's signature thrill ride — a towering experience that sends you spinning, twisting, and screaming through the Jaipur sky.",
+      "Naaz Amusement's signature thrill ride — a towering experience that sends you spinning, twisting, and screaming through the night sky.",
     image: "/tower.jpg",
     tint: "#210C6D",
   },
@@ -57,7 +57,7 @@ export const rides: Ride[] = [
     duration: "30 min",
     tagline: "A tropical escape without the airfare.",
     description:
-      "Beat the Jaipur heat with our massive wave pool. Gentle waves for families, bigger ones for thrill-seekers.",
+      "Beat the summer heat with our massive wave pool. Gentle waves for families, bigger ones for thrill-seekers.",
     image: "/mini-train.jpg",
     tint: "#172F2E",
   },
@@ -102,7 +102,7 @@ export const rides: Ride[] = [
     duration: "2 min",
     tagline: "Fly across the fairground.",
     description:
-      "Soar across the park on our 200-meter zip line. Feel the wind as the entire park spreads out beneath you.",
+      "Soar across the mela on our 200-meter zip line. Feel the wind as the entire carnival spreads out beneath you.",
     image: "/6.jpg",
     tint: "#EEA727",
   },

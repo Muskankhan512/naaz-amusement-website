@@ -16,7 +16,7 @@ export const site = {
     "Rajasthan, Delhi & Uttar Pradesh — Pan North India Operations",
   mapsUrl:
     "https://www.google.com/maps/search/?api=1&query=Naaz+Amusement+Jaipur",
-  email: "info@naazamusementjaipur.com",
+  email: "naazamusement@gmail.com",
   phone: "+91-9026752751",
 } as const;
 

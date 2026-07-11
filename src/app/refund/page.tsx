@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Refund Policy",
-  description: `Ticket cancellation and refund policy for ${site.name}, Jaipur.`,
+  description: `Ticket cancellation and refund policy for ${site.name} events.`,
 };
 
 export default function RefundPage() {
@@ -23,9 +23,9 @@ export default function RefundPage() {
           ],
         },
         {
-          heading: "Park Closure & Rescheduling",
+          heading: "Event Closure & Rescheduling",
           body: [
-            "If the park is closed due to weather, technical, or other unforeseen reasons, affected tickets will be rescheduled to a future date or issued as a credit voucher.",
+            "If the event is closed due to weather, technical, or other unforeseen reasons, affected tickets will be rescheduled to a future date or issued as a credit voucher.",
             "Rescheduling requests must be made within the validity period communicated by our helpdesk.",
           ],
         },

@@ -194,7 +194,7 @@ export const defaultHomeContent: HomeContent = {
     experiences: [
       {
         num: "01",
-        title: "Amusement Park",
+        title: "Traveling Carnival",
         tagline: "Where Gravity is Just a Suggestion",
         image: "/p1.jpg",
       },
@@ -514,7 +514,7 @@ export const defaultHomeContent: HomeContent = {
     heading: "Everything you need, right inside Naaz Amusement.",
     rows: [
       [
-        { label: "Free Parking", icon: "🅿️" },
+        { label: "Event Parking", icon: "🅿️" },
         { label: "Clean Washrooms", icon: "🚻" },
         { label: "First Aid", icon: "🏥" },
         { label: "Wheelchair Access", icon: "♿" },
