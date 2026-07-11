@@ -135,10 +135,7 @@ export default function AboutPage() {
                 A 40-Year Journey Across North India
               </h2>
               <p className="text-sm leading-relaxed text-white/60">
-                Since 1986 se, Naaz Amusement Rajasthan, Delhi aur Uttar Pradesh ke sabse bade melas aur carnivals mein ek jana-mana naam raha hai. Chhote se joyrides ke collection se shuru hokar, aaj hum North India ke sabse trusted traveling ride operators mein se ek ban chuke hain.
-              </p>
-              <p className="text-sm leading-relaxed text-white/60">
-                Har saal, hum apni 20+ high-thrill aur family-friendly rides ko major trade fairs, Dussehra melas, aur city carnivals mein set up karte hain. Hamari saari rides khud ki hain, international safety standards ke hisaab se maintain ki jaati hain, aur ek trained team dwara operate hoti hain — taaki har location par ek jaisa hi behtareen anubhav mile.
+                1986 se, Naaz Amusement Rajasthan, Delhi aur Uttar Pradesh ke sabse bade melas aur carnivals mein ek jana-mana naam raha hai &mdash; North India ke sabse trusted traveling ride operators mein se ek. Chhote se joyrides ke collection se shuru hokar, aaj hum har saal apni 20+ rides Dussehra melas aur city carnivals mein leke jaate hain, families ke liye yaadgaar pal banate hue.
               </p>
             </motion.div>
 

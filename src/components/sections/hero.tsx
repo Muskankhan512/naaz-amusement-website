@@ -133,36 +133,6 @@ function ScrollIndicator() {
   );
 }
 
-/* ─── Floating Glass Info Card ───────────────────────────────────────────── */
-function HeroInfoCard() {
-  const { locations } = useLocationsStore();
-  const featured = locations.find(l => l.isFeaturedCountdown && l.isActive) ?? locations.find(l => l.isActive);
-  const locationName = featured?.name ?? null;
-  if (!locationName) return null;
-  return (
-    <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 1.0, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="absolute right-6 bottom-28 z-20 hidden lg:block w-[200px]"
-      style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(18px)", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 16, padding: "18px 16px" }}>
-      <p className="font-display text-xs text-accent-yellow uppercase tracking-widest mb-3">🎡 Current Mela</p>
-      <div className="space-y-2">
-        <div className="flex items-center gap-2 text-white/80 text-[11px] font-body">
-          <Clock className="h-3 w-3 text-accent-yellow shrink-0" />
-          <span>11:00 AM – 10:00 PM</span>
-        </div>
-        <div className="flex items-center gap-2 text-white/80 text-[11px] font-body">
-          <MapPin className="h-3 w-3 text-accent-yellow shrink-0" />
-          <span>{locationName}</span>
-        </div>
-      </div>
-      <Link href={site.bookingUrl}
-        className="mt-4 flex items-center justify-center gap-1 w-full rounded-full bg-accent-yellow text-[#0A0514] font-display text-[11px] uppercase tracking-widest py-2 hover:bg-accent-yellow/90 transition">
-        <Ticket className="h-3 w-3" /> Book Now
-      </Link>
-    </motion.div>
-  );
-}
-
 /* ─── Hero Wave ──────────────────────────────────────────────────────────── */
 function HeroWave() {
   return (
@@ -174,9 +144,9 @@ function HeroWave() {
             <stop offset="0%" stopColor="#210C6D" /><stop offset="50%" stopColor="#2D1A7A" /><stop offset="100%" stopColor="#210C6D" />
           </linearGradient>
         </defs>
-        {/* Asymmetric wave — left flat, right curves */}
-        <path d="M0,55 L400,55 C600,55 700,10 900,25 C1100,40 1300,15 1440,30 L1440,60 L0,60 Z" fill="url(#waveGrad)" />
-        <path d="M0,55 L400,55 C600,55 700,10 900,25 C1100,40 1300,15 1440,30" fill="none" stroke="rgba(238,167,39,0.12)" strokeWidth="1.5" />
+        {/* Symmetric smooth wave */}
+        <path d="M 0,30 C 360,0 1080,60 1440,30 L 1440,60 L 0,60 Z" fill="url(#waveGrad)" />
+        <path d="M 0,30 C 360,0 1080,60 1440,30" fill="none" stroke="rgba(238,167,39,0.15)" strokeWidth="2" />
       </svg>
     </div>
   );
