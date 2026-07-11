@@ -114,7 +114,33 @@ export function Hero() {
             ))}
           </motion.h1>
 
+          {/* Subtext */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.7 }}
+            className="mt-6 font-display text-[clamp(1rem,3vw,1.5rem)] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] max-w-2xl"
+          >
+            North India ke Sabse Bade Mele Aur Rides Ka Anubhav Kijiye
+          </motion.p>
 
+          {/* Badges */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55, duration: 0.7 }}
+            className="mt-6 flex flex-wrap items-center justify-center gap-3 text-[12px] sm:text-[14px] font-semibold tracking-wide text-white/90"
+          >
+            <span className="flex items-center gap-1.5 rounded-full bg-black/40 border border-white/10 px-4 py-1.5 backdrop-blur-md">
+              ⭐ 20+ Rides
+            </span>
+            <span className="flex items-center gap-1.5 rounded-full bg-black/40 border border-white/10 px-4 py-1.5 backdrop-blur-md">
+              🎟️ Online Tickets
+            </span>
+            <span className="flex items-center gap-1.5 rounded-full bg-black/40 border border-white/10 px-4 py-1.5 backdrop-blur-md">
+              👨‍👩‍👧 Family Entertainment
+            </span>
+          </motion.div>
 
           {/* CTAs */}
           <motion.div
