@@ -116,6 +116,8 @@ export function ActiveLocations() {
         zoomControl: false,
         attributionControl: false,
         scrollWheelZoom: false,
+        dragging: !L.Browser.mobile, // Disable dragging on mobile so page can scroll freely
+        tap: !L.Browser.mobile,      // Disable map tap hijacking on mobile
       }).setView([26.2, 74.8], 7);
 
       mapInstanceRef.current = map;
