@@ -19,6 +19,7 @@ export interface LocationEvent {
   gmapsLink: string;
   details: string;
   isActive: boolean;
+  isFeaturedCountdown?: boolean;
   ridePricing: RidePricing[];
 }
 

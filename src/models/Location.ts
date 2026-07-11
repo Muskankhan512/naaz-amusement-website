@@ -19,6 +19,7 @@ const LocationSchema = new Schema(
     gmapsLink: { type: String, default: "" },
     details: { type: String, default: "" },
     isActive: { type: Boolean, default: true },
+    isFeaturedCountdown: { type: Boolean, default: false },
     ridePricing: { type: [RidePricingSchema], default: [] },
   },
   { timestamps: true }

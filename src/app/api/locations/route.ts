@@ -29,6 +29,10 @@ export async function POST(req: Request) {
     
     await newLocation.save();
     
+    if (newLocation.isFeaturedCountdown) {
+      await Location.updateMany({ id: { $ne: id } }, { $set: { isFeaturedCountdown: false } });
+    }
+    
     return NextResponse.json(newLocation, { status: 201 });
   } catch (error: any) {
     console.error("Locations POST error:", error);

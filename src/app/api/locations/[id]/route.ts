@@ -23,6 +23,10 @@ export async function PUT(
       return NextResponse.json({ error: "Location not found" }, { status: 404 });
     }
     
+    if (updatedLocation.isFeaturedCountdown) {
+      await Location.updateMany({ id: { $ne: id } }, { $set: { isFeaturedCountdown: false } });
+    }
+    
     return NextResponse.json(updatedLocation);
   } catch (error: any) {
     console.error(`Location PUT error:`, error);

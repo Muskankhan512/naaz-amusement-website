@@ -3,10 +3,11 @@
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { ArrowDown, ArrowRight, Ticket, FerrisWheel } from "lucide-react";
 import { site } from "@/lib/site";
 import { useContentStore } from "@/stores/content-store";
+import { useLocationsStore } from "@/stores/locations-store";
 
 type Stat = {
   endValue?: number;
@@ -14,6 +15,91 @@ type Stat = {
   suffix: string;
   label: string;
 };
+
+function CountdownTimer() {
+  const { locations, fetchLocations } = useLocationsStore();
+  const [timeLeft, setTimeLeft] = useState<{ d: number; h: number; m: number; s: number } | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    if (locations.length === 0) fetchLocations();
+  }, [locations.length, fetchLocations]);
+
+  const featuredMela = locations.find(loc => loc.isFeaturedCountdown);
+
+  useEffect(() => {
+    if (!featuredMela) return;
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const start = new Date(featuredMela.startDate).getTime();
+      const difference = start - now;
+
+      if (difference <= 0) {
+        setTimeLeft(null); // Indicates Mela is live
+        clearInterval(timer);
+      } else {
+        setTimeLeft({
+          d: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          h: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          m: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          s: Math.floor((difference % (1000 * 60)) / 1000),
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [featuredMela]);
+
+  if (!mounted || !featuredMela) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.7, duration: 0.7 }}
+      className="mt-12 flex flex-col items-center"
+    >
+      <h3 className="font-display text-lg sm:text-xl text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-4 uppercase tracking-widest">
+        🎉 {featuredMela.name} Starts In
+      </h3>
+      
+      {!timeLeft ? (
+        <div className="bg-accent-yellow/20 border border-accent-yellow backdrop-blur-md px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(238,167,39,0.5)]">
+          <span className="font-display text-2xl text-accent-yellow uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Mela Live Now!</span>
+        </div>
+      ) : (
+        <div className="flex gap-3 sm:gap-5 text-center">
+          {[
+            { label: "Days", value: timeLeft.d },
+            { label: "Hours", value: timeLeft.h },
+            { label: "Minutes", value: timeLeft.m },
+            { label: "Seconds", value: timeLeft.s }
+          ].map((time, i) => (
+            <div key={time.label} className="flex flex-col items-center">
+              <div className="relative w-14 h-16 sm:w-16 sm:h-20 bg-black/50 border border-white/20 backdrop-blur-md rounded-xl flex items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.6)] overflow-hidden">
+                <AnimatePresence mode="popLayout">
+                  <motion.span
+                    key={time.value}
+                    initial={{ y: -20, opacity: 0, rotateX: 90 }}
+                    animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                    exit={{ y: 20, opacity: 0, rotateX: -90 }}
+                    transition={{ duration: 0.3, type: "spring", bounce: 0.2 }}
+                    className="absolute font-mono-ibm text-2xl sm:text-3xl font-bold text-accent-yellow drop-shadow-[0_0_8px_rgba(238,167,39,0.8)]"
+                  >
+                    {time.value.toString().padStart(2, '0')}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
+              <span className="text-[10px] sm:text-xs font-semibold text-white/90 uppercase tracking-widest mt-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{time.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </motion.div>
+  );
+}
 
 function AnimatedCounter({ endValue, suffix }: { endValue: number; suffix: string }) {
   const [count, setCount] = useState(0);
@@ -165,6 +251,8 @@ export function Hero() {
               Explore Rides
             </Link>
           </motion.div>
+
+          <CountdownTimer />
         </div>
 
 
@@ -195,30 +283,29 @@ export function Hero() {
             {hero.description}
           </motion.h2>
 
-          {/* Stats row */}
+          {/* Stats row - Glass Cards */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-10 sm:mt-16 grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4 bg-white/5 border border-white/10 rounded-[2rem] p-6 sm:p-10 backdrop-blur-md shadow-2xl"
+            className="mt-10 sm:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
           >
-            {stats.map((stat, i) => (
+            {[
+              { icon: "🎡", value: "20+", label: "RIDES" },
+              { icon: "🎟️", value: "40K+", label: "VISITORS" },
+              { icon: "🎊", value: "25+", label: "EVENTS" },
+              { icon: "⭐", value: "4.9", label: "RATING" }
+            ].map((stat, i) => (
               <div
                 key={stat.label}
-                className={`flex flex-col items-center gap-2 sm:gap-3 ${i < stats.length - 1
-                  ? "md:border-r md:border-white/15"
-                  : ""
-                  }`}
+                className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-6 shadow-2xl transition hover:bg-white/10 hover:border-accent-yellow/40 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(238,167,39,0.15)] group"
               >
-                {stat.textValue ? (
-                  <span className="font-display text-[clamp(2.5rem,5vw,4rem)] leading-none text-white tracking-tight">
-                    {stat.textValue}
-                  </span>
-                ) : (
-                  <AnimatedCounter endValue={stat.endValue || 0} suffix={stat.suffix} />
-                )}
-                <span className="font-display text-[clamp(0.75rem,1.2vw,1rem)] uppercase tracking-widest text-white text-center font-semibold">
+                <span className="text-3xl sm:text-4xl mb-1 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_10px_rgba(238,167,39,0.5)]">{stat.icon}</span>
+                <span className="font-display text-2xl sm:text-3xl lg:text-4xl leading-none text-accent-yellow tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                  {stat.value}
+                </span>
+                <span className="font-display text-[10px] sm:text-xs lg:text-sm uppercase tracking-[0.2em] text-white/80 font-bold mt-1">
                   {stat.label}
                 </span>
               </div>

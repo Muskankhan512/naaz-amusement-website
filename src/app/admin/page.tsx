@@ -128,6 +128,7 @@ export default function AdminPage() {
     lng: 75.7873,
     gmapsLink: "",
     details: "",
+    isFeaturedCountdown: false,
   });
 
   useEffect(() => {
@@ -938,6 +939,19 @@ export default function AdminPage() {
                             </p>
                           </div>
                           <div className="flex gap-2">
+                            <button
+                              onClick={() => {
+                                updateLocation(loc.id, { isFeaturedCountdown: !loc.isFeaturedCountdown });
+                                toast.success(loc.isFeaturedCountdown ? "Removed from featured countdown" : "Featured on homepage countdown");
+                              }}
+                              className={`px-3 py-1.5 rounded-lg border text-xs transition ${
+                                loc.isFeaturedCountdown 
+                                  ? "bg-accent-yellow/20 border-accent-yellow text-accent-yellow"
+                                  : "border-white/10 text-white/80 hover:bg-white/5"
+                              }`}
+                            >
+                              {loc.isFeaturedCountdown ? "★ Featured" : "☆ Feature"}
+                            </button>
                             <button
                               onClick={() => {
                                 updateLocation(loc.id, { isActive: !loc.isActive });
@@ -1778,6 +1792,19 @@ export default function AdminPage() {
                     value={locationForm.address}
                     onChange={(e) => setLocationForm({ ...locationForm, address: e.target.value })}
                   />
+                </div>
+
+                <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                  <input
+                    type="checkbox"
+                    id="featuredToggle"
+                    checked={locationForm.isFeaturedCountdown}
+                    onChange={(e) => setLocationForm({ ...locationForm, isFeaturedCountdown: e.target.checked })}
+                    className="h-4 w-4 rounded border-white/10 bg-white/5 text-accent-yellow focus:ring-accent-yellow focus:ring-offset-deep-purple"
+                  />
+                  <label htmlFor="featuredToggle" className="text-xs tracking-wide text-white/80 cursor-pointer">
+                    Feature this event on homepage countdown (Will override any currently featured mela)
+                  </label>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
