@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { Settings } from "lucide-react";
+import { Settings, Menu, X } from "lucide-react";
 import { useAuthStore } from "@/stores/auth-store";
 import { isAdminEmail } from "@/lib/admin";
 
@@ -20,6 +20,7 @@ const navLinks = [
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user } = useAuthStore();
   const [hasHydrated, setHasHydrated] = useState(false);
 
@@ -81,11 +82,18 @@ export function Header() {
                 {loggedIn ? `HI, ${user.name.split(" ")[0]}` : "SIGN IN"}
               </Link>
             )}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-fk-offwhite hover:text-accent-yellow transition p-1"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
           </div>
         </div>
 
-        {/* Desktop Nav Links / Mobile Scrollable Row */}
-        <div className="flex w-full lg:w-auto items-center gap-5 lg:gap-4 xl:gap-6 overflow-x-auto whitespace-nowrap pb-1 lg:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        {/* Desktop Nav Links */}
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -139,6 +147,38 @@ export function Header() {
         </div>
 
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute left-0 top-full w-full overflow-hidden bg-deep-purple/95 backdrop-blur-xl shadow-2xl lg:hidden border-t border-white/10"
+          >
+            <div className="flex flex-col items-center gap-6 py-10">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    if (link.href === "/" && window.location.pathname === "/") {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }}
+                  className="font-display text-[18px] tracking-wide text-fk-offwhite transition hover:text-accent-yellow uppercase"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }
