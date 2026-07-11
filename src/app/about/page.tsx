@@ -135,10 +135,10 @@ export default function AboutPage() {
                 A 40-Year Journey Across North India
               </h2>
               <p className="text-sm leading-relaxed text-white/60">
-                Since 1986, Naaz Amusement has been a familiar name at the biggest melas and carnivals across Rajasthan, Delhi, and Uttar Pradesh. What began as a small collection of joyrides has grown into one of North India's most trusted traveling ride operators.
+                Since 1986 se, Naaz Amusement Rajasthan, Delhi aur Uttar Pradesh ke sabse bade melas aur carnivals mein ek jana-mana naam raha hai. Chhote se joyrides ke collection se shuru hokar, aaj hum North India ke sabse trusted traveling ride operators mein se ek ban chuke hain.
               </p>
               <p className="text-sm leading-relaxed text-white/60">
-                Every year, we set up our 20+ high-thrill and family rides at major trade fairs, Dussehra melas, and city carnivals. Our fleet is fully owned, maintained to international safety standards, and operated by a trained permanent crew — ensuring the same quality of experience at every location.
+                Har saal, hum apni 20+ high-thrill aur family-friendly rides ko major trade fairs, Dussehra melas, aur city carnivals mein set up karte hain. Hamari saari rides khud ki hain, international safety standards ke hisaab se maintain ki jaati hain, aur ek trained team dwara operate hoti hain — taaki har location par ek jaisa hi behtareen anubhav mile.
               </p>
             </motion.div>
 
@@ -153,10 +153,10 @@ export default function AboutPage() {
                 OUR MISSION
               </span>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] leading-none tracking-wide">
-                Where Joy Knows No Boundaries
+                Jahan Khushiyon Ki Koi Seema Nahi
               </h2>
               <p className="text-sm leading-relaxed text-white/60">
-                We believe that entertainment is a catalyst for human connection. Our mission is to design safe, engaging, and awe-inspiring environments that encourage families to play together, friends to laugh together, and teams to build trust.
+                Hamara manna hai ki entertainment logon ko jodta hai. Hamara mission safe, engaging aur shandaar mela setup taiyar karna hai, jahan parivaar ek saath khelein, dost ek saath hasein, aur har visitor zindagi bhar yaad rehne wali yaadein banaye.
               </p>
               <div className="rounded-xl border border-white/5 bg-white/[0.01] p-6 flex gap-4 items-start">
                 <MapPin className="h-6 w-6 text-accent-yellow shrink-0 mt-1" />
