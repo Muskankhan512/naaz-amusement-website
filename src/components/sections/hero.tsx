@@ -4,7 +4,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, AnimatePresence } from "motion/react";
-import { ArrowRight, Ticket, FerrisWheel, ChevronDown, MapPin, Clock, Star } from "lucide-react";
+import { ArrowRight, Ticket, FerrisWheel, ChevronDown, MapPin, Clock } from "lucide-react";
 import { site } from "@/lib/site";
 import { useContentStore } from "@/stores/content-store";
 import { useLocationsStore } from "@/stores/locations-store";
@@ -169,13 +169,14 @@ function ScrollIndicator() {
 function HeroInfoCard() {
   const { locations } = useLocationsStore();
   const featured = locations.find(l => l.isFeaturedCountdown && l.isActive) ?? locations.find(l => l.isActive);
-  const city = featured?.city ?? "Kuchaman City";
+  const locationName = featured?.name ?? null;
+  if (!locationName) return null;
   return (
     <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 1.0, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className="absolute right-6 bottom-28 z-20 hidden lg:block w-[200px]"
       style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(18px)", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 16, padding: "18px 16px" }}>
-      <p className="font-display text-xs text-accent-yellow uppercase tracking-widest mb-3">🎉 Today</p>
+      <p className="font-display text-xs text-accent-yellow uppercase tracking-widest mb-3">🎡 Current Mela</p>
       <div className="space-y-2">
         <div className="flex items-center gap-2 text-white/80 text-[11px] font-body">
           <Clock className="h-3 w-3 text-accent-yellow shrink-0" />
@@ -183,11 +184,7 @@ function HeroInfoCard() {
         </div>
         <div className="flex items-center gap-2 text-white/80 text-[11px] font-body">
           <MapPin className="h-3 w-3 text-accent-yellow shrink-0" />
-          <span>{city}</span>
-        </div>
-        <div className="flex items-center gap-2 text-white/80 text-[11px] font-body">
-          <Star className="h-3 w-3 text-accent-yellow shrink-0" />
-          <span>4.9 Rating</span>
+          <span>{locationName}</span>
         </div>
       </div>
       <Link href={site.bookingUrl}
@@ -280,11 +277,11 @@ export function Hero() {
             <span className="text-accent-yellow">Sirf Naaz Amusement Mein</span>
           </motion.p>
 
-          {/* Feature highlights — point 12 */}
+          {/* Feature highlights — only verified facts */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.52, duration: 0.7 }}
             className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-[13px] font-body font-semibold tracking-wide text-white/85 mb-8">
-            {["🎡 20+ Thrilling Rides", "🎉 Live Shows", "🍕 Food Court", "🎟 Online Booking"].map(item => (
+            {["🎡 20+ Thrilling Rides", "🎟 Online Booking"].map(item => (
               <span key={item} className="flex items-center gap-1.5 rounded-full bg-black/40 border border-white/10 px-3 py-1.5 sm:px-4 backdrop-blur-md">
                 {item}
               </span>
@@ -338,7 +335,7 @@ export function Hero() {
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7, delay: 0.3 }}
             className="mt-10 sm:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {[{ icon: "🎡", value: "20+", label: "RIDES" }, { icon: "🎟️", value: "40K+", label: "VISITORS" }, { icon: "🎊", value: "25+", label: "EVENTS" }, { icon: "⭐", value: "4.9", label: "RATING" }].map((stat) => (
+            {[{ icon: "🎡", value: "20+", label: "RIDES" }, { icon: "🎟️", value: "40K+", label: "VISITORS" }, { icon: "🎊", value: "25+", label: "EVENTS" }].map((stat) => (
               <div key={stat.label}
                 className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-[18px] p-6 shadow-2xl transition hover:bg-white/10 hover:border-accent-yellow/40 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(238,167,39,0.15)] group">
                 <span className="text-3xl sm:text-4xl mb-1 group-hover:scale-110 transition-transform duration-300">{stat.icon}</span>
