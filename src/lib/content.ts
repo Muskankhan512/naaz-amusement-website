@@ -226,10 +226,10 @@ export const defaultHomeContent: HomeContent = {
     steps: [
       {
         num: "01",
-        title: "Plan Your Visit",
+        title: "DRAGON TRAIN RIDE",
         body:
-          "Prepare for 8 hours of continuous enjoyment, with exhilarating ups and downs and fantastic thrills at every turn! Brace yourself to be blown away by the incredible rides that lie ahead.",
-        image: "/3.jpg",
+          "Baithiye humari colourful Dragon-themed train mein aur nikal padiye ek maze bhari sawari pe! Ye train gol patri pe ghoomti hai, raat ki chamakti lights aur dragon ke shaandar design ke saath. Pura parivar — bachon se lekar bado tak — is ride ko saath baith kar enjoy kar sakta hai. Ek simple, safe, aur bahut hi mazedaar ride, jo har mele mein sabse zyada pasand ki jaati hai!",
+        image: "/dragon-train.jpg",
         numColor: "text-accent-yellow",
       },
       {
