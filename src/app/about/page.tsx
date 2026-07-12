@@ -221,8 +221,8 @@ export default function AboutPage() {
             <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { name: "Imtiyaz Khan", role: "Founder & Owner", image: "/founder.png" },
-                { name: "Name Here", role: "Role Here", image: null },
-                { name: "Name Here", role: "Role Here", image: null },
+                { name: "Naim Khan", role: "Co-Owner", image: "/naim.png" },
+                { name: "Nadeem Khan", role: "Co-Owner", image: "/nadeem.png" },
                 { name: "Salman Khan", role: "Co-Owner", image: "/salman.png" }
               ].map((member, idx) => (
                 <motion.div
