@@ -352,6 +352,35 @@ export default function BookPage() {
                   </p>
                 </div>
 
+                {/* 3-Step Guide */}
+                <div className="mb-12 grid grid-cols-1 md:grid-cols-3 gap-6 rounded-[2rem] border border-white/10 bg-white/[0.02] p-8 backdrop-blur-sm relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent-yellow/5 to-transparent pointer-events-none" />
+                  
+                  <div className="relative flex flex-col items-center text-center">
+                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-accent-yellow/20 bg-accent-yellow/10 text-accent-yellow shadow-[0_0_15px_rgba(238,167,39,0.2)]">
+                      <MapPin className="h-7 w-7" />
+                    </div>
+                    <h4 className="mb-2 font-display text-lg tracking-wide text-white">1. Mela Select Karein</h4>
+                    <p className="text-[13px] text-white/60 leading-relaxed max-w-[250px]">Apna city/mela choose karein aur rides select karein</p>
+                  </div>
+                  
+                  <div className="relative flex flex-col items-center text-center md:border-l border-t md:border-t-0 border-white/5 pt-8 md:pt-0">
+                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white">
+                      <CreditCard className="h-7 w-7" />
+                    </div>
+                    <h4 className="mb-2 font-display text-lg tracking-wide text-white">2. UPI Se Payment</h4>
+                    <p className="text-[13px] text-white/60 leading-relaxed max-w-[250px]">Secure payment complete karein online</p>
+                  </div>
+                  
+                  <div className="relative flex flex-col items-center text-center md:border-l border-t md:border-t-0 border-white/5 pt-8 md:pt-0">
+                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-[#b279f5]/20 bg-[#b279f5]/10 text-[#b279f5] shadow-[0_0_15px_rgba(178,121,245,0.15)]">
+                      <QrCode className="h-7 w-7" />
+                    </div>
+                    <h4 className="mb-2 font-display text-lg tracking-wide text-white">3. QR Ticket Dikhayein</h4>
+                    <p className="text-[13px] text-white/60 leading-relaxed max-w-[250px]">Gate par apna QR ticket dikhayein aur maza shuru!</p>
+                  </div>
+                </div>
+
                 {activeLocations.length === 0 ? (
                   <div className="text-center py-20 border border-white/10 rounded-3xl bg-white/[0.02]">
                     <div className="text-6xl mb-4">🎪</div>
