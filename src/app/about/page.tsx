@@ -218,13 +218,12 @@ export default function AboutPage() {
                 40 saal se families ko khushiyaan dete aa rahe hain.
               </p>
             </div>
-
             <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { name: "Imtiyaz Khan", role: "Founder & Owner", image: "/founder.png" },
                 { name: "Name Here", role: "Role Here", image: null },
                 { name: "Name Here", role: "Role Here", image: null },
-                { name: "Name Here", role: "Role Here", image: null }
+                { name: "Salman Khan", role: "Co-Owner", image: "/salman.png" }
               ].map((member, idx) => (
                 <motion.div
                   key={idx}
