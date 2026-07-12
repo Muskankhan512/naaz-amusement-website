@@ -220,26 +220,34 @@ export default function AboutPage() {
             </div>
 
             <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {[1, 2, 3, 4].map((item) => (
+              {[
+                { name: "[Aapke Papa Ka Naam]", role: "Founder & Owner", image: "/founder.png" },
+                { name: "Name Here", role: "Role Here", image: null },
+                { name: "Name Here", role: "Role Here", image: null },
+                { name: "Name Here", role: "Role Here", image: null }
+              ].map((member, idx) => (
                 <motion.div
-                  key={item}
+                  key={idx}
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: item * 0.1 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
                   className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.01] p-6 transition-all hover:bg-white/[0.05] hover:border-white/20 hover:-translate-y-1 text-center backdrop-blur-md flex flex-col items-center"
                 >
                   <div className="h-28 w-28 rounded-full border border-white/10 bg-[#0A0514] flex items-center justify-center overflow-hidden mb-5 relative group-hover:border-accent-yellow/50 transition-colors">
-                    {/* Placeholder Person Icon */}
-                    <svg className="w-12 h-12 text-white/10" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                    </svg>
+                    {member.image ? (
+                      <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <svg className="w-12 h-12 text-white/10" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                      </svg>
+                    )}
                   </div>
                   <h3 className="font-display text-lg tracking-wide text-white group-hover:text-accent-yellow transition-colors">
-                    Name Here
+                    {member.name}
                   </h3>
                   <p className="mt-1 text-[10px] sm:text-xs font-display tracking-widest text-white/60 uppercase">
-                    Role Here
+                    {member.role}
                   </p>
                 </motion.div>
               ))}
