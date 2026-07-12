@@ -397,7 +397,9 @@ export function ActiveLocations() {
                   transition={{ duration: 0.3 }}
                   className="rounded-[2rem] border border-white/10 bg-white/[0.02] p-5 sm:p-8 backdrop-blur-2xl h-full flex flex-col justify-between"
                 >
-                  <div>
+                  {activeMela ? (
+                    <>
+                      <div>
                     <div className="flex flex-wrap items-center justify-between gap-4">
                       <div>
                         <span className="inline-block rounded-full bg-accent-yellow/10 px-3.5 py-1 text-[10px] font-display uppercase tracking-widest text-accent-yellow">
@@ -467,7 +469,7 @@ export function ActiveLocations() {
                       GET DIRECTIONS
                     </a>
                     <a
-                      href={`https://wa.me/919929068065?text=Hello%20Naaz%20Amusement,%20I'm%20inquiring%20about%20the%20${encodeURIComponent(activeMela?.name ?? "")}%20at%20${encodeURIComponent(activeMela?.venue ?? "")}.`}
+                      href={`https://wa.me/919026752751?text=Hello%20Naaz%20Amusement,%20I'm%20inquiring%20about%20the%20${encodeURIComponent(activeMela?.name ?? "")}%20at%20${encodeURIComponent(activeMela?.venue ?? "")}.`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 text-xs font-display tracking-widest text-white transition hover:bg-white/10"
@@ -476,6 +478,20 @@ export function ActiveLocations() {
                       CONTACT VENUE HELPDESK
                     </a>
                   </div>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center h-full text-center space-y-4 py-12">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/5">
+                        <MapPin className="h-8 w-8 text-white/20" />
+                      </div>
+                      <div>
+                        <h3 className="font-display text-xl text-white/70">No Active Locations Found</h3>
+                        <p className="mt-2 text-sm text-white/40 max-w-sm mx-auto leading-relaxed">
+                          We currently don't have any live setups to display. Please check back later or explore our event packages!
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </motion.div>
               ) : (
                 // Find Near Me Panel

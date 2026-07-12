@@ -185,7 +185,7 @@ export function EventPackages() {
                     </button>
 
                     <a
-                      href={`https://wa.me/919929068065?text=Hello%20Naaz%20Amusement,%20I'm%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package.`}
+                      href={`https://wa.me/919026752751?text=Hello%20Naaz%20Amusement,%20I'm%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package.`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block text-center mt-3 text-[10px] text-white/40 hover:text-white transition uppercase font-display tracking-wider"
@@ -256,7 +256,7 @@ export function EventPackages() {
                         Aapki inquiry humein mil gayi hai. Hum <span className="text-accent-yellow font-semibold">jald hi aapse contact karenge</span> — usually 24 ghante ke andar.
                       </p>
                       <p className="text-white/40 text-xs mt-4">
-                        WhatsApp par bhi connect kar sakte hain: <a href="https://wa.me/919929068065" className="text-green-400 hover:underline" target="_blank">+91 99290 68065</a>
+                        WhatsApp par bhi connect kar sakte hain: <a href="https://wa.me/919026752751" className="text-green-400 hover:underline" target="_blank">+91 90267 52751</a>
                       </p>
                       <button
                         onClick={closeModal}

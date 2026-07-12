@@ -241,6 +241,7 @@ export default function TicketInfoPage() {
                       <AnimatePresence initial={false}>
                         {isOpen && (
                           <motion.div
+                            key={`ticket-faq-${i}`}
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}

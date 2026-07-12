@@ -28,8 +28,8 @@ export default function Home() {
 
         {/* 7. Gallery — polaroid marquee rows */}
         <Gallery />
-        {/* 8. Blog / Naaz Amusement Chronicles */}
-        <Chronicles />
+        {/* 8. Blog / Naaz Amusement Chronicles (Temporarily hidden until content is ready) */}
+        {/* <Chronicles /> */}
         {/* 9. Curated Event Packages */}
         <EventPackages />
         {/* 10. Final CTA */}
