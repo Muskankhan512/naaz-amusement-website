@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, Poppins, Geist, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { WhatsAppFloat } from "@/components/shared/whatsapp-float";
 import { MobileFab } from "@/components/shared/mobile-fab";
 import "./globals.css";
 
@@ -88,7 +87,6 @@ export default function RootLayout({
       <body className="min-h-full bg-deep-purple text-white pb-24 sm:pb-0">
         <TooltipProvider delay={150}>
           {children}
-          <WhatsAppFloat />
           <MobileFab />
           <Toaster
             position="top-center"
