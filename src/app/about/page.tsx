@@ -221,7 +221,7 @@ export default function AboutPage() {
 
             <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                { name: "[Aapke Papa Ka Naam]", role: "Founder & Owner", image: "/founder.png" },
+                { name: "Imtiyaz Khan", role: "Founder & Owner", image: "/founder.png" },
                 { name: "Name Here", role: "Role Here", image: null },
                 { name: "Name Here", role: "Role Here", image: null },
                 { name: "Name Here", role: "Role Here", image: null }
