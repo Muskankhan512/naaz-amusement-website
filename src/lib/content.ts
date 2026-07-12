@@ -245,7 +245,7 @@ export const defaultHomeContent: HomeContent = {
         num: "03",
         title: "NAAV RIDE",
         body:
-          "Sawaar ho jaiye humari shaandar Naav pe aur mehsoos kijiye udaan ka rोमांच! Ye jhoola dono taraf zor se jhoolta hai, jab aap sabse upar pahunchte hain toh dil dhak-dhak karne lagta hai. Raat ki lights ke saath ye ride aur bhi dramatic lagta hai. Thrill-lovers ke liye ek must-try experience — apne dosto aur family ke saath scream aur enjoy dono ek saath kijiye!",
+          "Sawaar ho jaiye humari shaandar Naav pe aur mehsoos kijiye udaan ka romaanch! Ye jhoola dono taraf zor se jhoolta hai, jab aap sabse upar pahunchte hain toh dil dhak-dhak karne lagta hai. Raat ki lights ke saath ye ride aur bhi dramatic lagta hai. Thrill-lovers ke liye ek must-try experience — apne dosto aur family ke saath scream aur enjoy dono ek saath kijiye!",
         image: "/naav-ride.jpg",
         numColor: "text-accent-yellow",
       },
