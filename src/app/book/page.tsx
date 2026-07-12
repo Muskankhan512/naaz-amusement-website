@@ -295,27 +295,27 @@ export default function BookPage() {
 
           {/* Progress Bar */}
           {currentStep !== "success" && (
-            <div className="mb-14 flex items-center justify-center overflow-x-auto pb-4">
-              <div className="flex items-center min-w-max px-4">
+            <div className="mb-12 sm:mb-14 w-full max-w-3xl mx-auto px-2 sm:px-6">
+              <div className="flex items-center w-full justify-between">
                 {steps.map((step, index) => {
                   const stepIndex = steps.findIndex(s => s.id === step.id);
                   const currentIndex = steps.findIndex(s => s.id === currentStep);
                   const isActive = stepIndex <= currentIndex;
 
                   return (
-                    <div key={step.id} className="flex items-center">
-                      <div className="flex flex-col items-center gap-3">
+                    <div key={step.id} className="flex items-center flex-1 last:flex-none">
+                      <div className="flex flex-col items-center gap-2 sm:gap-3 w-14 sm:w-24">
                         <div
-                          className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border-2 transition-all duration-500 ${
+                          className={`flex h-8 w-8 sm:h-12 sm:w-12 items-center justify-center rounded-full border-2 transition-all duration-500 ${
                             isActive
                               ? "border-accent-yellow bg-accent-yellow/10 text-accent-yellow drop-shadow-[0_0_10px_rgba(238,167,39,0.5)]"
                               : "border-white/10 bg-white/5 text-white/20"
                           }`}
                         >
-                          <Check className="h-4 w-4 sm:h-5 sm:w-5" />
+                          <Check className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
                         </div>
                         <span
-                          className={`font-display text-[0.7rem] sm:text-[0.8rem] uppercase tracking-widest ${
+                          className={`font-display text-[0.55rem] sm:text-[0.8rem] uppercase tracking-wider sm:tracking-widest text-center whitespace-nowrap ${
                             isActive ? "text-white drop-shadow-md" : "text-white/30"
                           }`}
                         >
@@ -323,7 +323,7 @@ export default function BookPage() {
                         </span>
                       </div>
                       {index < steps.length - 1 && (
-                        <div className="mx-2 mb-7 h-[1px] w-12 sm:mx-4 sm:w-20 lg:w-32 bg-gradient-to-r from-white/20 to-white/5" />
+                        <div className="flex-1 mx-1 sm:mx-2 mb-5 sm:mb-8 h-[1px] bg-gradient-to-r from-white/20 to-white/5" />
                       )}
                     </div>
                   );
