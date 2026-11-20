@@ -1,0 +1,293 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-body);
+  --font-body: var(--font-body);
+  --font-display: var(--font-display);
+  --font-geist: var(--font-geist);
+  --font-mono: var(--font-mono);
+
+  /* Naaz Amusement palette */
+  --color-deep-purple: #210C6D;
+  --color-accent-yellow: #EEA727;
+  --color-accent-magenta: #8F0177;
+  --color-dark-teal: #172F2E;
+  --color-fk-white: #FFFFFF;
+  --color-fk-offwhite: #F5F5F5;
+  --color-warm-cream: #EDEDE3;
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+
+  --shadow-sm: 0 1px 2px 0 rgb(33 12 109 / 0.06);
+  --shadow-md: 0 2px 10px -2px rgb(33 12 109 / 0.10), 0 1px 3px rgb(33 12 109 / 0.06);
+  --shadow-lg: 0 10px 28px -6px rgb(33 12 109 / 0.16), 0 4px 10px rgb(33 12 109 / 0.08);
+  --shadow-xl: 0 30px 60px -16px rgb(33 12 109 / 0.24);
+
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 30s linear infinite;
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes marquee-reverse {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  --animate-twinkle: twinkle 3s ease-in-out infinite alternate;
+
+  @keyframes twinkle {
+    0%   { opacity: 0.1; transform: scale(0.8); }
+    50%  { opacity: 0.9; transform: scale(1.2); }
+    100% { opacity: 0.2; transform: scale(0.9); }
+  }
+
+  --animate-drift: drift 12s ease-in-out infinite alternate;
+  @keyframes drift {
+    0%   { transform: translate(0px, 0px) scale(1); }
+    33%  { transform: translate(30px, -20px) scale(1.05); }
+    66%  { transform: translate(-15px, 25px) scale(0.97); }
+    100% { transform: translate(20px, -10px) scale(1.02); }
+  }
+
+  --animate-float: float 6s ease-in-out infinite;
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  --animate-bounce-slow: bounce-slow 2s ease-in-out infinite;
+  @keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(10px); }
+  }
+}
+
+:root {
+  --background: #210C6D;
+  --foreground: #FFFFFF;
+
+  --primary: #EEA727;
+  --primary-foreground: #210C6D;
+
+  --secondary: #8F0177;
+  --secondary-foreground: #FFFFFF;
+
+  --accent: #172F2E;
+  --accent-foreground: #FFFFFF;
+
+  --muted: #2D1A7A;
+  --muted-foreground: #FFFFFF99;
+
+  --border: rgb(255 255 255 / 0.12);
+  --input: rgb(255 255 255 / 0.16);
+  --ring: rgb(238 167 39 / 0.55);
+
+  --card: #2D1A7A;
+  --card-foreground: #FFFFFF;
+  --popover: #210C6D;
+  --popover-foreground: #FFFFFF;
+
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(238, 167, 39, 0.25) transparent;
+  }
+
+  *::-webkit-scrollbar { width: 8px; height: 8px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(238, 167, 39, 0.25);
+    border-radius: 4px;
+  }
+  *::-webkit-scrollbar-thumb:hover { background: rgba(238, 167, 39, 0.5); }
+
+  html {
+    background: #210C6D;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-deep-purple text-white;
+    font-family: var(--font-body), 'Poppins', sans-serif;
+    font-feature-settings: 'ss01', 'liga';
+    text-wrap: pretty;
+    position: relative;
+  }
+
+  /* Faint film-grain overlay for premium texture (no layout impact) */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display), 'Bebas Neue', sans-serif;
+    text-wrap: balance;
+  }
+
+  h1 { line-height: 1.07; }
+  h2 { line-height: 1.17; }
+
+  ::selection {
+    background: rgb(238 167 39 / 0.45);
+    color: #210C6D;
+  }
+}
+
+@layer components {
+  /* Premium pill buttons — reused across hero, CTA strip, etc. */
+  .btn-primary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    padding: 0.9rem 2rem;
+    font-family: var(--font-display), 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #210C6D;
+    background-image: linear-gradient(180deg, #F5BC4A 0%, #EEA727 55%, #D8901A 100%);
+    box-shadow: 0 10px 30px -8px rgba(238, 167, 39, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 16px 40px -8px rgba(238, 167, 39, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+  .btn-primary:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  .btn-glass {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    padding: 0.9rem 2rem;
+    font-family: var(--font-display), 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+  .btn-glass:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent-yellow);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-accent-yellow);
+  }
+  .btn-glass:active {
+    transform: translateY(0) scale(0.97);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display), 'Bebas Neue', sans-serif;
+  }
+
+  /* Subtle blurred radial depth — opt-in per section */
+  .ambient-orbs::before,
+  .ambient-orbs::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    border-radius: 9999px;
+    filter: blur(130px);
+    pointer-events: none;
+  }
+  .ambient-orbs::before {
+    top: 8%;
+    right: -5%;
+    height: 40%;
+    width: 35%;
+    background: rgba(143, 1, 119, 0.16);
+  }
+  .ambient-orbs::after {
+    bottom: 20%;
+    left: -5%;
+    height: 45%;
+    width: 32%;
+    background: rgba(238, 167, 39, 0.10);
+  }
+
+  .font-body {
+    font-family: var(--font-body), 'Poppins', sans-serif;
+  }
+
+  .font-geist {
+    font-family: var(--font-geist), 'Geist', sans-serif;
+  }
+
+  .font-mono-ibm {
+    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  }
+
+  .marquee-mask {
+    mask-image: linear-gradient(90deg, transparent, black 4%, black 96%, transparent);
+  }
+
+  .scrim-bottom {
+    mask-image: linear-gradient(180deg, black 60%, transparent);
+  }
+
+  .gallery-tilt-left {
+    transform: rotate(-2deg);
+  }
+
+  .gallery-tilt-right {
+    transform: rotate(2deg);
+  }
+}
