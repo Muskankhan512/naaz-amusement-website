@@ -54,39 +54,29 @@ export async function POST(request: Request) {
 
     let userDetails = null;
 
-    if (isAdmin && suppliedPassword === "Angel@infinite1") {
-      userDetails = {
-        _id: { toString: () => "admin-bypass-id" },
-        name: "Naaz Admin",
-        email: lowerEmail,
-        phone: "0000000000",
-        createdAt: new Date(),
-      };
-    } else {
-      await connectToDatabase();
-      const user = await User.findOne({ email: lowerEmail });
+    await connectToDatabase();
+    const user = await User.findOne({ email: lowerEmail });
 
-      if (!user) {
-        return NextResponse.json(
-          { message: isAdmin ? "Admin account not found" : "User not found" },
-          { status: 404 }
-        );
-      }
-
-      const storedPasswordMatches = await bcrypt.compare(
-        suppliedPassword,
-        user.password
+    if (!user) {
+      return NextResponse.json(
+        { message: isAdmin ? "Admin account not found" : "User not found" },
+        { status: 404 }
       );
-
-      if (!storedPasswordMatches) {
-        return NextResponse.json(
-          { message: "Invalid credentials" },
-          { status: 401 }
-        );
-      }
-
-      userDetails = user;
     }
+
+    const storedPasswordMatches = await bcrypt.compare(
+      suppliedPassword,
+      user.password
+    );
+
+    if (!storedPasswordMatches) {
+      return NextResponse.json(
+        { message: "Invalid credentials" },
+        { status: 401 }
+      );
+    }
+
+    userDetails = user;
 
     const response = NextResponse.json(userResponse(userDetails as any));
 

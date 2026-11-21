@@ -11,7 +11,6 @@ import { useAuthStore } from "@/stores/auth-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ADMIN_EMAIL } from "@/lib/admin";
 import { toast } from "sonner";
 import { ArrowLeft, Loader2, Sparkles, KeyRound, Mail } from "lucide-react";
 
@@ -204,7 +203,7 @@ export default function LoginPage() {
                 </Link>
               </div>
               <p className="mt-2 text-[11px] text-white/40">
-                Admin login: use {ADMIN_EMAIL} with your existing password.
+                Admin login: use your registered admin email with your existing password.
               </p>
             </div>
 
